@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5 Estate Planning Mistakes — Liberty Pointe Financial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1B2A4A;
+      --navy-light: #243560;
+      --gold: #C9A84C;
+      --gold-light: #e0c070;
+      --white: #ffffff;
+      --off-white: #f7f5f0;
+      --text-dark: #1a1a2e;
+      --text-body: #2c3347;
+      --text-muted: #5a6070;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--off-white);
+      color: var(--text-body);
+      line-height: 1.7;
+    }
+
+    /* ── COVER PAGE ── */
+    .cover {
+      background: linear-gradient(160deg, var(--navy) 0%, #0f1c35 100%);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: var(--gold);
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 6px;
+      background: var(--gold);
+    }
+
+    /* Decorative corner accents */
+    .cover-corner {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 3px solid rgba(201,168,76,0.25);
+    }
+    .cover-corner.tl { top: 24px; left: 24px; border-right: none; border-bottom: none; }
+    .cover-corner.tr { top: 24px; right: 24px; border-left: none; border-bottom: none; }
+    .cover-corner.bl { bottom: 24px; left: 24px; border-right: none; border-top: none; }
+    .cover-corner.br { bottom: 24px; right: 24px; border-left: none; border-top: none; }
+
+    .cover-brand {
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.75);
+      margin-bottom: 40px;
+    }
+    .cover-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .cover h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      max-width: 720px;
+      margin: 0 auto 28px;
+    }
+    .cover h1 em {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .cover-rule {
+      width: 80px;
+      height: 3px;
+      background: var(--gold);
+      margin: 0 auto 28px;
+    }
+    .cover-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 48px;
+      letter-spacing: 0.3px;
+    }
+    .cover-free-badge {
+      display: inline-block;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 8px 24px;
+      border-radius: 40px;
+    }
+
+    /* ── GUIDE BODY ── */
+    .guide-body {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── INTRO ── */
+    .intro-section {
+      background: var(--white);
+      border-left: 5px solid var(--gold);
+      padding: 40px 44px;
+      margin: 48px 0 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .intro-section .intro-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .intro-section p {
+      font-size: 1.05rem;
+      color: var(--text-body);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .intro-section p:last-child { margin-bottom: 0; }
+
+    /* ── MISTAKE CARDS ── */
+    .mistake {
+      background: var(--white);
+      border-radius: 10px;
+      margin-top: 40px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(27,42,74,0.08);
+    }
+
+    .mistake-header {
+      background: var(--navy);
+      padding: 28px 36px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .mistake-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+    .mistake-header-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--white);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .mistake-header-text .mistake-label {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .mistake-body {
+      padding: 32px 36px;
+    }
+    .mistake-body p {
+      font-size: 1rem;
+      color: var(--text-body);
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+    .mistake-body ul {
+      list-style: none;
+      margin: 14px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .mistake-body ul li {
+      padding-left: 24px;
+      position: relative;
+      font-size: 0.98rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+    .mistake-body ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* Disaster box */
+    .disaster-box {
+      background: #fff8f0;
+      border: 1.5px solid #f0d4a0;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin: 18px 0;
+    }
+    .disaster-box .disaster-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #c07020;
+      margin-bottom: 8px;
+    }
+    .disaster-box p {
+      font-size: 0.95rem;
+      color: #5a3a10;
+      margin: 0 !important;
+      line-height: 1.6;
+    }
+
+    /* Real story box */
+    .story-box {
+      background: #f0f4ff;
+      border-left: 4px solid var(--navy);
+      padding: 18px 22px;
+      margin: 18px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .story-box .story-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .story-box p {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--navy-light);
+      margin: 0 !important;
+    }
+
+    /* Solution box */
+    .solution-box {
+      background: linear-gradient(135deg, #f0f8ee 0%, #e8f4e8 100%);
+      border: 1.5px solid #a8d4a8;
+      border-radius: 8px;
+      padding: 20px 22px;
+      margin-top: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .solution-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .solution-content .solution-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #2a6e2a;
+      margin-bottom: 6px;
+    }
+    .solution-content p {
+      font-size: 0.95rem;
+      color: #1a4a1a;
+      margin: 0 !important;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    /* Cost callout */
+    .cost-callout {
+      text-align: center;
+      padding: 20px;
+      margin: 16px 0;
+    }
+    .cost-callout .cost-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: var(--navy);
+      font-weight: 700;
+      line-height: 1;
+    }
+    .cost-callout .cost-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── CLOSING ── */
+    .closing-section {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 44px 44px;
+      margin-top: 40px;
+      box-shadow: 0 2px 16px rgba(27,42,74,0.08);
+    }
+    .closing-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+    .closing-section p {
+      font-size: 1.05rem;
+      color: var(--text-body);
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    /* CTA Box */
+    .cta-box {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 10px;
+      padding: 36px 40px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .cta-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .cta-box p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+    .cta-box a {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 36px;
+      border-radius: 6px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      transition: background 0.2s;
+    }
+    .cta-box a:hover { background: var(--gold-light); }
+    .cta-box .cta-url {
+      display: block;
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── FOOTER ── */
+    .guide-footer {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 24px 24px 48px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid #ddd;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      .cover { min-height: auto; page-break-after: always; }
+      .mistake { page-break-inside: avoid; }
+      body { background: white; }
+    }
+
+    @media (max-width: 600px) {
+      .mistake-header { padding: 20px 22px; }
+      .mistake-body { padding: 24px 22px; }
+      .intro-section { padding: 28px 24px; }
+      .closing-section { padding: 28px 24px; }
+      .cta-box { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER PAGE -->
+  <div class="cover">
+    <div class="cover-corner tl"></div>
+    <div class="cover-corner tr"></div>
+    <div class="cover-corner bl"></div>
+    <div class="cover-corner br"></div>
+
+    <div class="cover-brand">Liberty Pointe Financial</div>
+    <div class="cover-eyebrow">Free Consumer Guide</div>
+    <h1>5 Estate Planning Mistakes That Could Cost Your Family <em>Everything</em></h1>
+    <div class="cover-rule"></div>
+    <div class="cover-subtitle">A Free Guide from Liberty Pointe Financial</div>
+    <div class="cover-free-badge">Complimentary — No Purchase Required</div>
+  </div>
+
+  <!-- GUIDE BODY -->
+  <div class="guide-body">
+
+    <!-- INTRO -->
+    <div class="intro-section">
+      <div class="intro-label">Introduction</div>
+      <p>Most people put off estate planning because it feels complicated, expensive, or like something only wealthy people need. The truth is, if you own a home, have savings, or have people who depend on you — you need an estate plan. And the mistakes families make when they don't have one (or have the wrong one) can cost their loved ones tens of thousands of dollars, years of legal headaches, and enormous emotional pain.</p>
+      <p>This guide covers the five most common and costly mistakes we see — and what you can do about each one.</p>
+    </div>
+
+    <!-- MISTAKE 1 -->
+    <div class="mistake">
+      <div class="mistake-header">
+        <div class="mistake-number">01</div>
+        <div class="mistake-header-text">
+          <div class="mistake-label">Mistake #1</div>
+          <h2>Relying on a Will Alone</h2>
+        </div>
+      </div>
+      <div class="mistake-body">
+        <p>A will is better than nothing — but far too many families believe that having a will means their estate is "handled." It isn't. Here's the painful truth most people don't know:</p>
+
+        <ul>
+          <li><strong>Wills go through probate</strong> — a court-supervised legal process that is public, slow, and expensive.</li>
+          <li>A will does <em>not</em> avoid probate. It simply tells the probate court what you wanted — and then the court decides how and when to honor it.</li>
+          <li>Probate proceedings can take 9 months to 2+ years and consume 3–7% of your estate's value in legal and court fees.</li>
+          <li>Everything filed in probate becomes a matter of <strong>public record</strong> — including your assets, debts, and beneficiaries.</li>
+        </ul>
+
+        <div class="disaster-box">
+          <div class="disaster-label">⚠ The Hidden Cost</div>
+          <p>A $400,000 estate passing through probate can easily lose $20,000–$28,000 in court and attorney fees — money that was meant for your family.</p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-icon">✅</div>
+          <div class="solution-content">
+            <div class="solution-label">The Solution</div>
+            <p>A <strong>revocable living trust</strong> keeps your assets private and transfers them directly and immediately to your heirs — no court, no waiting, no public record, no unnecessary cost.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MISTAKE 2 -->
+    <div class="mistake">
+      <div class="mistake-header">
+        <div class="mistake-number">02</div>
+        <div class="mistake-header-text">
+          <div class="mistake-label">Mistake #2</div>
+          <h2>Ignoring Beneficiary Designations</h2>
+        </div>
+      </div>
+      <div class="mistake-body">
+        <p>Your IRA, 401(k), and life insurance policies do not follow your will. They go to <em>whoever is named as beneficiary on the account itself</em> — period. No exceptions. A will cannot override a beneficiary designation.</p>
+
+        <p>This means if you set up a life insurance policy when you were 28 and never updated it, the named beneficiary gets the money. Full stop. Even if your will says something completely different.</p>
+
+        <div class="disaster-box">
+          <div class="disaster-label">⚠ Common Disasters We See</div>
+          <p>
+            <strong>Ex-spouse still named.</strong> Your divorce didn't remove them from your 401(k).<br /><br />
+            <strong>Deceased parent named.</strong> The money goes into a court process to sort out the estate.<br /><br />
+            <strong>Minor child named.</strong> Courts appoint a guardian to manage the funds until age 18 — exactly what most parents wanted to avoid.
+          </p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-icon">✅</div>
+          <div class="solution-content">
+            <div class="solution-label">The Solution</div>
+            <p>Review all beneficiary designations every <strong>2–3 years</strong> and immediately after every major life event — marriage, divorce, birth, or death. This one step alone can prevent enormous heartache.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MISTAKE 3 -->
+    <div class="mistake">
+      <div class="mistake-header">
+        <div class="mistake-number">03</div>
+        <div class="mistake-header-text">
+          <div class="mistake-label">Mistake #3</div>
+          <h2>Not Planning for Incapacity</h2>
+        </div>
+      </div>
+      <div class="mistake-body">
+        <p>Estate planning isn't only about what happens when you die. What happens if you're <em>alive</em> but unable to make decisions — due to an accident, stroke, or serious illness?</p>
+
+        <p>Without the right legal documents in place, a court will decide who manages your medical care and finances. That process is called <strong>guardianship or conservatorship</strong> — and it's one of the most costly, invasive, and emotionally draining experiences a family can go through.</p>
+
+        <div class="cost-callout">
+          <div class="cost-number">$5,000–$10,000+</div>
+          <div class="cost-label">Typical cost of court-supervised guardianship proceedings — plus months of delays</div>
+        </div>
+
+        <ul>
+          <li>Courts don't automatically appoint your spouse or child. It must be petitioned and approved.</li>
+          <li>During the process, financial accounts can be frozen and medical decisions delayed.</li>
+          <li>Ongoing court oversight may be required for years — at ongoing legal expense.</li>
+        </ul>
+
+        <div class="solution-box">
+          <div class="solution-icon">✅</div>
+          <div class="solution-content">
+            <div class="solution-label">The Solution</div>
+            <p>Two documents — a <strong>healthcare directive</strong> (living will) and a <strong>durable financial power of attorney</strong> — eliminate this entire problem. They take about an hour to set up and ensure the people you trust are empowered to act on your behalf, immediately, without court involvement.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MISTAKE 4 -->
+    <div class="mistake">
+      <div class="mistake-header">
+        <div class="mistake-number">04</div>
+        <div class="mistake-header-text">
+          <div class="mistake-label">Mistake #4</div>
+          <h2>Owning Property Without a Trust</h2>
+        </div>
+      </div>
+      <div class="mistake-body">
+        <p>You might have a trust. But if your real estate isn't <em>titled in the name of the trust</em>, it doesn't matter — that property will still go through probate when you pass away.</p>
+
+        <p>And here's where it gets worse: real estate goes through probate in the state where it's located. That means if you own property in multiple states, your family faces <strong>multiple probate proceedings</strong> — one in each state.</p>
+
+        <ul>
+          <li>A vacation cabin in another state? That's a second probate. A second court. A second set of legal fees.</li>
+          <li>Investment property? Same story.</li>
+          <li>Even a small piece of land requires full probate if it's not in your trust.</li>
+        </ul>
+
+        <div class="story-box">
+          <div class="story-label">🏠 Real Situation</div>
+          <p>"They had a trust — but their Utah home and Idaho cabin were never transferred into it. When they passed, the family had to open probate in both states. It took 14 months and cost over $18,000 in fees that could have been completely avoided."</p>
+        </div>
+
+        <div class="solution-box">
+          <div class="solution-icon">✅</div>
+          <div class="solution-content">
+            <div class="solution-label">The Solution</div>
+            <p>Transfer all titled assets — real estate, vehicles, bank accounts — into your <strong>revocable living trust</strong>. This is called "funding" the trust, and it's the step most families miss even when they've done everything else right.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MISTAKE 5 -->
+    <div class="mistake">
+      <div class="mistake-header">
+        <div class="mistake-number">05</div>
+        <div class="mistake-header-text">
+          <div class="mistake-label">Mistake #5</div>
+          <h2>Waiting Until It's Too Late</h2>
+        </div>
+      </div>
+      <div class="mistake-body">
+        <p>This is the most heartbreaking mistake of all — because it's entirely avoidable.</p>
+
+        <p>Estate planning requires <strong>legal mental capacity</strong>. If you wait until a health crisis has already impaired your cognition, it may be too late to legally create a valid estate plan. Courts can and do reject documents signed during periods of diminished capacity. And there's no "emergency override" — once that window closes, it's closed.</p>
+
+        <div class="story-box">
+          <div class="story-label">📖 Real Story</div>
+          <p>"Dad kept saying he was going to get to it. He had a stroke at 71 — and while he survived, his capacity was compromised. By the time the family realized there was no estate plan in place, it was legally too late to create one. The result: 18 months in probate court and over $40,000 in legal fees — for an estate that could have been structured in an afternoon."</p>
+        </div>
+
+        <ul>
+          <li>A diagnosis doesn't have to be terminal to disqualify you from estate planning.</li>
+          <li>Dementia, stroke, and even certain medications can legally affect capacity.</li>
+          <li>Challenges to "deathbed" documents are common — and often successful.</li>
+        </ul>
+
+        <div class="solution-box">
+          <div class="solution-icon">✅</div>
+          <div class="solution-content">
+            <div class="solution-label">The Solution</div>
+            <p>The best time to do an estate plan is <em>when you don't need it yet</em>. Not after a diagnosis. Not after a birthday that "feels like a milestone." Now — while you have clarity, capacity, and time to do it right.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLOSING -->
+    <div class="closing-section">
+      <h2>You Don't Need to Be Wealthy to Need a Plan</h2>
+      <p>You just need people — or things — worth protecting.</p>
+      <p>Estate planning isn't about being rich. It's about being responsible. It's about making sure that when something happens to you — and something will, eventually — the people you love aren't left cleaning up a legal and financial mess during the worst time of their lives.</p>
+      <p>The five mistakes in this guide are common. They're costly. And every single one of them is preventable with a little planning and the right guidance.</p>
+      <p>Liberty Pointe Financial offers free, no-pressure Estate Planning consultations — 30 minutes, by Zoom or phone. You'll walk away knowing exactly where you stand, what you have, and what (if anything) you need to do next.</p>
+      <p><strong>No cost. No obligation. Just clarity.</strong></p>
+    </div>
+
+    <!-- CTA BOX -->
+    <div class="cta-box">
+      <h3>Ready to Protect Your Family?</h3>
+      <p>Book your free 30-minute Estate Planning consultation today. Zoom or phone — your choice.</p>
+      <a href="https://libertypointefinancial.com/estate-planning" target="_blank">Book Your Free Consultation</a>
+      <span class="cta-url">libertypointefinancial.com/estate-planning</span>
+    </div>
+
+  </div><!-- /guide-body -->
+
+  <!-- FOOTER -->
+  <div class="guide-footer">
+    &copy; 2026 Liberty Pointe Financial LLC &nbsp;|&nbsp; Not legal advice &nbsp;|&nbsp; For educational purposes only<br />
+    <a href="mailto:info@libertypointefinancial.com" style="color: var(--text-muted); text-decoration: none;">info@libertypointefinancial.com</a>
+    &nbsp;|&nbsp; (385) 775-2446
+  </div>
+
+</body>
+</html>
