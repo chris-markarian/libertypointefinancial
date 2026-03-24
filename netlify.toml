@@ -1,6 +1,9 @@
-[build]
+﻿[build]
   functions = "netlify/functions"
   publish = "."
 
 [functions]
   node_bundler = "esbuild"
+
+[[build.processing.html]]
+  pretty_urls = false
