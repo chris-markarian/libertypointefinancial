@@ -1,4 +1,4 @@
-# Liberty Pointe Financial — Website & Lead Automation System
+﻿# Liberty Pointe Financial — Website & Lead Automation System
 **Built:** March 23, 2026  
 **Live URL:** https://libertypointefinancial.com  
 **GitHub:** https://github.com/chris-markarian/libertypointefinancial  
@@ -121,3 +121,61 @@ libertypointefinancial/
         ├── submission-created.js    # Form → SMS + email trigger
         └── lead-notify.js           # Alternative lead notify function
 ```
+
+---
+
+## Change Log
+
+### March 23, 2026 — Launch Day
+- Built full website (index.html) — navy/gold, all sections
+- Deployed to Netlify via GitHub auto-deploy
+- Connected libertypointefinancial.com domain
+- Built AI chatbot (Chris persona) with Netlify Functions
+- Set up Twilio (385) 526-4220 with call forwarding
+- 10DLC brand + campaign registered
+- Set up Resend email notifications
+- Built estate planning landing page (estate-planning.html)
+- Built free guide (estate-planning-guide.html)
+- Built thank-you page, privacy policy, terms of service
+- Set up Calendly: calendly.com/chris-libertypointefinancial/30min
+- Set up Netlify form notifications (email + webhook SMS trigger)
+
+### March 24, 2026
+- Created Facebook Business Page — Liberty Pointe Financial
+- Created Instagram @libertypointefin (change to @libertypointefinancial on April 7)
+- Connected both to Meta Business Suite
+- Added payment method for ads (Liberty Pointe business card)
+- Published first Facebook post and Instagram intro post
+- Set up daily content intelligence cron (7am weekdays)
+- Set up morning briefing cron (8am weekdays)
+- Met with Nikki Flynn (estate planning expert) — partnership confirmed
+  - Chris markets/drives leads, Nikki delivers estate plans
+  - Revenue split: ,000 Chris / ,000 Nikki per ,000 plan
+  - Back-end: annuity/insurance splits TBD
+  - Weekly meetings to formalize partnership
+- Confirmed annuity as primary back-end product (target demo 55-70)
+- Ad launch target: May 1
+
+### March 25, 2026
+- Created Google Business Profile (verification postcard pending)
+- Claimed  Google Ads credit (campaign created + paused)
+- Built annuity-rates.html — rates page targeting search traffic
+  - MYGA, FIA, income rider rate tables
+  - 10 carrier logos: Athene, North American, Fidelity & Guaranty, Corebridge, Transamerica, Mutual of Omaha, Allianz Life, Nationwide, Lincoln Financial, Pacific Life
+- Updated estate-planning.html with free guide bonus callout
+- Set May 1 ad launch target (was June 1, moved up)
+- Set April 20 pre-launch checklist reminder
+
+---
+
+## Pages Live
+| URL | Purpose |
+|-----|---------|
+| libertypointefinancial.com | Main site |
+| /estate-planning.html | Estate planning lead funnel |
+| /estate-planning-guide.html | Free guide (lead magnet) |
+| /annuity-rates.html | Annuity rates + lead capture |
+| /annuity-rates.html | Annuity rates + lead capture |
+| /thank-you.html | Form confirmation |
+| /privacy.html | Privacy policy |
+| /terms.html | Terms & conditions |
