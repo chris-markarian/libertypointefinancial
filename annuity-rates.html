@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Current Annuity Rates 2026 — Liberty Pointe Financial</title>
+  <meta name="description" content="Current annuity rates updated March 2026. Compare MYGA, Fixed Indexed, and Income Annuity rates from 100+ top-rated carriers. Get a free personalized quote today." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1B2A4A;
+      --navy-light: #243560;
+      --gold: #C9A84C;
+      --gold-light: #e0c070;
+      --white: #ffffff;
+      --off-white: #f7f5f0;
+      --text-dark: #1a1a2e;
+      --text-muted: #5a6070;
+      --green: #2e7d32;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    .nav-bar {
+      background: var(--navy);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.4px;
+    }
+    .nav-logo span { color: var(--white); font-weight: 400; }
+    .nav-back {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 14px;
+      border-radius: 4px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-back:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: var(--white);
+      padding: 72px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 780px; margin: 0 auto; position: relative; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.5);
+      color: var(--gold);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .hero h1 em { color: var(--gold); font-style: normal; }
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.85);
+      max-width: 620px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .btn-hero {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 16px 36px;
+      border-radius: 6px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-hero:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* ── DISCLAIMER BOX ── */
+    .disclaimer-section { padding: 32px 24px; background: var(--off-white); }
+    .disclaimer-box {
+      max-width: 860px;
+      margin: 0 auto;
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      padding: 20px 28px;
+      color: var(--navy);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #fffdf7;
+    }
+    .disclaimer-box .disc-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── RATE TABLES ── */
+    .rates-section { padding: 72px 24px; background: var(--white); }
+    .rates-inner { max-width: 860px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    h2.section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--navy);
+      margin-bottom: 40px;
+      line-height: 1.3;
+    }
+
+    .rate-block { margin-bottom: 56px; }
+    .rate-block:last-child { margin-bottom: 0; }
+
+    .rate-block-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .rate-block-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--navy);
+    }
+    .rate-tag {
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .rate-table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    thead tr {
+      background: var(--navy);
+      color: var(--white);
+    }
+    thead th {
+      padding: 13px 18px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    tbody tr { border-bottom: 1px solid #e8edf5; }
+    tbody tr:nth-child(even) { background: #f7f9fd; }
+    tbody tr:hover { background: #f0f4ff; }
+    tbody td {
+      padding: 13px 18px;
+      color: var(--text-dark);
+      vertical-align: middle;
+    }
+    tbody td:nth-child(2) {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 1rem;
+    }
+
+    /* Highlight best row */
+    tbody tr.highlight-row td { background: #fffbf0 !important; }
+    tbody tr.highlight-row td:nth-child(2) { color: var(--green); }
+
+    .rate-note {
+      margin-top: 14px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      background: #f7f9fd;
+      border-left: 3px solid var(--gold);
+      padding: 12px 16px;
+      border-radius: 0 4px 4px 0;
+      line-height: 1.6;
+    }
+
+    /* ── WHY RATES MATTER ── */
+    .why-section { padding: 72px 24px; background: var(--navy); color: var(--white); }
+    .why-inner { max-width: 860px; margin: 0 auto; }
+    .why-section .section-label { color: var(--gold-light); }
+    .why-section h2.section-title { color: var(--white); margin-bottom: 32px; }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .why-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 10px;
+      padding: 26px 22px;
+    }
+    .why-card .why-icon { font-size: 2rem; margin-bottom: 12px; }
+    .why-card h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+    .why-card p { color: rgba(255,255,255,0.78); font-size: 0.93rem; line-height: 1.6; }
+
+    .example-box {
+      background: rgba(201,168,76,0.12);
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      padding: 28px 32px;
+      text-align: center;
+    }
+    .example-box .ex-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .example-box .ex-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .example-box .ex-headline em { color: var(--gold); font-style: normal; }
+    .example-box p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      margin-top: 10px;
+    }
+
+    /* ── CARRIERS ── */
+    .carriers-section { padding: 72px 24px; background: var(--off-white); }
+    .carriers-inner { max-width: 860px; margin: 0 auto; text-align: center; }
+    .carriers-inner p.carriers-intro {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 36px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+    .carriers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .carrier-card {
+      background: var(--white);
+      border: 2px solid #e0e5f0;
+      border-radius: 10px;
+      padding: 22px 14px;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.2px;
+    }
+    .carrier-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 16px rgba(201,168,76,0.2);
+    }
+    .carrier-card .carrier-icon { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+    .carriers-note {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .carriers-note strong { color: var(--navy); font-style: normal; }
+
+    /* ── QUOTE FORM SECTION ── */
+    .quote-section { padding: 80px 24px; background: var(--white); }
+    .quote-inner { max-width: 680px; margin: 0 auto; }
+    .quote-inner .section-label { text-align: center; }
+    .quote-inner h2.section-title { text-align: center; margin-bottom: 12px; }
+    .quote-inner .quote-subhead {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .form-card {
+      background: var(--white);
+      border: 1px solid #e0e5f0;
+      border-radius: 12px;
+      padding: 40px 36px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    }
+    @media (max-width: 480px) { .form-card { padding: 28px 20px; } }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #d0d5e0;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+      background: #fff;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231B2A4A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+    }
+
+    .btn-submit {
+      display: block;
+      width: 100%;
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+    .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .form-reassurance {
+      margin-top: 16px;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 2;
+    }
+    .form-reassurance .check { color: var(--green); font-weight: 600; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      padding: 36px 24px;
+      font-size: 0.82rem;
+      line-height: 1.9;
+    }
+    footer .footer-brand {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+    footer a { color: rgba(255,255,255,0.65); text-decoration: none; }
+    footer a:hover { color: var(--gold); }
+    footer .footer-disclaimer {
+      font-style: italic;
+      margin-top: 10px;
+      max-width: 660px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 0.8rem;
+      line-height: 1.7;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .nav-bar { justify-content: center; }
+      .hero { padding: 52px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav-bar">
+    <a href="https://libertypointefinancial.com" class="nav-logo">Liberty Pointe <span>Financial</span></a>
+    <a href="https://libertypointefinancial.com" class="nav-back">← Back to Main Site</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">📊 Updated March 2026</div>
+      <h1>Current Annuity Rates — <em>Updated March 2026</em></h1>
+      <p>With interest rates at historically favorable levels, annuity rates are among the strongest they've been in over a decade. Here's what you need to know.</p>
+      <a href="#quote-form" class="btn-hero">Get a Free Personalized Quote →</a>
+    </div>
+  </section>
+
+  <!-- RATE DISCLAIMER -->
+  <div class="disclaimer-section">
+    <div class="disclaimer-box">
+      <span class="disc-icon">⚠️</span>
+      <div>
+        <strong>Rate Disclaimer:</strong> Rates shown are general market ranges as of March 2026. Actual rates vary by carrier, product, premium amount, state, and individual qualification. Contact us for a personalized illustration from top-rated carriers.
+      </div>
+    </div>
+  </div>
+
+  <!-- RATE TABLES -->
+  <section class="rates-section">
+    <div class="rates-inner">
+      <div class="section-label">Current Market Rates</div>
+      <h2 class="section-title">2026 Annuity Rate Comparison</h2>
+
+      <!-- MYGA -->
+      <div class="rate-block">
+        <div class="rate-block-header">
+          <h3>Multi-Year Guaranteed Annuities (MYGA)</h3>
+          <span class="rate-tag">No Market Risk</span>
+        </div>
+        <div class="rate-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Term</th>
+                <th>Rate Range</th>
+                <th>Best For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>3-Year</td>
+                <td>4.80% – 5.40%</td>
+                <td>Short-term safe growth</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>5-Year</td>
+                <td>5.10% – 5.75%</td>
+                <td>Medium-term CD alternative</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>7-Year</td>
+                <td>5.25% – 5.85%</td>
+                <td>Maximizing guaranteed growth</td>
+              </tr>
+              <tr>
+                <td>10-Year</td>
+                <td>5.00% – 5.60%</td>
+                <td>Long-term tax-deferred growth</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="rate-note">
+          💡 <strong>What is a MYGA?</strong> MYGAs are the annuity world's equivalent of a CD — guaranteed rate, no market risk, tax-deferred growth. Currently outperforming most bank CDs significantly.
+        </div>
+      </div>
+
+      <!-- FIA -->
+      <div class="rate-block">
+        <div class="rate-block-header">
+          <h3>Fixed Indexed Annuities (FIA)</h3>
+          <span class="rate-tag">0% Floor — Principal Protected</span>
+        </div>
+        <div class="rate-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Typical Range</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cap Rates (S&amp;P 500)</td>
+                <td>10% – 16% annually</td>
+              </tr>
+              <tr>
+                <td>Participation Rates</td>
+                <td>50% – 120%</td>
+              </tr>
+              <tr>
+                <td>Floor</td>
+                <td>0% (you never lose principal)</td>
+              </tr>
+              <tr>
+                <td>Surrender Period</td>
+                <td>5–10 years</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="rate-note">
+          💡 <strong>How FIAs work:</strong> FIAs offer upside potential linked to market index performance with a guaranteed 0% floor — meaning your principal is always protected even in a down market.
+        </div>
+      </div>
+
+      <!-- Income Annuities -->
+      <div class="rate-block">
+        <div class="rate-block-header">
+          <h3>Income Annuities (with Lifetime Income Rider)</h3>
+          <span class="rate-tag">Guaranteed Income for Life</span>
+        </div>
+        <div class="rate-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Deferral Period</th>
+                <th>Typical Payout Rate (age 65)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Income now</td>
+                <td>5.5% – 7.0% of income base</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>5-year deferral</td>
+                <td>6.5% – 8.5% of income base</td>
+              </tr>
+              <tr class="highlight-row">
+                <td>10-year deferral</td>
+                <td>8.0% – 11.0% of income base</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="rate-note">
+          💡 <strong>Never outlive your money:</strong> Income riders guarantee you can never outlive your money. The longer you defer, the higher your guaranteed lifetime income payment.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHY RATES MATTER NOW -->
+  <section class="why-section">
+    <div class="why-inner">
+      <div class="section-label">Why This Moment Matters</div>
+      <h2 class="section-title">Why Annuity Rates Are So Important Right Now</h2>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">📈</div>
+          <h4>Historically High Rates</h4>
+          <p>Rates peaked in 2023–2024 and remain near decade-long highs. For anyone considering an annuity, this is among the best windows in recent memory to lock in.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🔒</div>
+          <h4>Every 1% Matters — For Life</h4>
+          <p>A 1% higher rate doesn't just mean slightly more income this year — it means meaningfully more guaranteed income every year, for the rest of your life. The compounding effect is significant.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">⏰</div>
+          <h4>Locking In Now Is Smart</h4>
+          <p>Many independent advisors recommend locking in rates while they remain elevated. Waiting until rates drop could mean thousands less in guaranteed annual income.</p>
+        </div>
+      </div>
+
+      <div class="example-box">
+        <div class="ex-label">Real-World Example</div>
+        <div class="ex-headline">
+          $200,000 premium at current rates =<br/>
+          <em>~$1,100–$1,400/month guaranteed for life</em> at age 65
+        </div>
+        <p>Actual amount depends on your age, carrier, product selection, and deferral period. Contact us for a free personalized illustration.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARRIERS -->
+  <section class="carriers-section">
+    <div class="carriers-inner">
+      <div class="section-label">Our Carrier Partners</div>
+      <h2 class="section-title">Top Carriers We Work With</h2>
+      <p class="carriers-intro">As an independent firm, we're not tied to any one company. We shop all of these carriers — and 94 more — to find the best rate for your specific situation.</p>
+
+      <div class="carriers-grid">
+        <div class="carrier-card">
+          <span class="carrier-icon">🏛️</span>
+          Athene
+        </div>
+        <div class="carrier-card">
+          <span class="carrier-icon">🏛️</span>
+          North American
+        </div>
+        <div class="carrier-card">
+          <span class="carrier-icon">🏛️</span>
+          F&amp;G
+        </div>
+        <div class="carrier-card">
+          <span class="carrier-icon">🏛️</span>
+          Corebridge
+        </div>
+        <div class="carrier-card">
+          <span class="carrier-icon">🏛️</span>
+          Transamerica
+        </div>
+        <div class="carrier-card">
+          <span class="carrier-icon">🏛️</span>
+          Mutual of Omaha
+        </div>
+      </div>
+
+      <p class="carriers-note">
+        <strong>100+ carriers total.</strong> We independently shop every product to ensure you receive the highest rate available for your age, premium, and situation.
+      </p>
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section class="quote-section" id="quote-form">
+    <div class="quote-inner">
+      <div class="section-label">Free &amp; No Obligation</div>
+      <h2 class="section-title">Find Out What Rate You Qualify For</h2>
+      <p class="quote-subhead">Tell us a few details and we'll shop 100+ carriers to show you your best available rates. Takes less than a minute.</p>
+
+      <div class="form-card">
+        <form name="annuity-quote" method="POST" data-netlify="true" action="/thank-you.html" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="annuity-quote" />
+          <p style="display:none;"><label>Don't fill this out: <input name="bot-field" /></label></p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" name="first-name" placeholder="Jane" required />
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input type="text" id="last-name" name="last-name" placeholder="Smith" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(801) 555-0100" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="premium">Approximate Premium Amount</label>
+              <select id="premium" name="premium-amount" required>
+                <option value="" disabled selected>Select range…</option>
+                <option>Under $50k</option>
+                <option>$50k – $100k</option>
+                <option>$100k – $250k</option>
+                <option>$250k – $500k</option>
+                <option>$500k+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="state">State</label>
+              <select id="state" name="state" required>
+                <option value="" disabled selected>Select state…</option>
+                <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+                <option>Arkansas</option><option>California</option><option>Colorado</option>
+                <option>Connecticut</option><option>Delaware</option><option>Florida</option>
+                <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+                <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+                <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+                <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+                <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+                <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+                <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+                <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+                <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+                <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+                <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
+                <option>Texas</option><option>Utah</option><option>Vermont</option>
+                <option>Virginia</option><option>Washington</option><option>West Virginia</option>
+                <option>Wisconsin</option><option>Wyoming</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">Get My Free Personalized Quote →</button>
+        </form>
+
+        <div class="form-reassurance">
+          <span class="check">✓</span> Free, no obligation. &nbsp;
+          <span class="check">✓</span> We shop 100+ carriers for your best rate. &nbsp;
+          <span class="check">✓</span> Response within 1 business day.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Liberty Pointe Financial</div>
+    <div>
+      <a href="https://libertypointefinancial.com">← Back to libertypointefinancial.com</a>
+      &nbsp;|&nbsp;
+      <a href="mailto:info@libertypointefinancial.com">info@libertypointefinancial.com</a>
+    </div>
+    <div class="footer-disclaimer">
+      Annuity products are not FDIC insured. Rates are subject to change. Liberty Pointe Financial LLC is an independent insurance firm licensed in 49 states. This page is for informational purposes only and does not constitute financial, tax, or investment advice.
+    </div>
+    <div style="margin-top:10px;">&copy; 2026 Liberty Pointe Financial LLC. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
