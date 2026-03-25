@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Liberty Pointe Advisory Board | A Board of Experts, Built Around You</title>
+  <meta name="description" content="Most people have an advisor. Our clients have a board. The Liberty Pointe Advisory Board assembles a team of specialists around your complete financial picture — estate planning, insurance, retirement, legal, and tax — all fused into one unified strategy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1B2A4A;
+      --navy-dark: #131f38;
+      --navy-mid: #243659;
+      --gold: #C9A84C;
+      --gold-light: #dbbf6e;
+      --gold-dark: #a8872e;
+      --white: #FFFFFF;
+      --gray-light: #F4F6F9;
+      --gray-mid: #E2E8F0;
+      --gray-text: #64748B;
+      --text-dark: #1E293B;
+      --text-body: #374151;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --transition: 0.25s ease;
+      --radius: 8px;
+      --radius-lg: 16px;
+      --shadow: 0 4px 20px rgba(27, 42, 74, 0.10);
+      --shadow-lg: 0 8px 40px rgba(27, 42, 74, 0.16);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-body);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 44px;
+      width: auto;
+    }
+
+    .nav-logo-text {
+      font-family: var(--font-heading);
+      color: var(--white);
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    .nav-logo-text span {
+      display: block;
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-family: var(--font-body);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: background var(--transition);
+    }
+
+    .nav-cta:hover { background: var(--gold-light); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, #1e3a5f 100%);
+      color: var(--white);
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.2rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: rgba(255,255,255,0.8);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-tagline strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.9rem 2.2rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all var(--transition);
+      box-shadow: 0 4px 16px rgba(201,168,76,0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(201,168,76,0.45);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.9rem 2.2rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.4);
+      transition: all var(--transition);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--white);
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* ── CONTRAST STATEMENT ── */
+    .contrast-section {
+      background: var(--gray-light);
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .contrast-section .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .contrast-pull {
+      font-family: var(--font-heading);
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      color: var(--navy);
+      line-height: 1.3;
+      margin-bottom: 1.5rem;
+    }
+
+    .contrast-pull em {
+      color: var(--gold-dark);
+      font-style: italic;
+    }
+
+    .contrast-body {
+      font-size: 1.1rem;
+      color: var(--gray-text);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* ── ORIGIN STORY ── */
+    .origin-section {
+      background: var(--navy);
+      color: var(--white);
+      padding: 5rem 2rem;
+    }
+
+    .origin-section .container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .origin-section .container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    .origin-icon-wrap {
+      text-align: center;
+    }
+
+    .origin-icon {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .origin-icon-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .origin-content h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--white);
+      margin-bottom: 1.25rem;
+    }
+
+    .origin-content h2 span {
+      color: var(--gold);
+    }
+
+    .origin-content p {
+      color: rgba(255,255,255,0.8);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .origin-content p:last-child { margin-bottom: 0; }
+
+    .intel-types {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .intel-tag {
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .process-section {
+      background: var(--white);
+      padding: 5rem 2rem;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3.5rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      font-size: 1.05rem;
+      color: var(--gray-text);
+      line-height: 1.8;
+    }
+
+    .process-steps {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      left: 2.25rem;
+      top: 3rem;
+      bottom: 3rem;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--gold), rgba(201,168,76,0.2));
+    }
+
+    @media (max-width: 600px) {
+      .process-steps::before { left: 1.75rem; }
+    }
+
+    .process-step {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      padding: 2rem 0;
+      position: relative;
+    }
+
+    .step-number {
+      width: 4.5rem;
+      height: 4.5rem;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--gold);
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 4px var(--white), 0 0 0 6px var(--gold);
+      z-index: 1;
+      position: relative;
+    }
+
+    .step-content h3 {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+      padding-top: 0.75rem;
+    }
+
+    .step-content p {
+      color: var(--gray-text);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    /* ── TEAM ── */
+    .team-section {
+      background: var(--gray-light);
+      padding: 5rem 2rem;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .team-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .team-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .team-card-header {
+      background: var(--navy);
+      padding: 2rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .team-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.2);
+      border: 3px solid var(--gold);
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      overflow: hidden;
+    }
+
+    .team-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .team-name {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+
+    .team-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .team-card-body {
+      padding: 1.5rem;
+    }
+
+    .team-card-body p {
+      font-size: 0.95rem;
+      color: var(--gray-text);
+      line-height: 1.75;
+    }
+
+    .team-specialty {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .specialty-tag {
+      background: var(--gray-light);
+      color: var(--navy);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 100px;
+      border: 1px solid var(--gray-mid);
+    }
+
+    /* ── WHAT YOU GET ── */
+    .deliverables-section {
+      background: var(--white);
+      padding: 5rem 2rem;
+    }
+
+    .deliverables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .deliverable-item {
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-mid);
+      background: var(--gray-light);
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .deliverable-item:hover {
+      border-color: var(--gold);
+      box-shadow: var(--shadow);
+    }
+
+    .deliverable-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .deliverable-item h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .deliverable-item p {
+      font-size: 0.95rem;
+      color: var(--gray-text);
+      line-height: 1.7;
+    }
+
+    /* ── WHO IS THIS FOR ── */
+    .fit-section {
+      background: var(--navy);
+      color: var(--white);
+      padding: 5rem 2rem;
+    }
+
+    .fit-section .section-header h2 { color: var(--white); }
+    .fit-section .section-label { color: var(--gold-light); }
+    .fit-section .section-header p { color: rgba(255,255,255,0.7); }
+
+    .fit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .fit-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: var(--radius);
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+
+    .fit-check {
+      color: var(--gold);
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .fit-item p {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--navy);
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+
+    .cta-section p {
+      font-size: 1.1rem;
+      color: rgba(27,42,74,0.8);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+
+    .btn-navy {
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem 2.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      transition: all var(--transition);
+      display: inline-block;
+      box-shadow: 0 4px 20px rgba(27,42,74,0.3);
+    }
+
+    .btn-navy:hover {
+      background: var(--navy-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(27,42,74,0.4);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+    }
+
+    footer a { color: var(--gold); text-decoration: none; }
+
+    .veteran-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="images/logo.png" alt="Liberty Pointe Financial" onerror="this.style.display='none'" />
+      <div class="nav-logo-text">
+        Liberty Pointe Financial
+        <span>Advisory Board</span>
+      </div>
+    </a>
+    <a href="https://calendly.com/chris-libertypointefinancial/30min" target="_blank" class="nav-cta">Book Your Intake Call</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Premium Advisory Service</div>
+    <h1>Most people have an advisor.<br><em>Our clients have a board.</em></h1>
+    <p class="hero-tagline">
+      The <strong>Liberty Pointe Advisory Board</strong> assembles a team of specialists around your complete financial picture — then fuses their insights into one unified strategy built for you.
+    </p>
+    <div class="hero-cta-group">
+      <a href="https://calendly.com/chris-libertypointefinancial/30min" target="_blank" class="btn-primary">Schedule Your Intake &rarr;</a>
+      <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+    </div>
+  </section>
+
+  <!-- CONTRAST STATEMENT -->
+  <section class="contrast-section">
+    <div class="container">
+      <p class="contrast-pull">
+        Your financial life doesn't exist in silos.<br>
+        <em>Your strategy shouldn't either.</em>
+      </p>
+      <p class="contrast-body">
+        Most people have an insurance agent who doesn't talk to their accountant, an estate attorney who's never met their financial advisor, and a retirement planner who doesn't know about their life insurance. The result? Gaps, conflicts, and missed opportunities — and you're the only one seeing the full picture.<br><br>
+        The Liberty Pointe Advisory Board changes that.
+      </p>
+    </div>
+  </section>
+
+  <!-- ORIGIN / FUSION INTELLIGENCE -->
+  <section class="origin-section">
+    <div class="container">
+      <div class="origin-icon-wrap">
+        <span class="origin-icon">🎖️</span>
+        <div class="origin-icon-label">The Intelligence Behind It</div>
+      </div>
+      <div class="origin-content">
+        <h2>Built on the principles of <span>All-Source Intelligence</span></h2>
+        <p>
+          Before founding Liberty Pointe Financial, Chris served as an intelligence analyst in the US Army — deployed to Afghanistan, and later at the NSA. In intelligence work, no single source tells the whole story. HUMINT, SIGINT, GEOINT, OSINT — each reveals something the others can't. <em>Fusion Intelligence</em> combines them all to paint a complete, actionable picture.
+        </p>
+        <p>
+          The Advisory Board applies that same principle to your financial life. Estate planning. Insurance. Retirement income. Legal protection. Tax strategy. Each expert sees something the others don't. We bring them together, synthesize their perspectives, and deliver you a complete picture — not a patchwork of disconnected opinions.
+        </p>
+        <div class="intel-types">
+          <span class="intel-tag">Estate Planning</span>
+          <span class="intel-tag">IUL &amp; Insurance</span>
+          <span class="intel-tag">Annuities &amp; Retirement</span>
+          <span class="intel-tag">Legal &amp; Trust Law</span>
+          <span class="intel-tag">Tax Strategy</span>
+          <span class="intel-tag">Fused Into One Strategy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="process-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">The Process</span>
+        <h2>How the Advisory Board Works</h2>
+        <p>A structured, rigorous process — from your first conversation to a fully unified strategy in your hands.</p>
+      </div>
+
+      <div class="process-steps">
+
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>The Intake: Your Complete Financial Picture</h3>
+            <p>You meet privately with Chris — your Advisory Board coordinator. Together you map everything: goals, assets, liabilities, income, family situation, risk tolerance, timelines. No forms dropped in a portal. A real conversation. This is your intelligence briefing — and it drives everything that follows.</p>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>The Board Reviews Your Case</h3>
+            <p>Chris packages your complete financial profile and shares it with the relevant specialists on the Advisory Board. Each expert analyzes it through their lens — estate planning, retirement income, insurance protection, legal structure, tax efficiency. They provide their independent perspective and recommendations.</p>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>The Fusion: One Unified Proposal</h3>
+            <p>Chris synthesizes every expert's input into a single, coherent strategy document — not five separate reports that contradict each other. You see where the experts agree, where they differ, and why. You understand the trade-offs. You leave with clarity, not more confusion.</p>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Your Review &amp; Expert Introductions</h3>
+            <p>Chris presents the unified proposal to you in a dedicated review meeting. You ask questions. You decide which recommendations to act on. For anything you want to move forward with, Chris makes the personal introduction to the relevant expert — and stays involved throughout to ensure the strategy stays cohesive.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- THE TEAM -->
+  <section class="team-section" id="the-board">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">The Board</span>
+        <h2>Your Team of Specialists</h2>
+        <p>Each member of the Advisory Board is an expert in their discipline — assembled by Liberty Pointe Financial to serve your complete financial picture.</p>
+      </div>
+
+      <div class="team-grid">
+
+        <!-- Chris Markarian -->
+        <div class="team-card">
+          <div class="team-card-header">
+            <div class="team-avatar">
+              <!-- Replace with Chris's photo: <img src="images/chris-markarian.jpg" alt="Chris Markarian" /> -->
+              👤
+            </div>
+            <div class="team-name">Chris Markarian</div>
+            <div class="team-title">Founder &amp; Board Coordinator · IUL &amp; Annuity Specialist</div>
+          </div>
+          <div class="team-card-body">
+            <p>Chris is the quarterback of the Advisory Board — coordinating the team, running the intake process, and synthesizing every expert's input into your unified strategy. A US Army veteran and former intelligence analyst, Chris brings the discipline of All-Source Intelligence to financial planning. Licensed across 12+ carriers.</p>
+            <div class="team-specialty">
+              <span class="specialty-tag">IUL</span>
+              <span class="specialty-tag">Annuities</span>
+              <span class="specialty-tag">Case Coordination</span>
+              <span class="specialty-tag">US Army Veteran</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nikki Flynn -->
+        <div class="team-card">
+          <div class="team-card-header">
+            <div class="team-avatar">
+              <!-- Replace with Nikki's photo: <img src="images/nikki-flynn.jpg" alt="Nikki Flynn" /> -->
+              👤
+            </div>
+            <div class="team-name">Nikki Flynn</div>
+            <div class="team-title">Estate Planning Specialist</div>
+          </div>
+          <div class="team-card-body">
+            <p>Founder of Elite Preparation Services LLC, Nikki is a licensed and bonded Document Preparer with a paralegal certificate and 4+ years of law firm experience. With a healthcare background and educator's approach, Nikki has helped hundreds of families protect their legacies through revocable trusts, wills, POA, and healthcare directives.</p>
+            <div class="team-specialty">
+              <span class="specialty-tag">Revocable Trusts</span>
+              <span class="specialty-tag">Wills &amp; POA</span>
+              <span class="specialty-tag">Healthcare Directives</span>
+              <span class="specialty-tag">Business Services</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Annuity Expert — PLACEHOLDER -->
+        <div class="team-card">
+          <div class="team-card-header">
+            <div class="team-avatar">👤</div>
+            <div class="team-name">[Name] — Coming Soon</div>
+            <div class="team-title">Retirement Income &amp; Annuity Specialist</div>
+          </div>
+          <div class="team-card-body">
+            <p>With 30+ years of experience in retirement income planning, our annuity specialist brings deep expertise in fixed indexed annuities, MYGAs, and income riders. Their singular focus: ensuring you never outlive your income.</p>
+            <div class="team-specialty">
+              <span class="specialty-tag">FIA</span>
+              <span class="specialty-tag">MYGA</span>
+              <span class="specialty-tag">Income Riders</span>
+              <span class="specialty-tag">30+ Years Experience</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Life Insurance Expert — PLACEHOLDER -->
+        <div class="team-card">
+          <div class="team-card-header">
+            <div class="team-avatar">👤</div>
+            <div class="team-name">[Name] — Coming Soon</div>
+            <div class="team-title">Advanced Life Insurance Specialist</div>
+          </div>
+          <div class="team-card-body">
+            <p>A published author and nationally recognized expert in advanced life insurance strategy, our Tampa-based specialist brings decades of real-world application to IUL design, business planning, and high-net-worth protection strategies.</p>
+            <div class="team-specialty">
+              <span class="specialty-tag">Advanced IUL</span>
+              <span class="specialty-tag">Business Insurance</span>
+              <span class="specialty-tag">Published Author</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legal — PLACEHOLDER -->
+        <div class="team-card">
+          <div class="team-card-header">
+            <div class="team-avatar">👤</div>
+            <div class="team-name">[Name] — Coming Soon</div>
+            <div class="team-title">Legal Counsel</div>
+          </div>
+          <div class="team-card-body">
+            <p>Our legal partner brings expertise in asset protection, business structuring, and estate law — ensuring your strategy is not only financially sound, but legally airtight.</p>
+            <div class="team-specialty">
+              <span class="specialty-tag">Asset Protection</span>
+              <span class="specialty-tag">Business Structuring</span>
+              <span class="specialty-tag">Estate Law</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tax — PLACEHOLDER -->
+        <div class="team-card">
+          <div class="team-card-header">
+            <div class="team-avatar">👤</div>
+            <div class="team-name">[Name] — Coming Soon</div>
+            <div class="team-title">Tax Strategy Specialist</div>
+          </div>
+          <div class="team-card-body">
+            <p>Tax implications touch every financial decision. Our tax specialist ensures your complete strategy is optimized for efficiency — minimizing your tax burden today and protecting your wealth for the next generation.</p>
+            <div class="team-specialty">
+              <span class="specialty-tag">Tax Mitigation</span>
+              <span class="specialty-tag">Retirement Tax Planning</span>
+              <span class="specialty-tag">Generational Wealth</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET -->
+  <section class="deliverables-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">What You Receive</span>
+        <h2>The Advisory Board Deliverables</h2>
+        <p>This isn't a sales meeting. It's a structured advisory engagement — and you walk away with real assets.</p>
+      </div>
+
+      <div class="deliverables-grid">
+        <div class="deliverable-item">
+          <span class="deliverable-icon">📋</span>
+          <h3>Complete Financial Intake</h3>
+          <p>A thorough, confidential profile of your complete financial picture — goals, assets, liabilities, income, family needs, and timelines.</p>
+        </div>
+        <div class="deliverable-item">
+          <span class="deliverable-icon">🔍</span>
+          <h3>Multi-Expert Analysis</h3>
+          <p>Your case is reviewed by specialists in estate planning, insurance, retirement income, legal, and tax — each bringing their unique lens.</p>
+        </div>
+        <div class="deliverable-item">
+          <span class="deliverable-icon">📄</span>
+          <h3>The Unified Strategy Document</h3>
+          <p>A single fused proposal synthesizing all expert input — what they agree on, where they differ, and the recommended path forward.</p>
+        </div>
+        <div class="deliverable-item">
+          <span class="deliverable-icon">🤝</span>
+          <h3>Personal Expert Introductions</h3>
+          <p>For every recommendation you want to act on, Chris personally introduces you to the right specialist and stays involved to keep the strategy cohesive.</p>
+        </div>
+        <div class="deliverable-item">
+          <span class="deliverable-icon">🛡️</span>
+          <h3>No Conflicts. No Silos.</h3>
+          <p>Because Chris coordinates everything, your estate plan won't fight your tax strategy, and your insurance won't undermine your retirement income.</p>
+        </div>
+        <div class="deliverable-item">
+          <span class="deliverable-icon">🎯</span>
+          <h3>A La Carte Execution</h3>
+          <p>You choose what to act on and when. No pressure, no package deals. Move forward at your pace, on the recommendations that matter most to you now.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IS THIS FOR -->
+  <section class="fit-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Is This Right for You?</span>
+        <h2>The Advisory Board is built for people who are serious about their financial future</h2>
+        <p>This service is ideal if any of the following describe you.</p>
+      </div>
+
+      <div class="fit-grid">
+        <div class="fit-item">
+          <span class="fit-check">✓</span>
+          <p>You have assets, a family, or a business to protect — and no cohesive plan tying it all together</p>
+        </div>
+        <div class="fit-item">
+          <span class="fit-check">✓</span>
+          <p>You're approaching retirement and want to make sure every piece of your financial life is working together</p>
+        </div>
+        <div class="fit-item">
+          <span class="fit-check">✓</span>
+          <p>You've worked with advisors before but always felt like something was missing — or that nobody saw the full picture</p>
+        </div>
+        <div class="fit-item">
+          <span class="fit-check">✓</span>
+          <p>You want unbiased, multi-perspective guidance — not a single product pitch from a captive agent</p>
+        </div>
+        <div class="fit-item">
+          <span class="fit-check">✓</span>
+          <p>You're a high earner with complex needs: business ownership, real estate, inheritance, or significant tax exposure</p>
+        </div>
+        <div class="fit-item">
+          <span class="fit-check">✓</span>
+          <p>You value clarity and want to understand your options — not just be told what to do</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Ready to have a board working for you?</h2>
+    <p>Schedule your private intake call with Chris. No obligation, no pressure — just a real conversation about where you are and where you want to be.</p>
+    <a href="https://calendly.com/chris-libertypointefinancial/30min" target="_blank" class="btn-navy">Book Your Intake Call &rarr;</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Liberty Pointe Financial LLC &mdash; Provo, Utah &mdash; <a href="tel:3855264220">(385) 526-4220</a> &mdash; <a href="mailto:info@libertypointefinancial.com">info@libertypointefinancial.com</a></p>
+    <p style="margin-top: 0.5rem;"><a href="privacy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms &amp; Conditions</a> &middot; <a href="index.html">Back to Main Site</a></p>
+    <div class="veteran-badge">🇺🇸 Veteran-Owned Business</div>
+  </footer>
+
+</body>
+</html>
