@@ -3,6 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function() {
+      var pwd = sessionStorage.getItem('lpf_board_auth');
+      if (pwd !== 'board2026') {
+        var entered = prompt('This page is private. Enter the access code:');
+        if (entered !== 'board2026') {
+          document.documentElement.innerHTML = '<body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#1B2A4A;color:#fff;"><p>Access denied.</p></body>';
+          return;
+        }
+        sessionStorage.setItem('lpf_board_auth', 'board2026');
+      }
+    })();
+  </script>
   <title>The Liberty Pointe Advisory Board | A Board of Experts, Built Around You</title>
   <meta name="description" content="Most people have an advisor. Our clients have a board. The Liberty Pointe Advisory Board assembles a team of specialists around your complete financial picture — estate planning, insurance, retirement, legal, and tax — all fused into one unified strategy." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
