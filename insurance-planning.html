@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tax-Free Retirement Income — Liberty Pointe Financial</title>
+  <meta name="description" content="Discover how high-income earners are building tax-free retirement income with a strategy most financial advisors never talk about. Watch Chris's short intro video and find out if this is right for you." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1B2A4A;
+      --navy-light: #243560;
+      --gold: #C9A84C;
+      --gold-light: #e0c070;
+      --white: #ffffff;
+      --off-white: #f7f5f0;
+      --gray: #F4F6F9;
+      --text-dark: #1a1a2e;
+      --text-muted: #5a6070;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--text-dark); line-height: 1.6; }
+
+    /* TOP BAR */
+    .top-bar { background: var(--navy); padding: 14px 24px; text-align: center; }
+    .top-bar .logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); letter-spacing: 0.5px; }
+    .top-bar .logo span { color: var(--white); font-weight: 400; }
+
+    /* HERO */
+    .hero { background: var(--navy); color: var(--white); padding: 60px 24px 70px; }
+    .hero-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold-light);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 em { color: var(--gold); font-style: italic; }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.78);
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+
+    /* VIDEO BOX */
+    .video-section { background: var(--gray); padding: 60px 24px; }
+    .video-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+
+    .video-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .video-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--navy);
+      margin-bottom: 0.75rem;
+    }
+
+    .video-inner p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .video-placeholder {
+      background: var(--navy);
+      border-radius: 12px;
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      border: 2px solid rgba(201,168,76,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-placeholder .play-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      cursor: pointer;
+    }
+
+    .video-placeholder .play-btn::after {
+      content: '';
+      border-style: solid;
+      border-width: 12px 0 12px 22px;
+      border-color: transparent transparent transparent var(--navy);
+      margin-left: 4px;
+    }
+
+    .video-placeholder p { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin: 0; }
+
+    /* FORM SECTION */
+    .form-section { background: var(--white); padding: 60px 24px; }
+    .form-inner { max-width: 600px; margin: 0 auto; }
+
+    .form-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .form-inner .form-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .form-card {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .form-group label { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0.05em; text-transform: uppercase; }
+
+    .form-group input, .form-group select {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--white);
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .form-group input::placeholder { color: rgba(255,255,255,0.35); }
+    .form-group select option { background: var(--navy); color: var(--white); }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .form-disclaimer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    /* BULLETS */
+    .bullets-section { background: var(--gray); padding: 60px 24px; }
+    .bullets-inner { max-width: 800px; margin: 0 auto; }
+
+    .bullets-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .bullets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+
+    .bullet-item {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 2px 12px rgba(27,42,74,0.07);
+    }
+
+    .bullet-item h3 { font-size: 1rem; color: var(--navy); margin-bottom: 0.4rem; font-weight: 600; }
+    .bullet-item p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* CHRIS BIO */
+    .bio-section { background: var(--navy); color: var(--white); padding: 60px 24px; }
+    .bio-inner { max-width: 700px; margin: 0 auto; display: flex; gap: 2rem; align-items: flex-start; }
+    @media (max-width: 600px) { .bio-inner { flex-direction: column; align-items: center; text-align: center; } }
+
+    .bio-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      flex-shrink: 0;
+      overflow: hidden;
+      background: rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .bio-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    .bio-content h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); margin-bottom: 0.25rem; }
+    .bio-content .bio-title { font-size: 0.8rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+    .bio-content p { font-size: 0.95rem; color: rgba(255,255,255,0.8); line-height: 1.75; }
+
+    /* FOOTER */
+    footer { background: #0f1a2e; color: rgba(255,255,255,0.4); text-align: center; padding: 1.5rem; font-size: 0.8rem; }
+    footer a { color: var(--gold); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="logo">Liberty Pointe <span>Financial</span></div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Tax-Free Retirement Strategy</div>
+      <h1>What if your retirement income was completely<br><em>tax-free?</em></h1>
+      <p class="hero-sub">
+        Most people have a 401(k), an IRA, and a prayer. But high-income earners are quietly using a different strategy — one that grows with the market, never loses to a downturn, and pays out in retirement completely tax-free. Watch the short video below to see how it works.
+      </p>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="video-section">
+    <div class="video-inner">
+      <span class="video-label">Watch First — 2 Minutes</span>
+      <h2>A quick note from Chris before we talk</h2>
+      <p>Watch this short video to understand who I am, what I do, and exactly what to expect when we connect.</p>
+
+      <!-- REPLACE THIS WITH YOUR LOOM/VIDEO EMBED -->
+      <div class="video-placeholder" id="videoPlaceholder">
+        <div class="play-btn"></div>
+        <p>Chris's intro video — coming soon</p>
+      </div>
+      <!-- Example Loom embed:
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;margin-bottom:2rem;">
+        <iframe src="https://www.loom.com/embed/YOUR_VIDEO_ID" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+      </div>
+      -->
+
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="form-section" id="get-info">
+    <div class="form-inner">
+      <h2>Want to see what this looks like for your situation?</h2>
+      <p class="form-sub">No sales pitch. No pressure. Just a look at the real numbers based on your specific goals and timeline.</p>
+
+      <div class="form-card">
+        <form name="insurance-planning-lead" method="POST" data-netlify="true" action="/insurance-planning-thanks.html">
+          <input type="hidden" name="form-name" value="insurance-planning-lead" />
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" name="first_name" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="last_name" placeholder="Smith" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="john@email.com" required />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" name="phone" placeholder="(385) 555-0100" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Age</label>
+              <select name="age">
+                <option value="">Select...</option>
+                <option>30–34</option>
+                <option>35–39</option>
+                <option>40–44</option>
+                <option>45–49</option>
+                <option>50–54</option>
+                <option>55–59</option>
+                <option>60–65</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Annual Income</label>
+              <select name="income">
+                <option value="">Select...</option>
+                <option>$50k–$75k</option>
+                <option>$75k–$100k</option>
+                <option>$100k–$150k</option>
+                <option>$150k–$250k</option>
+                <option>$250k+</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-submit">Show Me What This Looks Like For Me →</button>
+          <p class="form-disclaimer">Your information is 100% private and never shared. No spam, ever.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- BULLETS -->
+  <section class="bullets-section">
+    <div class="bullets-inner">
+      <h2>What makes this strategy different</h2>
+      <div class="bullets-grid">
+        <div class="bullet-item">
+          <h3>🚫 Zero market loss</h3>
+          <p>Your cash value is linked to market index gains — but a guaranteed 0% floor means you never lose a dollar when the market drops.</p>
+        </div>
+        <div class="bullet-item">
+          <h3>💰 Tax-free retirement income</h3>
+          <p>Unlike a 401(k) or IRA, withdrawals in retirement are generally tax-free. No RMDs. No surprise tax bills at 72.</p>
+        </div>
+        <div class="bullet-item">
+          <h3>📈 No contribution limits</h3>
+          <p>Already maxed your 401(k)? This strategy has no IRS contribution caps — making it ideal for high earners who want to save more.</p>
+        </div>
+        <div class="bullet-item">
+          <h3>🛡️ Living benefits included</h3>
+          <p>Access a portion of your death benefit early if you're diagnosed with a critical, chronic, or terminal illness. At no additional cost.</p>
+        </div>
+        <div class="bullet-item">
+          <h3>🏦 Access your money anytime</h3>
+          <p>Unlike a 401(k), you can access your cash value at any age — no early withdrawal penalties, no age restrictions.</p>
+        </div>
+        <div class="bullet-item">
+          <h3>👨‍👩‍👧 Death benefit for your family</h3>
+          <p>Your family receives a tax-free death benefit. It's life insurance that also works as a powerful financial planning tool.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIO -->
+  <section class="bio-section">
+    <div class="bio-inner">
+      <div class="bio-photo">
+        <img src="images/chris-markarian.png" alt="Chris Markarian" onerror="this.parentElement.innerHTML='👤'" />
+      </div>
+      <div class="bio-content">
+        <h3>Chris Markarian</h3>
+        <div class="bio-title">Founder, Liberty Pointe Financial · US Army Veteran</div>
+        <p>I spent years as a Senior Project Manager in aerospace and defense, and before that as a US Army intelligence analyst. I started Liberty Pointe Financial because I got tired of watching hardworking people build wealth for decades — only to hand a huge chunk of it to the IRS in retirement. There's a better way. Let me show you what it looks like for your situation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Liberty Pointe Financial LLC &nbsp;·&nbsp; Provo, Utah &nbsp;·&nbsp; <a href="tel:3855264220">(385) 526-4220</a> &nbsp;·&nbsp; <a href="mailto:info@libertypointefinancial.com">info@libertypointefinancial.com</a></p>
+    <p style="margin-top:0.5rem;"><a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a> &nbsp;·&nbsp; <a href="index.html">Main Site</a></p>
+    <p style="margin-top:0.75rem; font-size:0.72rem; max-width:700px; margin-left:auto; margin-right:auto; opacity:0.6;">Liberty Pointe Financial LLC is an independent insurance agency. Life insurance products are offered through licensed carriers. This is not an offer to sell securities. Results vary based on individual circumstances.</p>
+  </footer>
+
+</body>
+</html>

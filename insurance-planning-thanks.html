@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>One More Step — Liberty Pointe Financial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1B2A4A;
+      --gold: #C9A84C;
+      --gold-light: #e0c070;
+      --white: #ffffff;
+      --gray: #F4F6F9;
+      --text-muted: #5a6070;
+    }
+
+    body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--white); line-height: 1.6; min-height: 100vh; }
+
+    /* TOP BAR */
+    .top-bar { background: rgba(0,0,0,0.2); padding: 14px 24px; text-align: center; border-bottom: 1px solid rgba(201,168,76,0.2); }
+    .top-bar .logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold); }
+    .top-bar .logo span { color: rgba(255,255,255,0.8); font-weight: 400; }
+
+    /* HEADER */
+    .page-header { padding: 50px 24px 0; text-align: center; }
+
+    .congrats-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.35);
+      color: var(--gold-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .page-header h1 em { color: var(--gold); font-style: italic; }
+
+    .page-header p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.72);
+      max-width: 600px;
+      margin: 0 auto 0.5rem;
+      line-height: 1.75;
+    }
+
+    /* URGENCY BAR */
+    .urgency-bar {
+      background: rgba(201,168,76,0.1);
+      border-top: 1px solid rgba(201,168,76,0.25);
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+      padding: 0.75rem 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      margin: 2rem 0 0;
+    }
+
+    /* VSL SECTION */
+    .vsl-section { padding: 40px 24px 50px; }
+    .vsl-inner { max-width: 860px; margin: 0 auto; }
+
+    .vsl-label {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .vsl-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .vsl-inner .vsl-sub {
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* VIDEO PLACEHOLDER */
+    .vsl-placeholder {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(201,168,76,0.25);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .vsl-play {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .vsl-play::after {
+      content: '';
+      border-style: solid;
+      border-width: 14px 0 14px 26px;
+      border-color: transparent transparent transparent var(--navy);
+      margin-left: 5px;
+    }
+
+    .vsl-placeholder p { font-size: 0.9rem; color: rgba(255,255,255,0.45); }
+
+    .vsl-duration {
+      display: inline-block;
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.6);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    /* WHAT YOU'LL LEARN */
+    .learn-strip {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .learn-strip h3 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .learn-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem; }
+
+    .learn-list li {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .learn-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+    /* CTA SECTION */
+    .cta-section { padding: 0 24px 60px; }
+    .cta-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+
+    .cta-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-inner p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+
+    .btn-calendly {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 1.1rem 2.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+    }
+
+    .btn-calendly:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 6px 28px rgba(201,168,76,0.45); }
+
+    .no-pressure { font-size: 0.82rem; color: rgba(255,255,255,0.4); margin-top: 1rem; }
+
+    /* CHRIS STRIP */
+    .chris-strip {
+      max-width: 600px;
+      margin: 2.5rem auto 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid rgba(201,168,76,0.15);
+      text-align: left;
+    }
+
+    .chris-strip img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+      flex-shrink: 0;
+    }
+
+    .chris-strip-text .name { font-weight: 600; font-size: 0.95rem; color: var(--white); }
+    .chris-strip-text .title { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 1.5rem; font-size: 0.78rem; color: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.08); }
+    footer a { color: rgba(201,168,76,0.7); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="logo">Liberty Pointe <span>Financial</span></div>
+  </div>
+
+  <div class="page-header">
+    <div class="congrats-badge">✓ You're in — next step below</div>
+    <h1>Before you book — watch this<br><em>important video first.</em></h1>
+    <p>This 10-15 minute presentation will show you exactly how the strategy works, what real numbers look like, and how to know if it's right for you.</p>
+    <p style="font-size:0.88rem; color: rgba(255,255,255,0.45); margin-top:0.5rem;">Watch before booking your call. It'll make our time together far more valuable.</p>
+    <div class="urgency-bar">⏱ Most people watch this in full and book immediately after — it answers the questions you're probably already thinking about.</div>
+  </div>
+
+  <!-- VSL -->
+  <section class="vsl-section">
+    <div class="vsl-inner">
+      <span class="vsl-label">Watch Now — Important</span>
+      <h2>How Tax-Free Retirement Income Actually Works</h2>
+      <p class="vsl-sub">A presentation by Chris Markarian, Liberty Pointe Financial</p>
+
+      <!-- REPLACE WITH YOUR VSL VIDEO EMBED -->
+      <div class="vsl-placeholder">
+        <div class="vsl-play"></div>
+        <p>VSL video — record and embed here</p>
+        <span class="vsl-duration">~10–15 min</span>
+      </div>
+      <!-- Example Loom/Vimeo/YouTube embed:
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;margin-bottom:1.5rem;">
+        <iframe src="YOUR_VIDEO_EMBED_URL" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+      </div>
+      -->
+
+      <div class="learn-strip">
+        <h3>In this presentation you'll see:</h3>
+        <ul class="learn-list">
+          <li>Why your 401(k) could cost you 30-40% in taxes at retirement</li>
+          <li>How this strategy grows tax-deferred and pays out tax-free</li>
+          <li>The 0% floor — how you never lose money in a down market</li>
+          <li>Real policy illustrations with actual numbers</li>
+          <li>Who this strategy works best for (and who it doesn't)</li>
+          <li>How to access your money before retirement with no penalties</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2>Ready to see your numbers?</h2>
+      <p>Book a free 30-minute call with Chris. Bring your questions — no sales pressure, just a real conversation about what this could look like for your specific situation.</p>
+      <a href="https://calendly.com/chris-libertypointefinancial/30min" target="_blank" class="btn-calendly">Book My Free Strategy Call →</a>
+      <p class="no-pressure">No obligation. No pressure. Cancel or reschedule anytime.</p>
+
+      <div class="chris-strip">
+        <img src="images/chris-markarian.png" alt="Chris Markarian" onerror="this.style.display='none'" />
+        <div class="chris-strip-text">
+          <div class="name">Chris Markarian</div>
+          <div class="title">Founder, Liberty Pointe Financial · US Army Veteran · Senior Project Manager, Aerospace & Defense</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Liberty Pointe Financial LLC &nbsp;·&nbsp; <a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></p>
+    <p style="margin-top:0.5rem; max-width:600px; margin-left:auto; margin-right:auto;">This presentation is for educational purposes only. Life insurance products are offered through licensed carriers. Individual results vary.</p>
+  </footer>
+
+</body>
+</html>
