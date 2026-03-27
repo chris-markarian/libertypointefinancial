@@ -423,6 +423,56 @@
     .badge-neutral { display: inline-block; background: #f1f5f9; color: #475569; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 100px; }
 
     .compare-disclaimer { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.6; }
+
+    /* ── VERSATILITY ── */
+    .versatility-section { background: var(--navy); color: var(--white); padding: 70px 24px; }
+    .versatility-inner { max-width: 960px; margin: 0 auto; }
+    .versatility-inner .section-label { display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; text-align: center; }
+    .versatility-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); text-align: center; margin-bottom: 0.75rem; }
+    .versatility-inner .v-sub { text-align: center; color: rgba(255,255,255,0.65); font-size: 1rem; max-width: 660px; margin: 0 auto 3rem; line-height: 1.75; }
+
+    .use-case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+
+    .use-case {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .use-case:hover { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.45); }
+
+    .use-case-check {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .use-case-text h3 { font-size: 0.95rem; font-weight: 600; color: var(--gold-light); margin-bottom: 0.35rem; }
+    .use-case-text p { font-size: 0.85rem; color: rgba(255,255,255,0.68); line-height: 1.65; }
+
+    .versatility-closer {
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 14px;
+      padding: 2rem 2.5rem;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .versatility-closer p { font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.8; }
+    .versatility-closer strong { color: var(--gold); }
   </style>
 </head>
 <body>
@@ -755,6 +805,85 @@
         </tbody>
       </table>
       <p class="compare-disclaimer">*Policy loans are generally income tax-free when the policy is properly structured and maintained in force. Loans reduce the death benefit and cash value if not repaid. Tax treatment depends on individual circumstances — consult a qualified tax advisor. This comparison is for educational purposes only and does not constitute tax or financial advice.</p>
+    </div>
+  </section>
+
+  <!-- VERSATILITY -->
+  <section class="versatility-section">
+    <div class="versatility-inner">
+      <span class="section-label">One Policy. Built Around Your Life.</span>
+      <h2>An IUL can be many things — depending on what <em style="color:var(--gold);">you</em> need it to be</h2>
+      <p class="v-sub">Most financial products do one thing. An Indexed Universal Life policy can be structured and customized to solve very different problems for very different people. Here are just some of the ways it's being used right now.</p>
+
+      <div class="use-case-grid">
+        <div class="use-case">
+          <div class="use-case-check">✓</div>
+          <div class="use-case-text">
+            <h3>A supplement to your 401(k) or IRA</h3>
+            <p>Already maxing out your qualified accounts? IUL has no IRS contribution limits and offers tax-advantaged growth with generally tax-free access — making it a powerful complement to any retirement strategy.</p>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-check">✓</div>
+          <div class="use-case-text">
+            <h3>A death benefit that protects your family</h3>
+            <p>If something happens to you prematurely, your beneficiaries receive a permanent, income tax-free death benefit — providing financial security when it's needed most.</p>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-check">✓</div>
+          <div class="use-case-text">
+            <h3>A safe place to grow and park money</h3>
+            <p>With a 0% floor and tax-deferred growth, an IUL is a low-risk vehicle to accumulate cash value — while keeping it accessible through policy loans whenever you need it.</p>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-check">✓</div>
+          <div class="use-case-text">
+            <h3>A living benefits safety net</h3>
+            <p>Many IUL policies include accelerated benefit riders that allow you to access part of your death benefit if you're diagnosed with a critical illness (heart attack, stroke, cancer), chronic illness, or terminal illness — while you're still alive.</p>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-check">✓</div>
+          <div class="use-case-text">
+            <h3>A maximum accumulation vehicle</h3>
+            <p>For clients focused purely on growth, an IUL can be structured with a minimum death benefit and maximum premium — directing as much as possible into the cash value for long-term tax-advantaged accumulation.</p>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-check">✓</div>
+          <div class="use-case-text">
+            <h3>A strategy to pay off your mortgage early</h3>
+            <p>By leveraging the participating loan feature, some policyholders use IUL cash value to systematically eliminate their mortgage years ahead of schedule — while their cash value continues earning index credits on the full balance.</p>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-check">✓</div>
+          <div class="use-case-text">
+            <h3>A tool for the middle class and the wealthy alike</h3>
+            <p>For middle-income earners, it provides protection and a tax-advantaged retirement supplement. For high earners, it becomes a powerful tax mitigation strategy. For the ultra-wealthy, it's an estate planning and wealth transfer vehicle. The structure just looks different.</p>
+          </div>
+        </div>
+
+        <div class="use-case">
+          <div class="use-case-check">✓</div>
+          <div class="use-case-text">
+            <h3>A business planning tool</h3>
+            <p>Business owners use IUL for key-person insurance, executive bonus arrangements, and buy-sell agreement funding — protecting the business while building tax-advantaged cash value for the owner.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="versatility-closer">
+        <p>No two IUL policies look exactly alike. That's the point. <strong>The right policy is engineered around your goals, your situation, and your timeline</strong> — not off a shelf. That's what a strategy conversation with Liberty Pointe Financial is designed to figure out.</p>
+      </div>
     </div>
   </section>
 
