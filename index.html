@@ -1965,7 +1965,7 @@
   </script>
 
   <!-- ==============================
-       AI CHAT WIDGET
+       BOOK A CALL BUTTON (chatbot paused — re-enable when API credits added)
   ============================== -->
   <style>
     #chat-bubble { position:fixed; bottom:28px; right:28px; z-index:9999; display:flex; flex-direction:column; align-items:flex-end; gap:12px; }
@@ -1998,137 +1998,17 @@
     @keyframes bounce { 0%,80%,100%{transform:translateY(0);opacity:0.4} 40%{transform:translateY(-6px);opacity:1} }
   </style>
 
+  <!-- Book a Call floating button — chatbot paused until API credits restored -->
   <div id="chat-bubble">
-    <div id="chat-window">
-      <div class="chat-header">
-        <div class="chat-avatar" style="padding:0;overflow:hidden;">
-          <img src="chris-avatar.jpg" alt="Chris" style="width:44px;height:44px;object-fit:cover;object-position:center top;border-radius:50%;" />
-        </div>
-        <div class="chat-header-info">
-          <strong>Chris M.</strong>
-          <div class="chat-online"><span class="chat-online-dot"></span> Online &nbsp;&bull;&nbsp; <span class="chat-subtitle">AI Version of Your Advisor</span></div>
-        </div>
-        <button id="chat-close" aria-label="Close chat">&#x2715;</button>
-      </div>
-      <div id="chat-messages"></div>
-      <div class="chat-input-row">
-        <textarea id="chat-input" rows="1" placeholder="Ask a question..."></textarea>
-        <button id="chat-send">&#x27A4;</button>
-      </div>
-    </div>
-    <div id="chat-label" style="background:var(--navy); color:#fff; padding:8px 14px; border-radius:20px; font-size:0.82rem; font-weight:600; white-space:nowrap; box-shadow:0 2px 12px rgba(0,0,0,0.2); cursor:pointer; display:flex; align-items:center; gap:6px;" onclick="document.getElementById('chat-toggle').click()"><span style="color:var(--gold);">&#x2022;</span> Ask Us Anything!</div>
-    <button id="chat-toggle" aria-label="Open chat assistant" style="padding:0;overflow:hidden;">
-      <img src="chris-avatar.jpg" alt="Ask Chris" style="width:60px;height:60px;object-fit:cover;object-position:center top;border-radius:50%;" />
-    </button>
+    <a href="https://calendly.com/chris-libertypointefinancial/30min" target="_blank" rel="noopener"
+       style="display:flex; align-items:center; gap:10px; background:var(--navy); color:#fff; padding:12px 18px; border-radius:50px; box-shadow:0 4px 20px rgba(27,42,74,0.3); text-decoration:none; font-size:0.88rem; font-weight:600; transition:transform 0.2s, box-shadow 0.2s;"
+       onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 28px rgba(27,42,74,0.4)'"
+       onmouseout="this.style.transform='';this.style.boxShadow='0 4px 20px rgba(27,42,74,0.3)'">
+      <span style="width:10px;height:10px;border-radius:50%;background:#22c55e;flex-shrink:0;"></span>
+      <span>Book a Free Call</span>
+      <span style="color:var(--gold);">📅</span>
+    </a>
   </div>
-
-  <script>
-    (function() {
-      var toggle = document.getElementById('chat-toggle');
-      var closeBtn = document.getElementById('chat-close');
-      var chatWindow = document.getElementById('chat-window');
-      var messages = document.getElementById('chat-messages');
-      var input = document.getElementById('chat-input');
-      var send = document.getElementById('chat-send');
-      var history = [];
-      var opened = false;
-
-      function linkify(text) {
-        return text.replace(/(https?:\/\/[^\s]+)/g, function(url) {
-          return '<a href="' + url + '" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline;">'+url+'</a>';
-        });
-      }
-      function addMsg(text, role) {
-        var div = document.createElement('div');
-        div.className = 'msg ' + role;
-        if (role === 'bot') {
-          div.innerHTML = linkify(text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
-        } else {
-          div.textContent = text;
-        }
-        messages.appendChild(div);
-        messages.scrollTop = messages.scrollHeight;
-        return div;
-      }
-      function addTyping() {
-        var div = document.createElement('div');
-        div.className = 'msg bot typing';
-        div.innerHTML = '<span style="display:inline-flex;gap:4px;align-items:center;">'+
-          '<span style="width:7px;height:7px;border-radius:50%;background:var(--navy);opacity:0.4;animation:bounce 1s infinite 0s"></span>'+
-          '<span style="width:7px;height:7px;border-radius:50%;background:var(--navy);opacity:0.4;animation:bounce 1s infinite 0.2s"></span>'+
-          '<span style="width:7px;height:7px;border-radius:50%;background:var(--navy);opacity:0.4;animation:bounce 1s infinite 0.4s"></span>'+
-          '</span>';
-        messages.appendChild(div);
-        messages.scrollTop = messages.scrollHeight;
-        return div;
-      }
-
-      var GREETING = "Hi, I'm Chris — the advisor you could be meeting with. I've got an AI version of myself here that's been trained on everything I know about advanced financial strategies, estate planning, and guaranteed income in retirement.\n\nAsk me anything about estate planning, advanced wealth planning through insurance, or retirement income. If it makes sense to connect for a real conversation, I can help schedule that too.\n\nSo — what brings you in today?";
-
-      function openChat() {
-        chatWindow.classList.add('open');
-        toggle.textContent = 'x';
-        if (!opened) {
-          opened = true;
-          // Hardcoded greeting — never AI-generated
-          addMsg(GREETING, 'bot');
-          history.push({ role: 'assistant', content: GREETING });
-        }
-        input.focus();
-      }
-
-      function closeChat() {
-        chatWindow.classList.remove('open');
-        toggle.innerHTML = '&#x1F4AC;';
-      }
-
-      toggle.addEventListener('click', function() {
-        chatWindow.classList.contains('open') ? closeChat() : openChat();
-      });
-      closeBtn.addEventListener('click', closeChat);
-
-      function sendToBot(userText) {
-          if (!userText || !userText.trim()) return;
-          addMsg(userText, 'user');
-          history.push({ role: 'user', content: userText });
-
-        send.disabled = true;
-        var typing = addTyping();
-        fetch('/.netlify/functions/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: history })
-        })
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
-          typing.remove();
-          var reply = data.reply || 'Sorry, I had trouble responding. Please try again.';
-          addMsg(reply, 'bot');
-          history.push({ role: 'assistant', content: reply });
-          send.disabled = false;
-          input.focus();
-        })
-        .catch(function() {
-          typing.remove();
-          addMsg('Sorry, something went wrong. Please try again in a moment.', 'bot');
-          send.disabled = false;
-        });
-      }
-
-      send.addEventListener('click', function() {
-        var text = input.value.trim();
-        if (text) { input.value = ''; sendToBot(text); }
-      });
-
-      input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          var text = input.value.trim();
-          if (text) { input.value = ''; sendToBot(text); }
-        }
-      });
-    })();
-  </script>
 
 </body>
 </html>
