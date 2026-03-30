@@ -768,66 +768,102 @@
       <p class="chart-sub">IUL cash value is linked to index performance, but with two critical guardrails: a <strong>cap</strong> that limits upside, and a <strong>floor</strong> that prevents any loss. Here's what that looks like over a market cycle.</p>
 
       <div class="cap-floor-chart">
+        <!-- Legend -->
         <div class="chart-legend">
           <div class="legend-item"><span class="legend-dot dot-market"></span> Market (S&P 500)</div>
           <div class="legend-item"><span class="legend-dot dot-iul"></span> IUL Credit</div>
-          <div class="legend-item"><span class="legend-dot dot-floor" style="height:4px;"></span> 0% Floor</div>
-          <div class="legend-item"><span class="legend-dot dot-cap" style="height:4px;"></span> Cap (~10%)</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#22c55e;height:3px;border-radius:2px;width:18px;"></span> 0% Floor</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#ef4444;height:3px;border-radius:2px;width:18px;"></span> Cap (~10%)</div>
         </div>
 
-        <!-- Simplified visual bar chart -->
-        <div class="chart-bars">
-          <!-- Cap line -->
-          <div class="chart-line cap-line"></div>
-          <span class="cap-label">Cap ~10%</span>
-          <!-- Floor line -->
-          <div class="chart-line floor-line"></div>
-          <span class="floor-label">0% Floor</span>
+        <!-- SVG Chart with proper negative bars -->
+        <div style="width:100%; overflow-x:auto;">
+        <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:760px;display:block;margin:0 auto;font-family:Inter,sans-serif;">
 
-          <!-- Year 1: Market +18%, IUL capped at 10% -->
-          <div class="bar-group">
-            <div class="bar bar-market" style="height:90%;" title="Market: +18%"></div>
-            <div class="bar bar-iul" style="height:50%;" title="IUL credit: +10% (capped)"></div>
-            <div class="year-label" style="position:absolute;bottom:-22px;left:0;right:0;text-align:center;">Yr 1<br><span style="color:#22c55e;font-weight:700;font-size:0.65rem;">+10%</span></div>
-          </div>
+          <!-- Y-axis labels -->
+          <text x="28" y="52" text-anchor="end" font-size="11" fill="#94a3b8">+30%</text>
+          <text x="28" y="92" text-anchor="end" font-size="11" fill="#94a3b8">+20%</text>
+          <text x="28" y="132" text-anchor="end" font-size="11" fill="#94a3b8">+10%</text>
+          <text x="28" y="172" text-anchor="end" font-size="11" fill="#64748b" font-weight="700">0%</text>
+          <text x="28" y="212" text-anchor="end" font-size="11" fill="#94a3b8">-10%</text>
+          <text x="28" y="252" text-anchor="end" font-size="11" fill="#94a3b8">-20%</text>
 
-          <!-- Year 2: Market +8%, IUL gets full +8% -->
-          <div class="bar-group">
-            <div class="bar bar-market" style="height:40%;"></div>
-            <div class="bar bar-iul" style="height:40%;"></div>
-            <div class="year-label" style="position:absolute;bottom:-22px;left:0;right:0;text-align:center;">Yr 2<br><span style="color:#22c55e;font-weight:700;font-size:0.65rem;">+8%</span></div>
-          </div>
+          <!-- Horizontal grid lines -->
+          <line x1="35" y1="50" x2="750" y2="50" stroke="#f1f5f9" stroke-width="1"/>
+          <line x1="35" y1="90" x2="750" y2="90" stroke="#f1f5f9" stroke-width="1"/>
+          <line x1="35" y1="130" x2="750" y2="130" stroke="#f1f5f9" stroke-width="1"/>
+          <line x1="35" y1="170" x2="750" y2="170" stroke="#e2e8f0" stroke-width="1.5"/>
+          <line x1="35" y1="210" x2="750" y2="210" stroke="#f1f5f9" stroke-width="1"/>
+          <line x1="35" y1="250" x2="750" y2="250" stroke="#f1f5f9" stroke-width="1"/>
 
-          <!-- Year 3: Market -22%, IUL at 0% floor -->
-          <div class="bar-group">
-            <div class="bar bar-market" style="height:4%; background:#ef4444;"></div>
-            <div class="bar bar-iul" style="height:2%; background:var(--gold); opacity:0.4;"></div>
-            <div class="year-label" style="position:absolute;bottom:-22px;left:0;right:0;text-align:center;">Yr 3<br><span style="color:#22c55e;font-weight:700;font-size:0.65rem;">0%</span></div>
-          </div>
+          <!-- Cap line at +10% (y=130) -->
+          <line x1="35" y1="130" x2="750" y2="130" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,4"/>
+          <text x="752" y="134" font-size="10" fill="#ef4444" font-weight="700">Cap ~10%</text>
 
-          <!-- Year 4: Market +26%, IUL capped at 10% -->
-          <div class="bar-group">
-            <div class="bar bar-market" style="height:100%;"></div>
-            <div class="bar bar-iul" style="height:50%;"></div>
-            <div class="year-label" style="position:absolute;bottom:-22px;left:0;right:0;text-align:center;">Yr 4<br><span style="color:#22c55e;font-weight:700;font-size:0.65rem;">+10%</span></div>
-          </div>
+          <!-- Floor line at 0% (y=170) -->
+          <line x1="35" y1="170" x2="750" y2="170" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,4"/>
 
-          <!-- Year 5: Market -14%, IUL at 0% floor -->
-          <div class="bar-group">
-            <div class="bar bar-market" style="height:4%; background:#ef4444;"></div>
-            <div class="bar bar-iul" style="height:2%; background:var(--gold); opacity:0.4;"></div>
-            <div class="year-label" style="position:absolute;bottom:-22px;left:0;right:0;text-align:center;">Yr 5<br><span style="color:#22c55e;font-weight:700;font-size:0.65rem;">0%</span></div>
-          </div>
+          <!-- Zero axis bold line -->
+          <line x1="35" y1="170" x2="750" y2="170" stroke="#cbd5e1" stroke-width="1"/>
 
-          <!-- Year 6: Market +15%, IUL capped at 10% -->
-          <div class="bar-group">
-            <div class="bar bar-market" style="height:75%;"></div>
-            <div class="bar bar-iul" style="height:50%;"></div>
-            <div class="year-label" style="position:absolute;bottom:-22px;left:0;right:0;text-align:center;">Yr 6<br><span style="color:#22c55e;font-weight:700;font-size:0.65rem;">+10%</span></div>
-          </div>
+          <!-- YEAR 1: Market +18% (bar up 72px from y=170 → top at y=98), IUL +10% capped (40px → y=130) -->
+          <!-- Market bar -->
+          <rect x="65" y="98" width="44" height="72" fill="#cbd5e1" rx="3"/>
+          <!-- IUL bar -->
+          <rect x="113" y="130" width="44" height="40" fill="#C9A84C" rx="3"/>
+          <!-- Labels -->
+          <text x="109" y="200" text-anchor="middle" font-size="11" fill="#64748b">Yr 1</text>
+          <text x="109" y="215" text-anchor="middle" font-size="11" fill="#22c55e" font-weight="700">+10%</text>
+          <text x="87" y="93" text-anchor="middle" font-size="10" fill="#94a3b8">+18%</text>
+
+          <!-- YEAR 2: Market +8% (32px → y=138), IUL +8% same -->
+          <rect x="185" y="138" width="44" height="32" fill="#cbd5e1" rx="3"/>
+          <rect x="233" y="138" width="44" height="32" fill="#C9A84C" rx="3"/>
+          <text x="229" y="200" text-anchor="middle" font-size="11" fill="#64748b">Yr 2</text>
+          <text x="229" y="215" text-anchor="middle" font-size="11" fill="#22c55e" font-weight="700">+8%</text>
+          <text x="207" y="133" text-anchor="middle" font-size="10" fill="#94a3b8">+8%</text>
+
+          <!-- YEAR 3: Market -22% (bar DOWN 88px from y=170 → rect at y=170 height=88), IUL 0% (tiny indicator) -->
+          <rect x="305" y="170" width="44" height="88" fill="#fca5a5" rx="3"/>
+          <!-- IUL stays at 0% — show as flat gold line -->
+          <rect x="353" y="167" width="44" height="6" fill="#C9A84C" rx="3" opacity="0.9"/>
+          <text x="349" y="200" text-anchor="middle" font-size="11" fill="#64748b">Yr 3</text>
+          <text x="349" y="215" text-anchor="middle" font-size="11" fill="#22c55e" font-weight="700">0%</text>
+          <text x="327" y="270" text-anchor="middle" font-size="10" fill="#ef4444">-22%</text>
+          <!-- Down arrow indicator -->
+          <text x="327" y="255" text-anchor="middle" font-size="14" fill="#ef4444">↓</text>
+
+          <!-- YEAR 4: Market +26% (104px → y=66), IUL +10% capped (40px → y=130) -->
+          <rect x="425" y="66" width="44" height="104" fill="#cbd5e1" rx="3"/>
+          <rect x="473" y="130" width="44" height="40" fill="#C9A84C" rx="3"/>
+          <text x="469" y="200" text-anchor="middle" font-size="11" fill="#64748b">Yr 4</text>
+          <text x="469" y="215" text-anchor="middle" font-size="11" fill="#22c55e" font-weight="700">+10%</text>
+          <text x="447" y="61" text-anchor="middle" font-size="10" fill="#94a3b8">+26%</text>
+
+          <!-- YEAR 5: Market -14% (56px down → y=170 height=56), IUL 0% -->
+          <rect x="545" y="170" width="44" height="56" fill="#fca5a5" rx="3"/>
+          <rect x="593" y="167" width="44" height="6" fill="#C9A84C" rx="3" opacity="0.9"/>
+          <text x="589" y="200" text-anchor="middle" font-size="11" fill="#64748b">Yr 5</text>
+          <text x="589" y="215" text-anchor="middle" font-size="11" fill="#22c55e" font-weight="700">0%</text>
+          <text x="567" y="238" text-anchor="middle" font-size="10" fill="#ef4444">-14%</text>
+          <text x="567" y="225" text-anchor="middle" font-size="14" fill="#ef4444">↓</text>
+
+          <!-- YEAR 6: Market +15% (60px → y=110), IUL +10% capped -->
+          <rect x="665" y="110" width="44" height="60" fill="#cbd5e1" rx="3"/>
+          <rect x="713" y="130" width="32" height="40" fill="#C9A84C" rx="3"/>
+          <text x="700" y="200" text-anchor="middle" font-size="11" fill="#64748b">Yr 6</text>
+          <text x="700" y="215" text-anchor="middle" font-size="11" fill="#22c55e" font-weight="700">+10%</text>
+          <text x="687" y="105" text-anchor="middle" font-size="10" fill="#94a3b8">+15%</text>
+
+          <!-- Callout box for down years -->
+          <rect x="280" y="2" width="178" height="32" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+          <text x="369" y="13" text-anchor="middle" font-size="10" fill="#dc2626" font-weight="700">Market crashes in Yr 3 &amp; 5</text>
+          <text x="369" y="28" text-anchor="middle" font-size="10" fill="#dc2626">IUL credits 0% — no loss</text>
+
+        </svg>
         </div>
 
-        <p class="chart-note" style="margin-top:2.5rem;">Hypothetical illustration only. Actual cap rates, participation rates, and credited interest vary by carrier, product, and policy year. Past index performance does not guarantee future results.</p>
+        <p class="chart-note">Hypothetical illustration only. Actual cap rates, participation rates, and credited interest vary by carrier, product, and policy year. Past index performance does not guarantee future results.</p>
       </div>
 
       <div class="chart-callouts">
