@@ -494,22 +494,122 @@
   </section>
 
   <!-- VIDEO -->
-  <section class="video-section">
-    <div class="video-inner">
-      <span class="video-label">Watch First — 2 Minutes</span>
-      <h2>A quick note from Chris before we talk</h2>
-      <p>Watch this short video to understand who I am, what I do, and exactly what to expect when we connect.</p>
+  <!-- HOW AN IUL WORKS — Visual Explainer -->
+  <section style="background:#fff; padding: 70px 24px;">
+    <div style="max-width:960px; margin:0 auto;">
 
-      <!-- REPLACE THIS WITH YOUR LOOM/VIDEO EMBED -->
-      <div class="video-placeholder" id="videoPlaceholder">
-        <div class="play-btn"></div>
-        <p>Chris's intro video — coming soon</p>
+      <p style="text-align:center; font-size:0.75rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#a8872e; margin-bottom:0.75rem;">Plain English</p>
+      <h2 style="font-family:'Playfair Display',serif; font-size:clamp(1.6rem,3vw,2.2rem); color:#1B2A4A; text-align:center; margin-bottom:0.75rem;">How an IUL actually works</h2>
+      <p style="text-align:center; color:#64748b; font-size:1rem; max-width:600px; margin:0 auto 3rem; line-height:1.75;">Think of it as a financial vehicle with three lanes running simultaneously. Here's the visual.</p>
+
+      <!-- MAIN DIAGRAM -->
+      <div style="background: linear-gradient(135deg, #1B2A4A 0%, #243659 100%); border-radius:20px; padding:2.5rem 2rem; margin-bottom:2rem; position:relative; overflow:hidden;">
+
+        <!-- Background decoration -->
+        <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(201,168,76,0.06);pointer-events:none;"></div>
+        <div style="position:absolute;bottom:-60px;left:-30px;width:250px;height:250px;border-radius:50%;background:rgba(201,168,76,0.04);pointer-events:none;"></div>
+
+        <p style="text-align:center; font-size:0.78rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(201,168,76,0.8); margin-bottom:2rem;">Your Premium Dollar → Split Into 3 Jobs</p>
+
+        <!-- Three columns -->
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.25rem; margin-bottom:2.5rem;">
+
+          <!-- Job 1: Cost of Insurance -->
+          <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:1.5rem; text-align:center;">
+            <div style="font-size:2.2rem; margin-bottom:0.75rem;">🛡️</div>
+            <div style="font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(201,168,76,0.8); margin-bottom:0.5rem;">Job 1</div>
+            <div style="font-size:1rem; font-weight:700; color:#fff; margin-bottom:0.5rem;">Pay for Protection</div>
+            <div style="font-size:0.82rem; color:rgba(255,255,255,0.6); line-height:1.6;">A small portion covers the cost of your permanent death benefit — the guaranteed payout to your family.</div>
+          </div>
+
+          <!-- Job 2: Cash Value -->
+          <div style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.35); border-radius:14px; padding:1.5rem; text-align:center; position:relative;">
+            <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#C9A84C;color:#1B2A4A;font-size:0.65rem;font-weight:800;letter-spacing:0.08em;padding:3px 10px;border-radius:100px;white-space:nowrap;">THE GROWTH ENGINE</div>
+            <div style="font-size:2.2rem; margin-bottom:0.75rem; margin-top:0.5rem;">📈</div>
+            <div style="font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(201,168,76,0.8); margin-bottom:0.5rem;">Job 2</div>
+            <div style="font-size:1rem; font-weight:700; color:#fff; margin-bottom:0.5rem;">Grow Your Cash Value</div>
+            <div style="font-size:0.82rem; color:rgba(255,255,255,0.6); line-height:1.6;">The bulk goes into a cash value account — grows linked to the S&P 500, but with a 0% floor so you never lose to a market crash.</div>
+          </div>
+
+          <!-- Job 3: Living Benefits -->
+          <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:1.5rem; text-align:center;">
+            <div style="font-size:2.2rem; margin-bottom:0.75rem;">❤️</div>
+            <div style="font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(201,168,76,0.8); margin-bottom:0.5rem;">Job 3</div>
+            <div style="font-size:1rem; font-weight:700; color:#fff; margin-bottom:0.5rem;">Protect the Living</div>
+            <div style="font-size:0.82rem; color:rgba(255,255,255,0.6); line-height:1.6;">Living benefit riders let you access part of your death benefit early if you're diagnosed with a serious illness — at no extra charge.</div>
+          </div>
+        </div>
+
+        <!-- The magic: cap & floor -->
+        <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:2rem;">
+          <p style="text-align:center; font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(201,168,76,0.8); margin-bottom:1.25rem;">How the Growth Engine Works — The Cap & Floor</p>
+
+          <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:1rem; align-items:center; max-width:700px; margin:0 auto;">
+
+            <!-- Market scenario -->
+            <div style="background:rgba(255,255,255,0.05); border-radius:12px; padding:1.25rem; text-align:center;">
+              <div style="font-size:1.6rem; margin-bottom:0.5rem;">📊</div>
+              <div style="font-size:0.8rem; font-weight:600; color:rgba(255,255,255,0.7); margin-bottom:0.75rem;">The Market (S&P 500)</div>
+              <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                <div style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); border-radius:6px; padding:0.4rem; font-size:0.78rem; color:#86efac;">📈 Up 22% → You get up to cap</div>
+                <div style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); border-radius:6px; padding:0.4rem; font-size:0.78rem; color:#86efac;">📈 Up 7% → You get 7%</div>
+                <div style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:0.4rem; font-size:0.78rem; color:#fca5a5;">📉 Down 30% → You get 0%</div>
+              </div>
+            </div>
+
+            <!-- Arrow -->
+            <div style="text-align:center; color:#C9A84C; font-size:1.5rem; opacity:0.6;">→</div>
+
+            <!-- IUL result -->
+            <div style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); border-radius:12px; padding:1.25rem; text-align:center;">
+              <div style="font-size:1.6rem; margin-bottom:0.5rem;">🏦</div>
+              <div style="font-size:0.8rem; font-weight:600; color:rgba(201,168,76,0.9); margin-bottom:0.75rem;">Your IUL Cash Value</div>
+              <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                <div style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); border-radius:6px; padding:0.4rem; font-size:0.78rem; color:#86efac;">✅ Credited ~10% (capped)</div>
+                <div style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); border-radius:6px; padding:0.4rem; font-size:0.78rem; color:#86efac;">✅ Credited 7%</div>
+                <div style="background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); border-radius:6px; padding:0.4rem; font-size:0.78rem; color:#86efac;">✅ Credited 0% — no loss</div>
+              </div>
+            </div>
+          </div>
+
+          <p style="text-align:center; font-size:0.8rem; color:rgba(255,255,255,0.45); margin-top:1.25rem;">You participate in the market's <em>good years</em>. You sit out the <em>bad years</em>.</p>
+        </div>
       </div>
-      <!-- Example Loom embed:
-      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;margin-bottom:2rem;">
-        <iframe src="https://www.loom.com/embed/YOUR_VIDEO_ID" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+
+      <!-- Then what? Timeline -->
+      <div style="background:#F4F6F9; border-radius:20px; padding:2.5rem 2rem;">
+        <p style="text-align:center; font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#a8872e; margin-bottom:0.5rem;">Then what?</p>
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:#1B2A4A; text-align:center; margin-bottom:2rem;">The money you build — you can actually use</h3>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem;">
+
+          <div style="background:#fff; border-radius:12px; padding:1.5rem; text-align:center; box-shadow:0 2px 12px rgba(27,42,74,0.07); border-bottom:3px solid #C9A84C;">
+            <div style="font-size:1.8rem; margin-bottom:0.5rem;">🏖️</div>
+            <div style="font-weight:700; color:#1B2A4A; font-size:0.95rem; margin-bottom:0.4rem;">Retirement Income</div>
+            <div style="font-size:0.82rem; color:#64748b; line-height:1.6;">Take policy loans in retirement — generally income tax-free, no RMDs, no age restrictions.</div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:1.5rem; text-align:center; box-shadow:0 2px 12px rgba(27,42,74,0.07); border-bottom:3px solid #3b82f6;">
+            <div style="font-size:1.8rem; margin-bottom:0.5rem;">🏠</div>
+            <div style="font-weight:700; color:#1B2A4A; font-size:0.95rem; margin-bottom:0.4rem;">Pay Off Your Mortgage</div>
+            <div style="font-size:0.82rem; color:#64748b; line-height:1.6;">Use accumulated cash value to eliminate your mortgage early — in a single lump sum.</div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:1.5rem; text-align:center; box-shadow:0 2px 12px rgba(27,42,74,0.07); border-bottom:3px solid #22c55e;">
+            <div style="font-size:1.8rem; margin-bottom:0.5rem;">🆘</div>
+            <div style="font-weight:700; color:#1B2A4A; font-size:0.95rem; margin-bottom:0.4rem;">Emergency Access</div>
+            <div style="font-size:0.82rem; color:#64748b; line-height:1.6;">Access your cash value anytime, any age — no penalty, no credit check, no questions asked.</div>
+          </div>
+
+          <div style="background:#fff; border-radius:12px; padding:1.5rem; text-align:center; box-shadow:0 2px 12px rgba(27,42,74,0.07); border-bottom:3px solid #a855f7;">
+            <div style="font-size:1.8rem; margin-bottom:0.5rem;">👨‍👩‍👧</div>
+            <div style="font-weight:700; color:#1B2A4A; font-size:0.95rem; margin-bottom:0.4rem;">Legacy for Your Family</div>
+            <div style="font-size:0.82rem; color:#64748b; line-height:1.6;">Your family receives the death benefit income tax-free — regardless of what you've borrowed against the policy.</div>
+          </div>
+        </div>
+
+        <p style="text-align:center; font-size:0.78rem; color:#94a3b8; margin-top:1.5rem; line-height:1.6;">Hypothetical illustration only. Policy loans reduce the death benefit and cash value if not repaid. Tax treatment depends on individual circumstances — consult a qualified tax advisor.</p>
       </div>
-      -->
 
     </div>
   </section>
