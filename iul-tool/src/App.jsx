@@ -42,7 +42,7 @@ function Field({ label, value, onChange, prefix, suffix, type = "number", placeh
       <label style={{ fontSize: 9, fontWeight: 700, color: P.mt, letterSpacing: "0.06em", textTransform: "uppercase" }}>{label}</label>
       <div style={{ display: "flex", alignItems: "center", background: P.bg, border: `1px solid ${P.border}`, borderRadius: 8, padding: "7px 10px", gap: 4 }}>
         {prefix && <span style={{ color: P.mt, fontSize: 12 }}>{prefix}</span>}
-        <input type={type} value={value} onChange={e => onChange(type === "number" ? Number(e.target.value) : e.target.value)} placeholder={placeholder} step={step}
+        <input type="text" inputMode={type==="number"?"decimal":"text"} value={value} onChange={e => { const v=e.target.value; if(type==="number"){const n=parseFloat(v.replace(/[$,\s]/g,""));onChange(isNaN(n)?v:n)}else{onChange(v)} }} placeholder={placeholder}
           style={{ background: "none", border: "none", outline: "none", color: P.tx, fontSize: 14, fontWeight: 700, width: "100%", textAlign: type === "text" ? "left" : "right", fontFamily: "'Plus Jakarta Sans'" }} />
         {suffix && <span style={{ color: P.mt, fontSize: 10, whiteSpace: "nowrap" }}>{suffix}</span>}
       </div>
