@@ -279,7 +279,7 @@ export default function App() {
   return (
     <>
       <link href={FONT_URL} rel="stylesheet" />
-      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.slide-content{animation:fadeIn 0.4s ease-out}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}input[type=number]::-webkit-inner-spin-button{opacity:1}`}</style>
+      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.slide-content{animation:fadeIn 0.4s ease-out}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}input[type=number]{-moz-appearance:textfield}`}</style>
       {!authed ? <PasswordGate onAuth={() => setAuthed(true)} /> :
         !started ? <SetupScreen config={config} setConfig={setConfig} onStart={() => setStarted(true)} /> :
           <PitchDeck config={config} onSetup={() => setStarted(false)} />}
