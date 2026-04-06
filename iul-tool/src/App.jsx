@@ -75,7 +75,7 @@ function SetupScreen({ config, setConfig, onStart }) {
             <Field label="Age" value={config.age} onChange={v => set("age", v)} suffix="yrs" />
             <Field label="Monthly Budget (Net)" value={config.monthlyBudget} onChange={v => set("monthlyBudget", v)} prefix="$" suffix="/mo" />
             <Field label="Gross Premium (Yr 2+)" value={config.grossMonthly} onChange={v => set("grossMonthly", v)} prefix="$" suffix="/mo" />
-            <Field label="Face Amount" value={config.faceAmount} onChange={v => set("faceAmount", v)} prefix="$" />
+            <Field label="Death Benefit / Face Amount" value={config.faceAmount} onChange={v => set("faceAmount", v)} prefix="$" half />
           </div>
           <div style={{ display: "flex", gap: 12, marginTop: 8, padding: "8px 12px", background: P.emD, borderRadius: 8, fontSize: 11, color: P.dm }}>
             <span>Leverage: <strong style={{ color: P.em }}>{multiplier}x</strong></span>
@@ -255,7 +255,7 @@ export default function App() {
   const [started, setStarted] = useState(false);
   const [config, setConfig] = useState({
     clientName: "", age: 45, gender: "Male", rateClass: "Preferred Non-Tobacco",
-    monthlyBudget: 500, grossMonthly: 2500, faceAmount: 0,
+    monthlyBudget: 500, grossMonthly: 2500, faceAmount: 467000,
     loanRate: 5.0, illustratedRate: 6.84, projYears: 30,
     terminalAmt: 0, chronicAmt: 0, criticalAmt: 0, injuryAmt: 0, alzAmt: 0,
     carrier: "National Life Group / LSW", product: "FlexLife IUL", dbOption: "B (Increasing)",
