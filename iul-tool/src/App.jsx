@@ -131,7 +131,20 @@ function SetupScreen({ config, setConfig, onStart }) {
           </div>
         )}
 
-        <button onClick={onStart} style={{ width: "100%", background: P.em, color: P.bg, border: "none", borderRadius: 12, padding: "16px", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "'Plus Jakarta Sans'" }}>Start Presentation →</button>
+        <div style={{ display:"flex", gap:10 }}>
+   <button onClick={()=>{
+     const p=new URLSearchParams({
+       name:config.clientName||"Client", age:config.age, gender:config.gender,
+       rateClass:config.rateClass, carrier:config.carrier, product:config.product,
+       budget:config.monthlyBudget, gross:config.grossMonthly, face:config.faceAmount,
+       loanRate:config.loanRate, creditRate:config.illustratedRate,
+       terminal:config.terminalAmt, chronic:config.chronicAmt, critical:config.criticalAmt,
+       injury:config.injuryAmt, alz:config.alzAmt
+     });
+     window.open("/iul-summary.html?"+p.toString(),"_blank");
+   }} style={{ flex:1, background:P.card2, color:P.tx, border:"1px solid "+P.border, borderRadius:12, padding:"16px", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'Plus Jakarta Sans'" }}>📄 Generate Summary PDF</button>
+   <button onClick={onStart} style={{ flex:2, background:P.em, color:P.bg, border:"none", borderRadius:12, padding:"16px", fontSize:16, fontWeight:800, cursor:"pointer", fontFamily:"'Plus Jakarta Sans'" }}>Start Presentation →</button>
+ </div>
       </div>
     </div>
   );

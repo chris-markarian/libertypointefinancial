@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IUL Strategy Summary — Liberty Pointe Financial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #1B2A4A;
+      --navy-dark: #131f38;
+      --gold: #C9A84C;
+      --gold-light: #dbbf6e;
+      --white: #FFFFFF;
+      --gray: #F4F6F9;
+      --text: #1E293B;
+      --muted: #64748B;
+      --green: #10b981;
+      --red: #f43f5e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gray);
+      color: var(--text);
+      padding: 24px;
+    }
+
+    .page {
+      max-width: 850px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(27,42,74,0.15);
+    }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+      padding: 28px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .header-left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .header-left .subtitle {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .header-right {
+      text-align: right;
+    }
+
+    .header-right .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    .header-right .brand span { color: var(--gold); }
+
+    .header-right .contact {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    /* GOLD STRIP */
+    .gold-strip {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    }
+
+    /* CLIENT BAND */
+    .client-band {
+      background: var(--gray);
+      padding: 16px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .client-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--navy);
+    }
+
+    .client-info .meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .prepared-info {
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* BODY */
+    .body { padding: 28px 36px; }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    /* KEY METRICS */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .metric-card .metric-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .metric-card .metric-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .metric-card .metric-sub {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 3px;
+    }
+
+    /* MECHANISM */
+    .mechanism {
+      background: var(--gray);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .mech-step {
+      flex: 1;
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    .mech-step .mech-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .mech-step .mech-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 3px;
+    }
+
+    .mech-step .mech-sub {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .mech-arrow {
+      font-size: 1.2rem;
+      color: var(--gold);
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    .mech-result {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: center;
+      flex: 1.2;
+    }
+
+    .mech-result .result-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .mech-result .result-label {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    /* COMPARISON TABLE */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(27,42,74,0.08);
+    }
+
+    .compare-table th {
+      padding: 10px 14px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .compare-table th:first-child { background: var(--gray); color: var(--navy); text-align: left; width: 38%; }
+    .compare-table th.col-std { background: #64748b; color: #fff; text-align: center; }
+    .compare-table th.col-hyp { background: var(--navy); color: var(--gold); text-align: center; }
+
+    .compare-table td {
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table tr:nth-child(even) td { background: #f8fafc; }
+    .compare-table td:first-child { font-weight: 600; color: var(--navy); }
+    .compare-table td.val-std { text-align: center; color: var(--red); font-weight: 600; }
+    .compare-table td.val-hyp { text-align: center; color: var(--navy); font-weight: 700; }
+    .compare-table td.val-hyp.highlight { color: var(--green); }
+
+    /* LIVING BENEFITS */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .benefit-card {
+      background: var(--gray);
+      border-radius: 8px;
+      padding: 12px 8px;
+      text-align: center;
+      border-top: 3px solid var(--navy);
+    }
+
+    .benefit-card .b-icon { font-size: 1.2rem; margin-bottom: 4px; }
+    .benefit-card .b-title { font-size: 0.62rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+    .benefit-card .b-value { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
+
+    /* SPREAD CALLOUT */
+    .spread-callout {
+      background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .spread-callout .spread-icon { font-size: 2rem; flex-shrink: 0; }
+
+    .spread-callout .spread-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .spread-callout .spread-text p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* NEXT STEPS */
+    .next-steps {
+      background: var(--navy);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+
+    .next-steps h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .next-steps ol {
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .next-steps ol li {
+      counter-increment: steps;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 6px;
+    }
+
+    .next-steps ol li::before {
+      content: counter(steps);
+      background: var(--gold);
+      color: var(--navy);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--gray);
+      padding: 14px 36px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer .disclaimer {
+      font-size: 0.62rem;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 500px;
+    }
+
+    .footer .page-num {
+      font-size: 0.7rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* PRINT BUTTON — hidden on print */
+    .print-controls {
+      max-width: 850px;
+      margin: 0 auto 16px;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .btn-print {
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-print:hover { background: var(--navy-dark); }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .print-controls { display: none; }
+      .page { box-shadow: none; border-radius: 0; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="print-controls">
+  <button class="btn-print" onclick="window.print()">🖨 Print / Save as PDF</button>
+</div>
+
+<div class="page" id="summaryPage">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1 id="clientNameHeader">Client Name</h1>
+      <div class="subtitle">IUL Hyper-Funding Strategy Summary</div>
+    </div>
+    <div class="header-right">
+      <div class="brand"><span>Liberty Pointe</span> Financial</div>
+      <div class="contact">
+        Chris Markarian<br>
+        (385) 526-4220<br>
+        chris@libertypointefinancial.com
+      </div>
+    </div>
+  </div>
+  <div class="gold-strip"></div>
+
+  <!-- CLIENT BAND -->
+  <div class="client-band">
+    <div class="client-info">
+      <h2 id="clientNameBand">—</h2>
+      <div class="meta" id="clientMeta">Age — | — | —</div>
+    </div>
+    <div class="prepared-info">
+      Prepared by Chris Markarian<br>
+      Liberty Pointe Financial LLC<br>
+      <span id="prepDate">—</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- KEY METRICS -->
+    <div class="section-label">Key Policy Metrics</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Death Benefit</div>
+        <div class="metric-value" id="metricDB">$0</div>
+        <div class="metric-sub">Income tax-free</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Monthly Net Cost</div>
+        <div class="metric-value" id="metricNet">$0/mo</div>
+        <div class="metric-sub">Your actual out-of-pocket</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Leverage Multiplier</div>
+        <div class="metric-value" id="metricMult">5x</div>
+        <div class="metric-sub">vs. standard design</div>
+      </div>
+    </div>
+
+    <!-- MECHANISM -->
+    <div class="section-label">How the Liberty Pointe Method Works</div>
+    <div class="mechanism">
+      <div class="mech-step">
+        <div class="mech-amount" id="mechGross">$2,500</div>
+        <div class="mech-label">Contributed</div>
+        <div class="mech-sub">to policy monthly</div>
+      </div>
+      <div class="mech-arrow">→</div>
+      <div class="mech-step">
+        <div class="mech-amount" id="mechBorrow">$2,000</div>
+        <div class="mech-label">Borrowed Back</div>
+        <div class="mech-sub" id="mechLoanRate">@ 5% fixed loan</div>
+      </div>
+      <div class="mech-arrow">=</div>
+      <div class="mech-result">
+        <div class="result-val" id="mechNet">$500</div>
+        <div class="result-label">Net out-of-pocket</div>
+      </div>
+      <div class="mech-arrow" style="margin: 0 8px;">→</div>
+      <div class="mech-step" style="flex: 1.3;">
+        <div class="mech-amount" style="color: var(--gold);" id="mechGross2">$2,500</div>
+        <div class="mech-label">Earns Index Credits</div>
+        <div class="mech-sub" id="mechRate">@ 6.84% illustrated</div>
+      </div>
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <div class="section-label">Standard Design vs. The Liberty Pointe Method™</div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-std">Standard Design</th>
+          <th class="col-hyp">Liberty Pointe Method™</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Monthly Out-of-Pocket</td>
+          <td class="val-std" id="cmpBudget1">$500</td>
+          <td class="val-hyp highlight" id="cmpBudget2">$500</td>
+        </tr>
+        <tr>
+          <td>Gross Monthly Contribution</td>
+          <td class="val-std" id="cmpGross1">$500</td>
+          <td class="val-hyp highlight" id="cmpGross2">$2,500</td>
+        </tr>
+        <tr>
+          <td>Death Benefit</td>
+          <td class="val-std" id="cmpDB1">~$93,400</td>
+          <td class="val-hyp highlight" id="cmpDB2">$467,000</td>
+        </tr>
+        <tr>
+          <td>Crediting Leverage</td>
+          <td class="val-std">1x</td>
+          <td class="val-hyp highlight" id="cmpLev">5x</td>
+        </tr>
+        <tr>
+          <td>Spread Opportunity</td>
+          <td class="val-std">None</td>
+          <td class="val-hyp highlight">1–4% annually</td>
+        </tr>
+        <tr>
+          <td>Loan Rate</td>
+          <td class="val-std">N/A</td>
+          <td class="val-hyp" id="cmpLoanRate">5% fixed</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- LIVING BENEFITS -->
+    <div class="section-label">Accelerated Living Benefits (Included — No Additional Premium)</div>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="b-icon">🏥</div>
+        <div class="b-title">Terminal Illness</div>
+        <div class="b-value" id="bTerminal">$0</div>
+      </div>
+      <div class="benefit-card">
+        <div class="b-icon">🩺</div>
+        <div class="b-title">Chronic Illness</div>
+        <div class="b-value" id="bChronic">$0/mo</div>
+      </div>
+      <div class="benefit-card">
+        <div class="b-icon">❤️</div>
+        <div class="b-title">Critical Illness</div>
+        <div class="b-value" id="bCritical">$0</div>
+      </div>
+      <div class="benefit-card">
+        <div class="b-icon">⚡</div>
+        <div class="b-title">Critical Injury</div>
+        <div class="b-value" id="bInjury">$0</div>
+      </div>
+      <div class="benefit-card">
+        <div class="b-icon">🧠</div>
+        <div class="b-title">Alzheimer's</div>
+        <div class="b-value" id="bAlz">$0</div>
+      </div>
+    </div>
+
+    <!-- SPREAD CALLOUT -->
+    <div class="spread-callout">
+      <div class="spread-icon">📈</div>
+      <div class="spread-text">
+        <h3>The Spread — What the Carrier Can't Show</h3>
+        <p>AG49-A regulations restrict carrier illustrations to a 0.5% spread assumption. The Liberty Pointe Method™ uses the participating loan feature to capture the spread between your <strong id="spreadLoan">5%</strong> fixed loan cost and the index crediting rate — compounding annually over the life of the policy. This additional growth is not reflected in the carrier illustration.</p>
+      </div>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div class="next-steps">
+      <h3>Next Steps</h3>
+      <ol>
+        <li>Review this summary and the full carrier illustration provided separately.</li>
+        <li>Complete the health questionnaire so we can confirm your rate class and finalize the numbers.</li>
+        <li>Once approved, we submit the application. Policy typically issues within 2–4 weeks.</li>
+        <li>Year 1: standard premium. Starting Month 13, the hyper-funding methodology activates.</li>
+      </ol>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="disclaimer">
+      This summary is for educational purposes only. Values shown are based on non-guaranteed illustrated assumptions and are not guaranteed. Policy loans reduce the death benefit and cash value if not repaid. Tax treatment depends on individual circumstances — consult a qualified tax advisor. Liberty Pointe Financial LLC is an independent insurance agency.
+    </div>
+    <div class="page-num">libertypointefinancial.com</div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  // Parse URL parameters to populate the page
+  function fmt(n) {
+    if (!n || isNaN(n)) return "$0";
+    return "$" + Math.round(Number(n)).toLocaleString("en-US");
+  }
+
+  function getParam(key, fallback) {
+    const p = new URLSearchParams(window.location.search);
+    return p.get(key) || fallback;
+  }
+
+  const name        = getParam("name", "Client");
+  const age         = getParam("age", "45");
+  const gender      = getParam("gender", "Male");
+  const rateClass   = getParam("rateClass", "Preferred Non-Tobacco");
+  const carrier     = getParam("carrier", "National Life Group / LSW");
+  const product     = getParam("product", "FlexLife IUL");
+  const budget      = Number(getParam("budget", "500"));
+  const gross       = Number(getParam("gross", "2500"));
+  const faceAmt     = Number(getParam("face", "467000"));
+  const loanRate    = Number(getParam("loanRate", "5.0"));
+  const creditRate  = Number(getParam("creditRate", "6.84"));
+  const terminal    = Number(getParam("terminal", "0"));
+  const chronic     = Number(getParam("chronic", "0"));
+  const critical    = Number(getParam("critical", "0"));
+  const injury      = Number(getParam("injury", "0"));
+  const alz         = Number(getParam("alz", "0"));
+
+  const borrowBack  = gross - budget;
+  const multiplier  = budget > 0 ? Math.round(gross / budget) : 5;
+  const stdDB       = Math.round(faceAmt / multiplier);
+  const today       = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+  // Populate
+  document.getElementById("clientNameHeader").textContent = name;
+  document.getElementById("clientNameBand").textContent   = name;
+  document.getElementById("clientMeta").textContent       = `Age ${age} | ${gender} | ${rateClass} | ${carrier} — ${product}`;
+  document.getElementById("prepDate").textContent         = today;
+
+  document.getElementById("metricDB").textContent         = fmt(faceAmt);
+  document.getElementById("metricNet").textContent        = fmt(budget) + "/mo";
+  document.getElementById("metricMult").textContent       = multiplier + "x";
+
+  document.getElementById("mechGross").textContent        = fmt(gross);
+  document.getElementById("mechBorrow").textContent       = fmt(borrowBack);
+  document.getElementById("mechLoanRate").textContent     = `@ ${loanRate}% fixed loan`;
+  document.getElementById("mechNet").textContent          = fmt(budget);
+  document.getElementById("mechGross2").textContent       = fmt(gross);
+  document.getElementById("mechRate").textContent         = `@ ${creditRate}% illustrated`;
+
+  document.getElementById("cmpBudget1").textContent       = fmt(budget);
+  document.getElementById("cmpBudget2").textContent       = fmt(budget);
+  document.getElementById("cmpGross1").textContent        = fmt(budget);
+  document.getElementById("cmpGross2").textContent        = fmt(gross);
+  document.getElementById("cmpDB1").textContent           = "~" + fmt(stdDB);
+  document.getElementById("cmpDB2").textContent           = fmt(faceAmt);
+  document.getElementById("cmpLev").textContent           = multiplier + "x";
+  document.getElementById("cmpLoanRate").textContent      = `${loanRate}% fixed`;
+
+  document.getElementById("bTerminal").textContent        = fmt(terminal);
+  document.getElementById("bChronic").textContent         = fmt(chronic) + "/mo";
+  document.getElementById("bCritical").textContent        = fmt(critical);
+  document.getElementById("bInjury").textContent          = fmt(injury);
+  document.getElementById("bAlz").textContent             = fmt(alz);
+
+  document.getElementById("spreadLoan").textContent       = loanRate + "%";
+</script>
+
+</body>
+</html>
