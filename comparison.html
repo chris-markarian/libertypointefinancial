@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRA vs Life Insurance — Liberty Pointe Financial</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e2cc7e;
+    --gold-dim: #8a7033;
+    --green: #2d8a6e;
+    --green-light: #3cc99a;
+    --red: #c94a4a;
+    --red-dim: #8a3333;
+    --bg: #0b0e13;
+    --bg-card: #10141c;
+    --bg-card-alt: #141924;
+    --border: #1e2636;
+    --text: #dcd8d0;
+    --text-dim: #7a8499;
+    --text-faint: #4a5568;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 9999;
+  }
+
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* HERO */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 6px 20px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    font-family: var(--sans);
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* SCENARIO BAR */
+  .scenario-bar {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 32px 0;
+    margin-bottom: 48px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .scenario-item {
+    text-align: center;
+  }
+  .scenario-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+  .scenario-value {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .section-subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-bottom: 48px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* COMPARISON GRID */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 64px;
+  }
+  @media (max-width: 700px) {
+    .comp-grid { grid-template-columns: 1fr; }
+  }
+
+  .comp-card {
+    border-radius: 12px;
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .comp-card--ira {
+    background: linear-gradient(160deg, #1a1510 0%, var(--bg-card) 100%);
+    border: 1px solid #2a2015;
+  }
+  .comp-card--iul {
+    background: linear-gradient(160deg, #0d1f1a 0%, var(--bg-card) 100%);
+    border: 1px solid #1a3a2e;
+  }
+
+  .comp-card-tag {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .comp-card--ira .comp-card-tag { color: var(--gold-dim); }
+  .comp-card--iul .comp-card-tag { color: var(--green); }
+
+  .comp-card-balance-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .comp-card-balance {
+    font-family: var(--serif);
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .comp-card--ira .comp-card-balance { color: var(--gold); }
+  .comp-card--iul .comp-card-balance { color: var(--green-light); }
+
+  .comp-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+  }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-row-label { color: var(--text-dim); }
+  .comp-row-value { font-weight: 600; color: var(--text); text-align: right; }
+  .comp-row-value.positive { color: var(--green-light); }
+  .comp-row-value.negative { color: var(--red); }
+  .comp-row-value.gold { color: var(--gold); }
+
+  /* INCOME SHOWDOWN */
+  .income-section {
+    margin-bottom: 64px;
+  }
+  .income-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    align-items: start;
+  }
+  @media (max-width: 700px) {
+    .income-grid { grid-template-columns: 1fr; }
+    .income-vs { transform: rotate(90deg); margin: 16px auto; }
+  }
+
+  .income-panel {
+    border-radius: 12px;
+    padding: 32px 24px;
+  }
+  .income-panel--ira {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+  }
+  .income-panel--iul {
+    background: var(--bg-card);
+    border: 1px solid #1a3a2e;
+  }
+
+  .income-vs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    align-self: center;
+  }
+  .income-vs-text {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-style: italic;
+    color: var(--text-faint);
+  }
+
+  .income-headline {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .income-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .income-stat {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .income-stat:last-child { border-bottom: none; }
+  .income-stat-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 2px;
+  }
+  .income-stat-value {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  /* DRAWDOWN VIS */
+  .drawdown {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 28px;
+    margin-bottom: 64px;
+  }
+  .drawdown-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+  .drawdown-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+  .drawdown-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 120px;
+    margin-bottom: 8px;
+  }
+  .drawdown-bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    min-height: 1px;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .drawdown-bar:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1f2e;
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    white-space: nowrap;
+    color: var(--text);
+    pointer-events: none;
+    margin-bottom: 4px;
+  }
+  .drawdown-labels {
+    display: flex;
+    gap: 3px;
+  }
+  .drawdown-label {
+    flex: 1;
+    text-align: center;
+    font-size: 8px;
+    color: var(--text-faint);
+  }
+
+  .drawdown-legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    justify-content: center;
+  }
+  .drawdown-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .drawdown-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  /* BENEFITS GRID */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+  .benefit-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 20px;
+    position: relative;
+  }
+  .benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 20px; right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+  }
+  .benefit-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  .benefit-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .benefit-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .benefit-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-weight: 600;
+  }
+  .benefit-tag--iul {
+    background: rgba(45,138,110,0.15);
+    color: var(--green-light);
+    border: 1px solid rgba(45,138,110,0.3);
+  }
+  .benefit-tag--ira {
+    background: rgba(201,74,74,0.1);
+    color: var(--red);
+    border: 1px solid rgba(201,74,74,0.2);
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, #1a1510, #151a24);
+    border: 1px solid var(--gold-dim);
+    border-radius: 12px;
+    padding: 40px 36px;
+    margin-bottom: 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .callout::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.05) 0%, transparent 70%);
+  }
+  .callout-quote {
+    font-family: var(--serif);
+    font-size: clamp(22px, 3vw, 30px);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--gold-light);
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto 16px;
+  }
+  .callout-attr {
+    font-size: 12px;
+    color: var(--text-dim);
+    position: relative;
+  }
+
+  /* SUMMARY TABLE */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 64px;
+    font-size: 13px;
+  }
+  .summary-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table th:not(:first-child) { text-align: center; }
+  .summary-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    color: var(--text-dim);
+  }
+  .summary-table td:not(:first-child) { text-align: center; font-weight: 600; }
+  .summary-table tr:hover td { background: rgba(255,255,255,0.015); }
+  .summary-table .win { color: var(--green-light); }
+  .summary-table .lose { color: var(--red); }
+  .summary-table .neutral { color: var(--gold); }
+
+  .check { color: var(--green-light); }
+  .cross { color: var(--red); }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    text-align: center;
+  }
+  .footer-brand {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .footer-contact {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+  .footer-disc {
+    font-size: 10px;
+    color: var(--text-faint);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate {
+    animation: fadeUp 0.6s ease-out both;
+  }
+  .d1 { animation-delay: 0.1s; }
+  .d2 { animation-delay: 0.2s; }
+  .d3 { animation-delay: 0.3s; }
+  .d4 { animation-delay: 0.4s; }
+  .d5 { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero animate">
+    <div class="hero-badge">Client Education</div>
+    <h1>The IRA grew more.<br><em>The life contract won.</em></h1>
+    <p class="hero-sub">
+      Two paths, same $600/month, same 20 years. One account has a bigger balance.
+      The other provides more income, pays zero tax, protects the family, and never runs out.
+    </p>
+  </section>
+
+  <!-- SCENARIO -->
+  <div class="scenario-bar animate d1">
+    <div class="scenario-item">
+      <div class="scenario-label">Starting Age</div>
+      <div class="scenario-value">45</div>
+    </div>
+    <div class="scenario-item">
+      <div class="scenario-label">Monthly Contribution</div>
+      <div class="scenario-value">$600</div>
+    </div>
+    <div class="scenario-item">
+      <div class="scenario-label">Accumulation Period</div>
+      <div class="scenario-value">20 Years</div>
+    </div>
+    <div class="scenario-item">
+      <div class="scenario-label">Total Contributed</div>
+      <div class="scenario-value">$144,000</div>
+    </div>
+  </div>
+
+  <!-- ACCUMULATION COMPARISON -->
+  <h2 class="section-title animate d2">The Accumulation Phase</h2>
+  <p class="section-subtitle animate d2">At age 65, here's where each strategy stands after 20 years of $600/mo.</p>
+
+  <div class="comp-grid animate d3">
+    <!-- IRA -->
+    <div class="comp-card comp-card--ira">
+      <div class="comp-card-tag">Traditional IRA · S&P 500 Index</div>
+      <div class="comp-card-balance-label">Account Balance at 65</div>
+      <div class="comp-card-balance">$462,694</div>
+      <div class="comp-row">
+        <span class="comp-row-label">Total Contributed</span>
+        <span class="comp-row-value">$144,000</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Growth</span>
+        <span class="comp-row-value gold">$318,694</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Tax Status</span>
+        <span class="comp-row-value negative">100% taxable on withdrawal</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Death Benefit</span>
+        <span class="comp-row-value negative">$0</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Living Benefits</span>
+        <span class="comp-row-value negative">None</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Market Loss Exposure</span>
+        <span class="comp-row-value negative">Full downside risk</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">2008 Impact</span>
+        <span class="comp-row-value negative">−38.49%</span>
+      </div>
+    </div>
+
+    <!-- IUL -->
+    <div class="comp-card comp-card--iul">
+      <div class="comp-card-tag">Indexed Universal Life Contract</div>
+      <div class="comp-card-balance-label">Cash Surrender Value at 65</div>
+      <div class="comp-card-balance">$256,090</div>
+      <div class="comp-row">
+        <span class="comp-row-label">Total Contributed</span>
+        <span class="comp-row-value">$144,000</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Growth</span>
+        <span class="comp-row-value positive">$112,090</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Tax Status</span>
+        <span class="comp-row-value positive">Tax-free via policy loans</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Death Benefit at 66</span>
+        <span class="comp-row-value positive">~$360,000</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Living Benefits</span>
+        <span class="comp-row-value positive">Terminal, Chronic, Critical, Alzheimer's</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">Market Loss Exposure</span>
+        <span class="comp-row-value positive">0% floor — no losses</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-row-label">2008 Impact</span>
+        <span class="comp-row-value positive">0.00%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALLOUT -->
+  <div class="callout animate d3">
+    <div class="callout-quote">
+      "The IRA looks like it's winning — until you try to spend it."
+    </div>
+    <div class="callout-attr">
+      The real question isn't how much you accumulate.<br>It's how much you keep, how long it lasts, and what happens if life gets in the way.
+    </div>
+  </div>
+
+  <!-- INCOME SHOWDOWN -->
+  <section class="income-section">
+    <h2 class="section-title animate">The Income Phase</h2>
+    <p class="section-subtitle animate">Both strategies now need to deliver $26,316/yr of usable income. Watch what happens.</p>
+
+    <div class="income-grid animate d2">
+      <!-- IRA -->
+      <div class="income-panel income-panel--ira">
+        <div class="comp-card-tag" style="color:var(--gold-dim);font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-bottom:16px;">Traditional IRA</div>
+        <div class="income-headline" style="color:var(--gold);">Depleted by ~87</div>
+        <div class="income-sub">Must gross-up every withdrawal for taxes</div>
+
+        <div class="income-stat">
+          <div class="income-stat-label">Gross withdrawal needed/yr</div>
+          <div class="income-stat-value" style="color:var(--red);">$39,873</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Tax paid per year (34%)</div>
+          <div class="income-stat-value" style="color:var(--red);">$13,557</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Net income received/yr</div>
+          <div class="income-stat-value" style="color:var(--gold);">$26,316</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Years of income</div>
+          <div class="income-stat-value" style="color:var(--red);">~22 years</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Total taxes paid</div>
+          <div class="income-stat-value" style="color:var(--red);">~$298,000</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Legacy left behind</div>
+          <div class="income-stat-value" style="color:var(--red);">$0</div>
+        </div>
+      </div>
+
+      <!-- VS -->
+      <div class="income-vs">
+        <div class="income-vs-text">vs.</div>
+      </div>
+
+      <!-- IUL -->
+      <div class="income-panel income-panel--iul">
+        <div class="comp-card-tag" style="color:var(--green);font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-bottom:16px;">Life Insurance Contract</div>
+        <div class="income-headline" style="color:var(--green-light);">Income to 120</div>
+        <div class="income-sub">Tax-free policy loans — no gross-up needed</div>
+
+        <div class="income-stat">
+          <div class="income-stat-label">Gross withdrawal needed/yr</div>
+          <div class="income-stat-value" style="color:var(--green-light);">$26,316</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Tax paid per year</div>
+          <div class="income-stat-value" style="color:var(--green-light);">$0</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Net income received/yr</div>
+          <div class="income-stat-value" style="color:var(--green-light);">$26,316</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Years of income (illustrated)</div>
+          <div class="income-stat-value" style="color:var(--green-light);">54 years</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Total taxes paid</div>
+          <div class="income-stat-value" style="color:var(--green-light);">$0</div>
+        </div>
+        <div class="income-stat">
+          <div class="income-stat-label">Legacy left behind</div>
+          <div class="income-stat-value" style="color:var(--green-light);">Death benefit maintained</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DRAWDOWN VIS -->
+  <div class="drawdown animate">
+    <div class="drawdown-title">IRA Balance During Drawdown</div>
+    <div class="drawdown-sub">$39,873/yr gross withdrawal at 34% tax · 5% assumed growth · Watch the balance erode.</div>
+    <div class="drawdown-bars" id="drawdownBars"></div>
+    <div class="drawdown-labels" id="drawdownLabels"></div>
+    <div class="drawdown-legend">
+      <div class="drawdown-legend-item">
+        <div class="drawdown-legend-dot" style="background:var(--gold);"></div>
+        IRA Balance
+      </div>
+      <div class="drawdown-legend-item">
+        <div class="drawdown-legend-dot" style="background:var(--green);"></div>
+        IUL — still paying income
+      </div>
+    </div>
+  </div>
+
+  <!-- BENEFITS BEYOND MONEY -->
+  <h2 class="section-title animate">What the IRA Can Never Do</h2>
+  <p class="section-subtitle animate">Life insurance is the only financial product that provides all of these simultaneously.</p>
+
+  <div class="benefits-grid animate d2">
+    <div class="benefit-card">
+      <div class="benefit-icon">🛡️</div>
+      <div class="benefit-title">Income Tax-Free Death Benefit</div>
+      <div class="benefit-desc">Your family receives the full death benefit free of income tax. An IRA passes as taxable income to your heirs — potentially losing 30–40% immediately.</div>
+      <div class="benefit-tag benefit-tag--iul">IUL Only</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🏥</div>
+      <div class="benefit-title">Critical & Chronic Illness</div>
+      <div class="benefit-desc">Accelerated benefit riders allow you to access a portion of your death benefit if diagnosed with cancer, heart attack, stroke, Alzheimer's, or chronic illness — at no additional premium.</div>
+      <div class="benefit-tag benefit-tag--iul">IUL Only</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📉</div>
+      <div class="benefit-title">0% Floor Protection</div>
+      <div class="benefit-desc">In 2008 the S&P lost 38.49%. Your IRA lost 38.49%. The IUL credited 0% — no loss. You can't lose what you've already earned. The floor resets every year.</div>
+      <div class="benefit-tag benefit-tag--iul">IUL Only</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🔓</div>
+      <div class="benefit-title">Penalty-Free Access Before 59½</div>
+      <div class="benefit-desc">IRA withdrawals before 59½ trigger a 10% penalty plus income tax. Policy loans from life insurance are available at any age with no penalties and no tax consequences.</div>
+      <div class="benefit-tag benefit-tag--iul">IUL Only</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">⚖️</div>
+      <div class="benefit-title">Creditor & Lawsuit Protection</div>
+      <div class="benefit-desc">In most states, life insurance cash values are protected from creditors, lawsuits, and bankruptcy proceedings. IRAs have limited protection that varies by state.</div>
+      <div class="benefit-tag benefit-tag--iul">IUL Only</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📋</div>
+      <div class="benefit-title">No Required Minimum Distributions</div>
+      <div class="benefit-desc">Starting at 73, the IRS forces you to withdraw from your IRA whether you want to or not — creating taxable events. Life insurance has no RMDs. You choose when and how much to take.</div>
+      <div class="benefit-tag benefit-tag--iul">IUL Only</div>
+    </div>
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <h2 class="section-title animate">Feature Comparison</h2>
+  <p class="section-subtitle animate">Head to head, line by line.</p>
+
+  <table class="summary-table animate d2">
+    <thead>
+      <tr>
+        <th style="width:40%;">Feature</th>
+        <th>Traditional IRA</th>
+        <th>Life Insurance (IUL)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>20-Year Accumulation</td>
+        <td class="neutral">$462,694</td>
+        <td>$256,090</td>
+      </tr>
+      <tr>
+        <td>Tax on Withdrawals</td>
+        <td class="lose">Ordinary income tax</td>
+        <td class="win">$0 — tax-free loans</td>
+      </tr>
+      <tr>
+        <td>After-Tax Value (34% bracket)</td>
+        <td>~$305,378</td>
+        <td class="win">$256,090 (already tax-free)</td>
+      </tr>
+      <tr>
+        <td>Annual Tax-Free Income</td>
+        <td class="lose">Not possible</td>
+        <td class="win">$26,316/yr</td>
+      </tr>
+      <tr>
+        <td>Income Duration</td>
+        <td class="lose">~22 years (depletes at 87)</td>
+        <td class="win">54 years (illustrated to 120)</td>
+      </tr>
+      <tr>
+        <td>Total Income Received (net)</td>
+        <td>~$579,000</td>
+        <td class="win">~$1,421,064</td>
+      </tr>
+      <tr>
+        <td>Total Taxes Paid</td>
+        <td class="lose">~$298,000</td>
+        <td class="win">$0</td>
+      </tr>
+      <tr>
+        <td>Death Benefit at 66</td>
+        <td class="lose">$0</td>
+        <td class="win">~$360,000</td>
+      </tr>
+      <tr>
+        <td>Critical Illness Protection</td>
+        <td class="lose">✗ None</td>
+        <td class="win">✓ Included</td>
+      </tr>
+      <tr>
+        <td>Chronic Illness Protection</td>
+        <td class="lose">✗ None</td>
+        <td class="win">✓ Included</td>
+      </tr>
+      <tr>
+        <td>Terminal Illness Benefit</td>
+        <td class="lose">✗ None</td>
+        <td class="win">✓ Included</td>
+      </tr>
+      <tr>
+        <td>0% Floor (no market losses)</td>
+        <td class="lose">✗ Full downside</td>
+        <td class="win">✓ 0% floor</td>
+      </tr>
+      <tr>
+        <td>Access Before 59½</td>
+        <td class="lose">10% penalty + tax</td>
+        <td class="win">Anytime, tax-free</td>
+      </tr>
+      <tr>
+        <td>Required Minimum Distributions</td>
+        <td class="lose">Yes, starting at 73</td>
+        <td class="win">None</td>
+      </tr>
+      <tr>
+        <td>Creditor Protection</td>
+        <td class="lose">Limited</td>
+        <td class="win">Strong (most states)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- FINAL CALLOUT -->
+  <div class="callout animate">
+    <div class="callout-quote">
+      The IRA gives you a bigger number on a screen.<br>
+      Life insurance gives you a bigger life.
+    </div>
+    <div class="callout-attr" style="margin-top:20px;">
+      Ready to see what your personalized illustration looks like?
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">Liberty Pointe Financial</div>
+    <div class="footer-contact">
+      Chris Markarian · (385) 526-4220<br>
+      chris@libertypointefinancial.com · libertypointefinancial.com
+    </div>
+    <div class="footer-disc">
+      This comparison is for educational purposes only. IUL values shown are based on non-guaranteed illustrated
+      assumptions and are not guaranteed. Actual results may be more or less favorable. Policy loans reduce the death
+      benefit and cash value. Tax treatment depends on individual circumstances — consult a qualified tax advisor.
+      IRA drawdown projections assume 5% annual growth and a 34% effective tax rate. S&P 500 returns shown are
+      price-only (ex-dividends). Past performance does not guarantee future results. Liberty Pointe Financial LLC is
+      an independent insurance agency and does not provide tax or legal advice.
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Generate IRA drawdown bars
+  (function() {
+    const container = document.getElementById('drawdownBars');
+    const labelContainer = document.getElementById('drawdownLabels');
+    const startBalance = 462694;
+    const grossWD = 39873;
+    const growthRate = 0.05;
+    let balance = startBalance;
+    const data = [];
+
+    for (let y = 0; y < 35; y++) {
+      const age = 66 + y;
+      balance *= (1 + growthRate);
+      const wd = Math.min(grossWD, Math.max(balance, 0));
+      balance -= wd;
+      if (balance < 0) balance = 0;
+      data.push({ age, balance: Math.round(balance) });
+      if (balance <= 0) {
+        // pad remaining
+        for (let r = y + 1; r < 35; r++) {
+          data.push({ age: 66 + r, balance: 0 });
+        }
+        break;
+      }
+    }
+
+    const max = Math.max(...data.map(d => d.balance), 1);
+
+    data.forEach(d => {
+      const bar = document.createElement('div');
+      bar.className = 'drawdown-bar';
+      const pct = d.balance / max;
+      const h = Math.max(pct * 110, d.balance > 0 ? 2 : 0);
+      const color = d.balance <= 0 ? 'var(--green)' : pct > 0.5 ? 'var(--gold)' : pct > 0.15 ? '#c97a2e' : 'var(--red)';
+      bar.style.height = (d.balance <= 0 ? 110 : h) + 'px';
+      bar.style.background = d.balance <= 0 ? 'rgba(45,138,110,0.2)' : color;
+      if (d.balance <= 0) {
+        bar.style.borderTop = '2px solid var(--green)';
+      }
+      bar.setAttribute('data-tip', d.balance > 0 ? ('Age ' + d.age + ': $' + d.balance.toLocaleString()) : ('Age ' + d.age + ': IRA depleted · IUL still paying'));
+      container.appendChild(bar);
+
+      const label = document.createElement('div');
+      label.className = 'drawdown-label';
+      label.textContent = (d.age % 5 === 0 || d.age === 66) ? d.age : '';
+      labelContainer.appendChild(label);
+    });
+  })();
+</script>
+
+</body>
+</html>
