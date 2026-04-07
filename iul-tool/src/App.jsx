@@ -131,6 +131,22 @@ function SetupScreen({ config, setConfig, onStart }) {
           </div>
         )}
 
+        <div style={{ background: P.card, border: `1px solid ${P.border}`, borderRadius: 16, padding: "22px", marginBottom: 14 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <div style={{ width: 3, height: 14, borderRadius: 2, background: P.ro }} />
+            <div style={{ fontSize: 11, fontWeight: 800, color: P.dm, textTransform: "uppercase", letterSpacing: "0.08em" }}>Carrier CSV Values (from illustration)</div>
+          </div>
+          <div style={{ fontSize: 11, color: P.mt, marginBottom: 12 }}>Enter Cash Surrender Values from the carrier's ledger — used for the accurate "Carrier Only" column in the spread comparison.</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+            <Field label="CSV Year 5" value={config.csvYr5||0} onChange={v => set("csvYr5", v)} prefix="$" />
+            <Field label="CSV Year 10" value={config.csvYr10||0} onChange={v => set("csvYr10", v)} prefix="$" />
+            <Field label="CSV Year 15" value={config.csvYr15||0} onChange={v => set("csvYr15", v)} prefix="$" />
+            <Field label="CSV Year 20" value={config.csvYr20||0} onChange={v => set("csvYr20", v)} prefix="$" />
+            <Field label="CSV Year 25" value={config.csvYr25||0} onChange={v => set("csvYr25", v)} prefix="$" />
+            <Field label="CSV Year 30" value={config.csvYr30||0} onChange={v => set("csvYr30", v)} prefix="$" />
+          </div>
+        </div>
+
         <div style={{ display:"flex", gap:10 }}>
    <button onClick={()=>{
      const p=new URLSearchParams({
@@ -139,7 +155,9 @@ function SetupScreen({ config, setConfig, onStart }) {
        budget:config.monthlyBudget, gross:config.grossMonthly, face:config.faceAmount,
        loanRate:config.loanRate, creditRate:config.illustratedRate,
        terminal:config.terminalAmt, chronic:config.chronicAmt, critical:config.criticalAmt,
-       injury:config.injuryAmt, alz:config.alzAmt
+       injury:config.injuryAmt, alz:config.alzAmt,
+       csv5:config.csvYr5||0, csv10:config.csvYr10||0, csv15:config.csvYr15||0,
+       csv20:config.csvYr20||0, csv25:config.csvYr25||0, csv30:config.csvYr30||0
      });
      window.open("/iul-summary.html?"+p.toString(),"_blank");
    }} style={{ flex:1, background:P.card2, color:P.tx, border:"1px solid "+P.border, borderRadius:12, padding:"16px", fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'Plus Jakarta Sans'" }}>📄 Generate Summary PDF</button>
