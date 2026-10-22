@@ -17,10 +17,10 @@ window.LPF_SEGMENT = {
     if (a.owns_iul !== 'no' && a.owns_iul !== 'unsure') return { eligible: false, reason: 'missing_answer' };
     if (a.age_range === 'under_18') return { eligible: false, reason: 'under_18' };
     if (!a.age_range || !a.state) return { eligible: false, reason: 'missing_answer' };
-    if (cat.licensedStatesVerified && cat.licensedStates && cat.licensedStates.indexOf(a.state) === -1) return { eligible: false, reason: 'outside_licensed_state' };
+    if (!cat.licensedStates || cat.licensedStates.indexOf(a.state) === -1) return { eligible: false, reason: 'outside_licensed_state' };
     var flags = [];
     if (a.owns_iul === 'unsure') flags.push('existing_coverage_type_unverified');
-    if (!cat.licensedStatesVerified) flags.push('licensed_states_not_verified');
+    flags.push('license_pending_nipr_verification'); // until verified; the launch gate blocks live booking
     return { eligible: true, flags: flags };
   },
 

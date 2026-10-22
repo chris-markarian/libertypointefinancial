@@ -1,5 +1,10 @@
 // Shared settings for Liberty Pointe educational funnels.
 // Everything marked [CONFIRM] needs Chris / compliance sign-off before launch.
+(function () {
+// Dave Weiner's licensed jurisdictions as provided by Chris on 2026-10-22.
+// Not yet checked against NIPR / state DOI records (see license below).
+var DAVE_STATES = ['AL', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NV', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI'];
+
 window.LPF_FUNNEL_CONFIG = {
   // Mock mode (fake scheduler, browser-only storage) runs ONLY on these hosts.
   // On any other host (including libertypointefinancial.com) the booking
@@ -21,8 +26,14 @@ window.LPF_FUNNEL_CONFIG = {
       name: 'Dave Weiner',
       agency: 'Global Renaissance Insurance Marketing Agency',
       title: 'Licensed insurance professional',
-      npn: '[CONFIRM: NPN]',
-      npnVerified: false,             // license line stays hidden until true
+      legalName: 'David M. Weiner',
+      npn: '760178',
+      license: {
+        states: DAVE_STATES,
+        source: 'Provided by Chris on 2026-10-22',
+        verifiedAgainstNipr: false,           // NPN + states checked on NIPR / state DOI
+        lifeLineOfAuthorityConfirmed: false   // life line of authority in each state
+      },
       bio: '[CONFIRM: short bio approved by Dave, e.g. years in practice and areas of focus]',
       photo: null // e.g. '/funnel-core/dave-weiner.jpg' once supplied
     }
@@ -41,9 +52,9 @@ window.LPF_FUNNEL_CONFIG = {
       status: 'preview',
       recipient: 'dave_weiner',
       recipientConfirmed: false,
-      licensedStates: null,          // e.g. ['UT','AZ'] once verified
-      licensedStatesVerified: false,
-      licensedStatesText: '[CONFIRM: states where Dave is licensed]',
+      // Bookings outside these states are refused. Launch also needs the
+      // recipient's license verified (see LPF_CONFIG_PROBLEMS).
+      licensedStates: DAVE_STATES,
       durationMinutes: 30,
       formats: ['Phone call', 'Video call'],
       availability: { weekdays: [1, 2, 3, 4, 5], hours: [9, 10, 11, 13, 14, 15, 16], timezone: null, confirmed: false },
@@ -65,9 +76,7 @@ window.LPF_FUNNEL_CONFIG = {
       status: 'preview',
       recipient: 'dave_weiner',
       recipientConfirmed: false,
-      licensedStates: null,
-      licensedStatesVerified: false,
-      licensedStatesText: '[CONFIRM: states where Dave is licensed]',
+      licensedStates: DAVE_STATES,  // same individual license; B acceptance still unconfirmed
       durationMinutes: 30,           // preview default [CONFIRM with Dave]
       formats: ['Phone call', 'Video call'],
       availability: { weekdays: [1, 2, 3, 4, 5], hours: [10, 11, 13, 14, 15, 16, 17], timezone: null, confirmed: false },
@@ -106,6 +115,7 @@ window.LPF_FUNNEL_CONFIG = {
   consentVersion: 'booking-consent-DRAFT-2026-10-22',
   phoneDisplay: '(385) 526-4220'
 };
+})();
 
 // What's missing before a category can take bookings or be published.
 window.LPF_CONFIG_PROBLEMS = function (cfg, catId) {
@@ -114,12 +124,15 @@ window.LPF_CONFIG_PROBLEMS = function (cfg, catId) {
   var p = [];
   if (!c.recipient || !cfg.recipients[c.recipient]) p.push('No recipient configured');
   else if (!c.recipientConfirmed) p.push('Recipient has not confirmed this category');
-  if (!c.licensedStatesVerified || !c.licensedStates || !c.licensedStates.length) p.push('Licensed states not verified');
+  var lic = cfg.recipients[c.recipient] && cfg.recipients[c.recipient].license;
+  if (!c.licensedStates || !c.licensedStates.length) p.push('Licensed states not set');
+  if (!lic || !lic.verifiedAgainstNipr) p.push('Recipient NPN and licensed states not verified on NIPR / state DOI');
+  if (!lic || !lic.lifeLineOfAuthorityConfirmed) p.push('Life line of authority not confirmed');
   if (!c.durationMinutes) p.push('Appointment duration not set');
   if (!c.availability || !c.availability.confirmed || !c.availability.weekdays.length || !c.availability.hours.length || !c.availability.timezone) p.push('Availability not confirmed');
   if (!c.acceptanceCriteriaConfirmed || !c.acceptanceCriteria.length) p.push('Acceptance criteria not confirmed');
   if (!c.consentPurpose) p.push('Consent purpose wording missing');
   var r = cfg.recipients[c.recipient];
-  if (r && (/^\[CONFIRM/.test(r.npn) || !r.npnVerified)) p.push('Recipient NPN not verified');
+  if (r && !/^\d{5,10}$/.test(r.npn || '')) p.push('Recipient NPN missing');
   return p;
 };

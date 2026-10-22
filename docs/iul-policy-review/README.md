@@ -119,7 +119,8 @@ The status history is append-only so billing disputes with the buyer can be sett
 ## Approvals and inputs still needed
 
 - Compliance review of: landing copy, 7702 educational section, disclosures, §C share consent, SMS consent, footer disclosure, privacy additions (and PR #2).
-- Dave: NPN, licensed states (then set `licensedStates` in `config.js`), approved bio and photo, time zone and availability, phone vs video.
+- Dave's license: NPN 760178 and 46 jurisdictions (45 states + DC; not AK, HI, NE, NH, WY) were provided by Chris on 2026-10-22 and are enforced for eligibility. Before launch, verify them on NIPR / the state DOI and confirm the life line of authority (`license.verifiedAgainstNipr`, `license.lifeLineOfAuthorityConfirmed`). Until then, the license line is hidden on the live site.
+- Dave: approved bio and photo, time zone and availability, phone vs video.
 - Buyer agreement terms: which status is billable (`accepted` or `held`), qualification criteria (minimum premium? age?), rejection window.
 - Video file or YouTube/Vimeo id (set `video` in `config.js`).
 - Services: scheduler, database, and auth choices above. SMS sender for appointment texts (Twilio 10DLC campaign currently covers Liberty Pointe only).

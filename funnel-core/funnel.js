@@ -119,7 +119,10 @@
 
   function fillRecipient() {
     var p = RECIPIENT;
-    var vals = Object.assign({}, p, { licensedStatesText: CAT ? (CAT.licensedStatesVerified && CAT.licensedStates ? CAT.licensedStates.join(', ') : CAT.licensedStatesText) : '' });
+    var names = {};
+    US_STATES.forEach(function (st) { names[st[0]] = st[1]; });
+    var states = CAT && CAT.licensedStates ? CAT.licensedStates : [];
+    var vals = Object.assign({}, p, { licensedStatesText: states.map(function (c) { return names[c] || c; }).join(', ') });
     $all('[data-pro]').forEach(function (n) {
       var v = vals[n.getAttribute('data-pro')];
       if (v == null) return;
@@ -132,11 +135,12 @@
       else n.textContent = p.name.split(' ').map(function (s) { return s[0]; }).join('');
     });
     $all('[data-cfg-phone]').forEach(function (n) { n.textContent = CFG.phoneDisplay; });
-    // License details appear only once verified (same gate as launch-check).
-    var verified = p.npnVerified && CAT && CAT.licensedStatesVerified && CAT.licensedStates && CAT.licensedStates.length;
+    // License details are public only once verified on NIPR (same gate as
+    // launch-check). The preview shows them, marked as pending verification.
+    var verified = p.license && p.license.verifiedAgainstNipr && p.license.lifeLineOfAuthorityConfirmed && states.length;
     $all('[data-license-line]').forEach(function (n) {
       if (verified) return;
-      if (isMock()) { n.textContent = 'License details pending verification. They show here only after the NPN and licensed states are verified.'; n.classList.add('placeholder-text'); }
+      if (isMock()) n.appendChild(el('span', { class: 'placeholder-text' }, ' (' + p.license.source + '; pending NIPR verification, hidden on the live site until verified)'));
       else n.classList.add('hidden');
     });
   }

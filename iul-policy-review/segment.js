@@ -17,10 +17,10 @@ window.LPF_SEGMENT = {
     if (a.owns_iul !== 'yes' && a.owns_iul !== 'unsure') return { eligible: false, reason: 'no_iul_policy' };
     if (a.owner_role !== 'self' && a.owner_role !== 'trust_or_business') return { eligible: false, reason: 'not_policy_owner' };
     if (!a.state) return { eligible: false, reason: 'missing_state' };
-    if (cat.licensedStatesVerified && cat.licensedStates && cat.licensedStates.indexOf(a.state) === -1) return { eligible: false, reason: 'outside_licensed_state' };
+    if (!cat.licensedStates || cat.licensedStates.indexOf(a.state) === -1) return { eligible: false, reason: 'outside_licensed_state' };
     var flags = [];
     if (a.owns_iul === 'unsure') flags.push('policy_type_unverified');
-    if (!cat.licensedStatesVerified) flags.push('licensed_states_not_verified');
+    flags.push('license_pending_nipr_verification'); // until verified; the launch gate blocks live booking
     return { eligible: true, flags: flags };
   },
 

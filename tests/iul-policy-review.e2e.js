@@ -76,7 +76,8 @@ function cspFromHeaders() {
   check('Dave named on landing', (await page.textContent('body')).includes('Dave Weiner'));
   check('video placeholder present', await page.isVisible('[data-video] .video-placeholder'));
   check('pixel off on preview (no fbq, nothing loaded)', await page.evaluate(() => typeof window.fbq === 'undefined') && pixelLog.some(l => l.includes('off:')));
-  check('license line hidden behind verification in preview', (await page.textContent('[data-license-line]')).includes('pending verification'));
+  const lic = await page.textContent('[data-license-line]');
+  check('preview license line: legal name, NPN, states, marked pending NIPR', lic.includes('David M. Weiner') && lic.includes('760178') && lic.includes('Wisconsin') && !lic.includes('Alaska') && lic.includes('pending NIPR verification'));
   check('no "inferior" claim', !/older policies are (worse|inferior)/i.test(await page.textContent('main')));
   await shot('1-landing');
 
@@ -99,6 +100,18 @@ function cspFromHeaders() {
 
   check('education link hidden while category B is planned', !(await page.isVisible('#nf-crosslink')));
 
+  // 2b. Unlicensed state (Alaska) is refused
+  await page.goto(BASE + '/iul-policy-review/qualify/');
+  await page.check('input[name=owns_iul][value="yes"]');
+  await page.check('input[name=owner_role][value="self"]');
+  await page.check('input[name=issue_period][value="before_2021"]');
+  await page.selectOption('#state', 'AK');
+  await page.check('input[name=annual_premium][value="2500_5000"]');
+  await page.check('input[name=has_statement][value="yes"]');
+  await page.click('#qualify-form button[type=submit]');
+  await page.waitForURL('**/not-a-fit/');
+  check('A: unlicensed state (AK) not eligible', (await page.textContent('#nf-message')).includes('licensed in your state'));
+
   // 3. Qualify properly
   await page.goto(BASE + '/iul-policy-review/qualify/');
   await page.check('input[name=owns_iul][value="yes"]');
@@ -112,7 +125,7 @@ function cspFromHeaders() {
   check('qualified owner reaches booking', true);
 
   // 4. Booking: disclosures, consent, scheduler
-  check('preview shows missing-config warning', (await page.isVisible('#config-warning')) && (await page.textContent('#config-warning')).includes('Licensed states not verified'));
+  check('preview shows missing-config warning', (await page.isVisible('#config-warning')) && (await page.textContent('#config-warning')).includes('not verified on NIPR'));
   const shareTxt = await page.textContent('#consent-share-text');
   check('consent names recipient + offer-specific purpose', shareTxt.includes('Dave Weiner') && shareTxt.includes('conduct my IUL policy review'));
   const smsTxt = await page.textContent('#consent-sms-text');
@@ -273,6 +286,16 @@ function cspFromHeaders() {
   await page.click('#qualify-form button[type=submit]');
   await page.waitForURL('**/iul-education/not-a-fit/');
   check('B: under 18 not eligible', (await page.textContent('#nf-message')).includes('18'));
+  // unlicensed state
+  await page.goto(BASE + '/iul-education/qualify/');
+  await page.check('input[name=owns_iul][value="no"]');
+  await page.check('input[name=learning_goal][value="protect_income"]');
+  await page.check('input[name=current_coverage][value="none"]');
+  await page.selectOption('#age_range', '35_49');
+  await page.selectOption('#state', 'WY');
+  await page.click('#qualify-form button[type=submit]');
+  await page.waitForURL('**/iul-education/not-a-fit/');
+  check('B: unlicensed state (WY) not eligible', (await page.textContent('#nf-message')).includes('licensed in your state'));
   // eligible path
   await page.goto(BASE + '/iul-education/qualify/');
   await page.check('input[name=owns_iul][value="no"]');
