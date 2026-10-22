@@ -11,24 +11,28 @@ Status: **preview only**. Not approved for production. Wording is pending compli
 | 2b. Not a fit | `/iul-policy-review/not-a-fit/` | Shown for "no IUL", "someone else owns it", or (once configured) an unlicensed state. Nothing is saved. The reason is kept out of the URL so page-view analytics can't see it. |
 | 3. Meet Dave and book | `/iul-policy-review/book/` | Introduction to Dave Weiner / Global Renaissance Insurance Marketing Agency, disclosures, scheduler, contact details, required share consent (§C) and optional SMS consent. |
 | 4. Confirmed | `/iul-policy-review/confirmed/` | Appointment summary, add-to-calendar (.ics), cancel, what to have ready. |
-| Internal | `/funnel-core/preview-tracker/` | Cross-segment mock status tracker and segment comparison. Works only on preview hosts. |
+| Internal | `/funnel-core/preview-tracker/` | Cross-category mock status tracker and per-category report. Works only on preview hosts. |
 
-## Architecture: shared core + segments
+## Architecture: shared core + appointment categories
 
-Two consumer segments share one booking, consent, privacy and tracking core:
+Kept deliberately small: one shared core, and per-funnel folders for content.
 
-| Segment | id | Path | Status |
+| Category | Originating segment | Path | Status |
 |---|---|---|---|
-| A: Existing IUL owners | `iul_policy_review` | `/iul-policy-review/` | preview (this PR) |
-| B: Prospective IUL buyers | `iul_education` | `/iul-education/` | planned, not built |
+| `existing_iul_review` (Professional IUL Policy Review) | A: existing IUL owners (`iul_policy_review`) | `/iul-policy-review/` | preview (this PR) |
+| `prospective_iul_education` (IUL Education & Consultation) | B: prospective buyers (`iul_education`) | `/iul-education/` | planned, not built |
 
-- `funnel-core/config.js`: buyer registry (Dave Weiner / GRIMA), segment registry (label, offer, path, buyer, status), meeting settings, consent version, mock-host rules.
-- `funnel-core/funnel.js`: qualification runner, booking + consent capture, mock storage, confirmation/.ics, status machine, tracker, event tracking. Reads the page's segment from `window.LPF_SEGMENT`.
-- `funnel-core/funnel.css`: shared styles.
-- `<segment>/segment.js`: the segment's questions, eligibility rules, not-a-fit messages, video and calendar wording.
-- `<segment>/*.html`: the segment's own copy (landing, qualify, book, confirmed, not-a-fit).
+- `funnel-core/config.js`: recipients (Dave Weiner / GRIMA identity), and per category: recipient + confirmation, verified licensed states, duration, formats, availability, acceptance criteria, consent purpose wording, status (`planned` / `preview` / `live`). `LPF_CONFIG_PROBLEMS` lists what's missing.
+- `funnel-core/funnel.js`: qualification runner, attribution capture, booking gate, `createBooking` (re-validates category and eligibility), consent template, mock storage, confirmation/.ics, status machine, category changes, per-category report.
+- `<funnel>/segment.js` + pages: that funnel's own copy, questions, eligibility rules and not-a-fit messages. Segment A's page has no prospective-buyer messaging.
 
-Adding segment B means a new folder with `segment.js` and pages, a `_headers` block for `/iul-education/*`, and flipping its status in `config.js`. The core doesn't change.
+**Booking gate.** On the live domain a category books only when live booking is switched on, the category is `live`, and its config is complete. In the preview, incomplete config shows a "would be blocked in production" warning and the record is flagged `config_incomplete_preview`. `node tests/launch-check.js` fails if a `live` category has missing config or if more than one category is live.
+
+**Ineligible visitors.** Non-owners get a not-a-fit page and never enter category A's counts. Once category B is `live`, that page shows a plain link to `/iul-education/`. Nothing carries over: answers are cleared, no consent is reused and no booking is made.
+
+**Consent.** One template, filled per category with the recipient's name and agency and the category's purpose wording. Optional SMS consent stays a separate checkbox. Each record stores the exact text, version, category, purpose and recipient.
+
+**Ad payloads.** `track()` only passes `category`, `where` and `format`. Contact details, answers and case information never go to analytics or ad platforms, and qualification outcomes stay out of URLs.
 
 ## Safety rails in this build
 
@@ -69,7 +73,10 @@ Rejection reason codes: `no_iul_policy`, `not_policy_owner`, `outside_licensed_s
 ```json
 {
   "id": "APT-…",
-  "segment": "iul_policy_review", "offer": "Professional IUL Policy Review", "buyer_id": "dave_weiner",
+  "originating_segment": "iul_policy_review", "category": "existing_iul_review", "offer": "Professional IUL Policy Review",
+  "category_history": [{ "category": "existing_iul_review", "at": "ISO time", "actor": "consumer", "note": "Booked online" }],
+  "consent_reconfirmation_required": false,
+  "recipient_id": "dave_weiner", "recipient": { "name": "Dave Weiner", "agency": "Global Renaissance Insurance Marketing Agency" },
   "status": "booked",
   "status_history": [{ "status": "booked", "at": "ISO time", "actor": "consumer|system|lpf_verifier|buyer_dave", "reason": "code?", "note": "text?" }],
   "slot_start": "ISO time", "duration_minutes": 30, "format": "Phone call|Video call",
@@ -77,15 +84,15 @@ Rejection reason codes: `no_iul_policy`, `not_policy_owner`, `outside_licensed_s
   "contact": { "first_name": "", "last_name": "", "email": "", "phone": "", "state": "UT" },
   "qualification": { "answers": { "owns_iul": "", "owner_role": "", "issue_period": "", "state": "", "annual_premium": "", "has_statement": "" }, "flags": [] },
   "consents": {
-    "share_with_professional": { "given": true, "at": "ISO time", "version": "booking-consent-…", "text": "exact wording shown" },
+    "share_with_recipient": { "given": true, "at": "ISO time", "version": "booking-consent-…", "category": "existing_iul_review", "purpose": "…", "recipient_id": "dave_weiner", "text": "exact wording shown" },
     "sms": { "given": false, "at": "ISO time", "version": "…", "text": "…" }
   },
   "outcome": { "application_submitted": null, "funded": null, "annual_target_premium": null, "reported_at": null },
-  "source": { "utm_source": null, "utm_medium": null, "utm_campaign": null, "page": "/iul-policy-review/book/" }
+  "attribution": { "utm_source": "facebook", "utm_medium": "paid", "utm_campaign": "…", "utm_content": "ad id", "utm_term": null, "landing_page": "/iul-policy-review/", "referrer_host": null, "first_seen_at": "ISO time" }
 }
 ```
 
-Every record carries `segment`, so the tracker compares segments side by side: cost per booking (from ad spend), qualified rate, buyer acceptance rate, attendance (held vs no-show), funded cases and cost per funded case. `outcome` is filled from buyer reporting after the review.
+Every record carries `category`, so the tracker reports each category separately: spend, visits (and UTM-attributed visits), bookings, verified-qualified, recipient-accepted, held/attendance, no-shows and cancellations, rejections by reason, funded cases, and cost per booking/qualified/held/funded. Denominators are defined on the tracker page. `outcome` is filled from recipient reporting after the appointment. A category change appends to `category_history` and sets `consent_reconfirmation_required`.
 
 The status history is append-only so billing disputes with the buyer can be settled from the log. The exact consent text and version are stored with each record (TCPA / consent evidence).
 

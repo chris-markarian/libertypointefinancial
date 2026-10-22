@@ -170,3 +170,5 @@ table.tracker th { color: var(--text-dim); font-weight: 600; font-size: .75rem; 
   .pro { flex-direction: column; }
   .f-header .phone { font-size: .8rem; }
 }
+.container.wide { max-width: 1360px; }
+#compare-rows input { min-width: 90px; }

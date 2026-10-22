@@ -51,7 +51,7 @@ function cspFromHeaders() {
   const shot = async n => { if (SHOTS) await page.screenshot({ path: path.join(SHOTS, n + '.png'), fullPage: true }); };
 
   // 1. Landing
-  await page.goto(BASE + '/iul-policy-review/');
+  await page.goto(BASE + '/iul-policy-review/?utm_source=facebook&utm_medium=paid&utm_campaign=iul_review_test&utm_content=ad1');
   check('landing loads', (await page.title()).includes('IUL Policy Review'));
   check('preview banner shown', await page.isVisible('.preview-banner'));
   check('Dave named on landing', (await page.textContent('body')).includes('Dave Weiner'));
@@ -76,6 +76,8 @@ function cspFromHeaders() {
   check('non-owner routed to not-a-fit', (await page.textContent('#nf-message')).includes('already own'));
   check('not-a-fit reason kept out of URL', !page.url().includes('reason'));
 
+  check('education link hidden while category B is planned', !(await page.isVisible('#nf-education')));
+
   // 3. Qualify properly
   await page.goto(BASE + '/iul-policy-review/qualify/');
   await page.check('input[name=owns_iul][value="yes"]');
@@ -89,6 +91,11 @@ function cspFromHeaders() {
   check('qualified owner reaches booking', true);
 
   // 4. Booking: disclosures, consent, scheduler
+  check('preview shows missing-config warning', (await page.isVisible('#config-warning')) && (await page.textContent('#config-warning')).includes('Licensed states not verified'));
+  const shareTxt = await page.textContent('#consent-share-text');
+  check('consent names recipient + offer-specific purpose', shareTxt.includes('Dave Weiner') && shareTxt.includes('conduct my IUL policy review'));
+  const smsTxt = await page.textContent('#consent-sms-text');
+  check('SMS consent separate, wording before links', smsTxt.indexOf('Text me') < smsTxt.indexOf('See our'));
   const disc = await page.textContent('#disclosures');
   check('disclosures name Dave and agency', disc.includes('Dave Weiner') && disc.includes('Global Renaissance Insurance Marketing Agency'));
   check('disclosures state compensation', /compensated/.test(disc));
@@ -116,14 +123,17 @@ function cspFromHeaders() {
 
   // 5. Stored record shape
   const rec = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments'))[0]);
-  check('record has consent text + version', rec.consents.share_with_professional.given && rec.consents.share_with_professional.text.includes('Dave Weiner') && rec.consents.share_with_professional.version);
+  const sc = rec.consents.share_with_recipient;
+  check('record has consent text, version, category, purpose', sc.given && sc.text.includes('Dave Weiner') && sc.version && sc.category === 'existing_iul_review' && sc.purpose.includes('policy review'));
   check('record has SMS consent', rec.consents.sms.given === true);
   check('record status booked', rec.status === 'booked' && rec.status_history.length === 1);
-  check('record carries segment A + buyer', rec.segment === 'iul_policy_review' && rec.offer === 'Professional IUL Policy Review' && rec.buyer_id === 'dave_weiner');
+  check('record carries category, origin segment, recipient', rec.category === 'existing_iul_review' && rec.originating_segment === 'iul_policy_review' && rec.offer === 'Professional IUL Policy Review' && rec.recipient_id === 'dave_weiner' && rec.category_history.length === 1);
+  check('record carries ad attribution from landing page', rec.attribution && rec.attribution.utm_source === 'facebook' && rec.attribution.utm_content === 'ad1' && rec.attribution.landing_page === '/iul-policy-review/');
+  check('record flags incomplete preview config', rec.qualification.flags.includes('config_incomplete_preview'));
   check('record has empty funded-business outcome', rec.outcome && rec.outcome.funded === null);
 
   // 6. Tracker transitions
-  page.on('dialog', d => d.accept(d.type() === 'prompt' ? (d.message().startsWith('Rejection') ? '2' : 'test note') : undefined));
+  page.on('dialog', d => d.accept(d.type() === 'prompt' ? (d.message().startsWith('Rejection') ? '2' : d.message().startsWith('Move to') ? '1' : 'test note') : undefined));
   await page.goto(BASE + '/funnel-core/preview-tracker/');
   for (const next of ['Qualified', 'Accepted', 'Held']) {
     await page.click(`#tracker-rows button:has-text("${next}")`);
@@ -133,15 +143,15 @@ function cspFromHeaders() {
   await page.click('#tracker-rows button:has-text("Report funded")');
   r2 = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments'))[0]);
   check('funded business recorded', r2.outcome.funded === true);
-  await page.fill('#compare-rows tr:first-child input', '500');
-  await page.press('#compare-rows tr:first-child input', 'Enter');
-  await page.locator('h2:has-text("Segment comparison")').click();
-  const cmp = await page.textContent('#compare-rows tr:first-child');
-  check('segment comparison: A row with cost per booking', cmp.includes('A: Existing IUL owners') && cmp.includes('$500'));
-  check('segment comparison: B row listed as planned', (await page.textContent('#compare-rows')).includes('planned'));
-  await page.selectOption('#segment-filter', 'iul_education');
-  check('segment filter hides A records', (await page.locator('#tracker-rows tr').count()) === 0);
-  await page.selectOption('#segment-filter', '');
+  await page.fill('#compare-rows tr[data-category="existing_iul_review"] input', '500');
+  await page.press('#compare-rows tr[data-category="existing_iul_review"] input', 'Enter');
+  await page.locator('h2:has-text("Category report")').click();
+  const cmp = await page.textContent('#compare-rows tr[data-category="existing_iul_review"]');
+  check('category report: A row with visits, rates and costs', cmp.includes('A: Existing IUL owners') && cmp.includes('$500') && /\d+ \(\d+\)/.test(cmp));
+  check('category report: B row listed as planned', (await page.textContent('#compare-rows tr[data-category="prospective_iul_education"]')).includes('planned'));
+  await page.selectOption('#category-filter', 'prospective_iul_education');
+  check('category filter hides A records', (await page.locator('#tracker-rows tr').count()) === 0);
+  await page.selectOption('#category-filter', '');
   await shot('5-tracker');
   // Second booking, rejected
   await page.evaluate(() => {
@@ -155,7 +165,34 @@ function cspFromHeaders() {
   await page.click('#tracker-rows button:has-text("Rejected")');
   r2 = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments')).find(a => a.id === 'APT-TEST2'));
   check('rejection stores reason code', r2.status === 'rejected' && r2.status_history[1].reason === 'not_policy_owner');
+  check('rejection reasons reported per category', (await page.textContent('#compare-rows')).includes('Not the policy owner'));
+  // Category change keeps history and requires re-consent
+  await page.evaluate(() => {
+    const l = JSON.parse(localStorage.getItem('lpf_iul_mock_appointments'));
+    const c = JSON.parse(JSON.stringify(l[0]));
+    c.id = 'APT-TEST3'; c.status = 'booked'; c.status_history = [c.status_history[0]];
+    c.slot_start = new Date(Date.now() + 86400000 * 4).toISOString();
+    l.push(c); localStorage.setItem('lpf_iul_mock_appointments', JSON.stringify(l));
+  });
+  await page.reload();
+  await page.click('#tracker-rows tr:has-text("APT-TEST3") button:has-text("Change category")');
+  const r3 = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments')).find(a => a.id === 'APT-TEST3'));
+  check('category change recorded with history + re-consent flag', r3.category === 'prospective_iul_education' && r3.category_history.length === 2 && r3.consent_reconfirmation_required === true && r3.originating_segment === 'iul_policy_review');
   check('held is final (no buttons)', (await page.textContent('#tracker-rows')).includes('Final status'));
+
+  // 6b. Tampered session: ineligible answers marked eligible must not book
+  await page.goto(BASE + '/iul-policy-review/qualify/');
+  await page.evaluate(() => sessionStorage.setItem('lpf_qual_iul_policy_review', JSON.stringify({ category: 'existing_iul_review', answers: { owns_iul: 'no', owner_role: 'self', issue_period: 'not_sure', state: 'UT', annual_premium: 'not_sure', has_statement: 'yes' }, result: { eligible: true, flags: [] } })));
+  await page.goto(BASE + '/iul-policy-review/book/');
+  const before = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments')).length);
+  await page.fill('#first_name', 'Tamper'); await page.fill('#last_name', 'Test');
+  await page.fill('#email', 't@example.com'); await page.fill('#phone', '5555550101');
+  await page.selectOption('#format', 'Phone call');
+  await page.click('.slot >> nth=0');
+  await page.check('input[name=consent_share]');
+  await page.click('#book-form button[type=submit]');
+  const after = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments')).length);
+  check('booking re-validates eligibility (tampered session refused)', before === after && (await page.textContent('#book-errors')).includes('isn’t available'));
 
   // 7. Book page without qualification redirects
   await page.evaluate(() => sessionStorage.clear());
@@ -168,7 +205,7 @@ function cspFromHeaders() {
     const p2 = await ctx.newPage();
     const prod = 'http://libertypointefinancial.com/iul-policy-review/';
     await p2.goto(prod + 'qualify/');
-    await p2.evaluate(() => sessionStorage.setItem('lpf_qual_iul_policy_review', JSON.stringify({ answers: { state: 'UT' }, result: { eligible: true, flags: [] } })));
+    await p2.evaluate(() => sessionStorage.setItem('lpf_qual_iul_policy_review', JSON.stringify({ category: 'existing_iul_review', answers: { owns_iul: 'yes', owner_role: 'self', state: 'UT' }, result: { eligible: true, flags: [] } })));
     await p2.goto(prod + 'book/');
     check('production host: booking closed notice', await p2.isVisible('#booking-closed'));
     check('production host: no booking form', !(await p2.isVisible('#book-form')));
