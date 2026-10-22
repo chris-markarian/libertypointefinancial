@@ -31,8 +31,10 @@ function cspFromHeaders() {
   const page = await ctx.newPage();
   const errors = [];
   const external = [];
-  page.on('pageerror', e => errors.push(e.message));
-  page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+  // Only funnel pages count; existing pages load third-party scripts (Meta Pixel).
+  const onFunnel = () => /\/(iul-policy-review|funnel-core)\//.test(page.url());
+  page.on('pageerror', e => { if (onFunnel()) errors.push(e.message); });
+  page.on('console', m => { if (m.type() === 'error' && onFunnel()) errors.push(m.text()); });
   page.on('request', r => {
     if (!/\/(iul-policy-review|funnel-core)\//.test(r.frame().url())) return;
     const u = new URL(r.url());
