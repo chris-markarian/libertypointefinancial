@@ -75,6 +75,7 @@ function cspFromHeaders() {
   check('preview banner shown', await page.isVisible('.preview-banner'));
   check('Dave named on landing', (await page.textContent('body')).includes('Dave Weiner'));
   check('video placeholder present', await page.isVisible('[data-video] .video-placeholder'));
+  check('Dave photo shown with alt text', await page.$eval('[data-pro-avatar] img', i => i.complete && i.naturalWidth > 0 && i.alt === 'Photo of Dave Weiner'));
   check('pixel off on preview (no fbq, nothing loaded)', await page.evaluate(() => typeof window.fbq === 'undefined') && pixelLog.some(l => l.includes('off:')));
   const lic = await page.textContent('[data-license-line]');
   check('preview license line: legal name, NPN, states, marked pending NIPR', lic.includes('David M. Weiner') && lic.includes('760178') && lic.includes('Wisconsin') && !lic.includes('Alaska') && lic.includes('pending NIPR verification'));
@@ -309,6 +310,7 @@ function cspFromHeaders() {
   check('B consent names Dave + education purpose', bShare.includes('Dave Weiner') && bShare.includes('conduct my IUL education consultation') && !bShare.includes('policy review'));
   check('B disclosures: not right for everyone', (await page.textContent('#disclosures')).includes('Not right for everyone'));
   check('standard disclosures on B booking page', await disclosuresMatch('consultation'));
+  check('B booking page shows Dave photo', await page.$eval('[data-pro-avatar] img', i => i.complete && i.naturalWidth > 0));
   await page.fill('#first_name', 'Bea'); await page.fill('#last_name', 'Buyer');
   await page.fill('#email', 'bea@example.com'); await page.fill('#phone', '5555550123');
   await page.selectOption('#format', 'Phone call');

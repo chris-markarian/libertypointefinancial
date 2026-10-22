@@ -35,7 +35,7 @@ window.LPF_FUNNEL_CONFIG = {
         lifeLineOfAuthorityConfirmed: false   // life line of authority in each state
       },
       bio: '[CONFIRM: short bio approved by Dave, e.g. years in practice and areas of focus]',
-      photo: null // e.g. '/funnel-core/dave-weiner.jpg' once supplied
+      photo: '/funnel-core/dave-weiner.jpg', // provided by Chris 2026-10-22 [CONFIRM: Dave approved web use]
     }
   },
 

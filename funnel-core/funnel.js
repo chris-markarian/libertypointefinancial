@@ -131,7 +131,10 @@
     });
     $all('[data-pro-avatar]').forEach(function (n) {
       n.textContent = '';
-      if (p.photo) n.appendChild(el('img', { src: p.photo, alt: 'Photo of ' + p.name }));
+      if (p.photo) {
+        n.removeAttribute('aria-hidden');
+        n.appendChild(el('img', { src: p.photo, alt: 'Photo of ' + p.name, width: '84', height: '84', decoding: 'async' }));
+      }
       else n.textContent = p.name.split(' ').map(function (s) { return s[0]; }).join('');
     });
     $all('[data-cfg-phone]').forEach(function (n) { n.textContent = CFG.phoneDisplay; });
