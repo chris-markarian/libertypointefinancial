@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IUL Education: Quick Questions | Liberty Pointe Financial</title>
+  <meta name="description" content="Learn how indexed universal life (IUL) insurance works, what it costs, its risks and the alternatives, and book a no-cost educational consultation with a licensed professional." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/funnel-core/funnel.css" />
+  <script src="/funnel-core/config.js" defer></script>
+  <script src="/iul-education/segment.js" defer></script>
+  <script src="/funnel-core/funnel.js" defer></script>
+</head>
+<body data-page="qualify">
+
+<header class="f-header">
+  <div class="container">
+    <a href="/" aria-label="Liberty Pointe Financial home"><img src="/logo.png" alt="Liberty Pointe Financial" /></a>
+    <a class="phone" href="tel:+13855264220">Questions? <span data-cfg-phone>(385) 526-4220</span></a>
+  </div>
+</header>
+
+<main>
+  <div class="container narrow">
+    <ol class="steps" aria-label="Progress">
+      <li class="current" data-n="1" aria-current="step">Quick questions</li>
+      <li data-n="2">Meet Dave &amp; pick a time</li>
+      <li data-n="3">Confirmed</li>
+    </ol>
+
+    <form id="qualify-form" class="panel" novalidate>
+      <h2>Is an IUL consultation a fit for you?</h2>
+      <p class="hint" style="margin:0 0 24px">Five quick questions. No health details, and please don&rsquo;t enter account or Social Security numbers. We never ask for them here.</p>
+
+      <fieldset>
+        <legend>1. Do you currently own an indexed universal life (IUL) policy?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="owns_iul" value="no" /> <span>No</span></label>
+          <label class="option"><input type="radio" name="owns_iul" value="unsure" /> <span>Not sure</span></label>
+          <label class="option"><input type="radio" name="owns_iul" value="yes" /> <span>Yes</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. What would you most like to understand?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="learning_goal" value="protect_income" /> <span>Protecting my family&rsquo;s income</span></label>
+          <label class="option"><input type="radio" name="learning_goal" value="legacy" /> <span>Leaving money to heirs or charity</span></label>
+          <label class="option"><input type="radio" name="learning_goal" value="cash_value" /> <span>How cash value works</span></label>
+          <label class="option"><input type="radio" name="learning_goal" value="compare_types" /> <span>Comparing types of life insurance</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Do you have any life insurance today?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="current_coverage" value="none" /> <span>None</span></label>
+          <label class="option"><input type="radio" name="current_coverage" value="term" /> <span>Term life</span></label>
+          <label class="option"><input type="radio" name="current_coverage" value="permanent" /> <span>Permanent (whole or universal life)</span></label>
+          <label class="option"><input type="radio" name="current_coverage" value="work_only" /> <span>Only through work</span></label>
+          <label class="option"><input type="radio" name="current_coverage" value="not_sure" /> <span>Not sure</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><label for="age_range">4. Which age range are you in?</label></legend>
+        <select id="age_range" name="age_range">
+          <option value="">Select your age range</option>
+          <option value="under_18">Under 18</option>
+          <option value="18_34">18 to 34</option>
+          <option value="35_49">35 to 49</option>
+          <option value="50_64">50 to 64</option>
+          <option value="65_75">65 to 75</option>
+          <option value="over_75">Over 75</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend><label for="state">5. Which state do you live in?</label></legend>
+        <select id="state" name="state"><option value="">Select your state</option></select>
+      </fieldset>
+
+      <p id="qualify-error" class="error hidden" role="alert"></p>
+      <button type="submit" class="btn btn-gold">Continue &rarr;</button>
+      <p class="hint" style="margin-top:14px">Your answers stay in your browser until you choose a time on the next page.</p>
+    </form>
+  </div>
+</main>
+
+<footer class="f-footer">
+  <div class="container disclosures">
+    <p>This page is for educational purposes only and is not tax, legal or investment advice. Indexed universal life insurance is a life insurance product, not an investment in the stock market or any index. Policy values depend on the policy&rsquo;s terms, charges, caps, participation rates and premiums paid, and are not guaranteed except as stated in the policy. Guarantees are based on the claims-paying ability of the issuing insurance company. IUL is not suitable for everyone.</p>
+    <p>Consultations are conducted by Dave Weiner, a licensed insurance professional with Global Renaissance Insurance Marketing Agency, who may receive compensation if you purchase insurance. Liberty Pointe Financial LLC provides marketing and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. [CONFIRM: compliance-approved disclosure wording]</p>
+    <p><a href="/privacy.html">Privacy Policy</a> &middot; <a href="/terms.html">Terms</a> &middot; &copy; 2026 Liberty Pointe Financial LLC</p>
+  </div>
+</footer>
+</body>
+</html>

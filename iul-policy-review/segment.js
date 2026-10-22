@@ -29,9 +29,9 @@ window.LPF_SEGMENT = {
     not_policy_owner: 'Policy reviews need to be requested by the policy owner (or the trustee or business that owns it). If someone in your family owns the policy, they’re welcome to request a review themselves.',
     outside_licensed_state: 'The professional who conducts these reviews isn’t licensed in your state yet, so we can’t schedule a review for you right now.'
   },
-  // Shown on the not-a-fit page only when the education category is live,
+  // Shown on the not-a-fit page only when the target category is live,
   // and only for these reasons. A plain link: nothing is carried over.
-  educationLinkReasons: ['no_iul_policy'],
+  crossLink: { category: 'prospective_iul_education', reasons: ['no_iul_policy'] },
 
   calendarTitle: 'IUL policy review',
   calendarNote: 'Have your most recent annual policy statement handy if you can.'

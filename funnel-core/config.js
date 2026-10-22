@@ -22,7 +22,7 @@ window.LPF_FUNNEL_CONFIG = {
       agency: 'Global Renaissance Insurance Marketing Agency',
       title: 'Licensed insurance professional',
       npn: '[CONFIRM: NPN]',
-      bio: '[CONFIRM: short bio approved by Dave, e.g. years in practice and focus on in-force policy reviews]',
+      bio: '[CONFIRM: short bio approved by Dave, e.g. years in practice and areas of focus]',
       photo: null // e.g. '/funnel-core/dave-weiner.jpg' once supplied
     }
   },
@@ -61,16 +61,22 @@ window.LPF_FUNNEL_CONFIG = {
       label: 'B: Prospective IUL buyers',
       offer: 'IUL Education & Consultation',
       basePath: '/iul-education',
-      status: 'planned',
+      status: 'preview',
       recipient: 'dave_weiner',
       recipientConfirmed: false,
       licensedStates: null,
       licensedStatesVerified: false,
       licensedStatesText: '[CONFIRM: states where Dave is licensed]',
-      durationMinutes: null,         // [CONFIRM with Dave]
+      durationMinutes: 30,           // preview default [CONFIRM with Dave]
       formats: ['Phone call', 'Video call'],
-      availability: { weekdays: [], hours: [], timezone: null, confirmed: false },
-      acceptanceCriteria: [],        // [CONFIRM with Dave] see Segment B brief
+      availability: { weekdays: [1, 2, 3, 4, 5], hours: [10, 11, 13, 14, 15, 16, 17], timezone: null, confirmed: false },
+      // Preview draft from the Segment B brief. [CONFIRM with Dave]
+      acceptanceCriteria: [
+        'Does not already own an indexed universal life policy',
+        'Is 18 or older',
+        'Lives in a state where the recipient is licensed',
+        'Reachable at the phone or email provided'
+      ],
       acceptanceCriteriaConfirmed: false,
       consentPurpose: 'confirm, prepare for, and conduct my IUL education consultation',
       meetingNoun: 'consultation'

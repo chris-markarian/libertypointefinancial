@@ -38,6 +38,8 @@
     no_iul_policy: 'Does not own an IUL policy',
     not_policy_owner: 'Not the policy owner',
     outside_licensed_state: 'Outside licensed states',
+    already_owns_iul: 'Already owns an IUL policy (wrong category)',
+    under_18: 'Under 18',
     fails_category_criteria: 'Does not meet this category’s acceptance criteria',
     invalid_contact: 'Contact details invalid / unreachable',
     duplicate: 'Duplicate booking',
@@ -231,12 +233,13 @@
   function initNotAFit() {
     var reason = readJSON(sessionStorage, NOT_FIT_KEY, null);
     $('#nf-message').textContent = SEG.notFitMessages[reason] || 'Based on your answers, this appointment isn’t the right fit right now.';
-    // Voluntary link to the education funnel, only once that category is live.
-    // Nothing is carried over: answers are cleared and the visitor starts fresh.
-    var edu = CFG.categories.prospective_iul_education;
-    var box = $('#nf-education');
-    if (box && edu && edu.status === 'live' && (SEG.educationLinkReasons || []).indexOf(reason) !== -1) {
-      $('a', box).setAttribute('href', edu.basePath + '/');
+    // Voluntary link to the other funnel, only once that category is live.
+    // A plain link: answers are cleared, nothing carries over, no consent is reused.
+    var link = SEG.crossLink;
+    var target = link && CFG.categories[link.category];
+    var box = $('#nf-crosslink');
+    if (box && target && target.status === 'live' && link.reasons.indexOf(reason) !== -1) {
+      $('a', box).setAttribute('href', target.basePath + '/');
       box.classList.remove('hidden');
     }
     sessionStorage.removeItem(QUAL_KEY);

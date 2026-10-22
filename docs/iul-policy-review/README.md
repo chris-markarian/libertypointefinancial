@@ -20,7 +20,7 @@ Kept deliberately small: one shared core, and per-funnel folders for content.
 | Category | Originating segment | Path | Status |
 |---|---|---|---|
 | `existing_iul_review` (Professional IUL Policy Review) | A: existing IUL owners (`iul_policy_review`) | `/iul-policy-review/` | preview (this PR) |
-| `prospective_iul_education` (IUL Education & Consultation) | B: prospective buyers (`iul_education`) | `/iul-education/` | planned, not built |
+| `prospective_iul_education` (IUL Education & Consultation) | B: prospective buyers (`iul_education`) | `/iul-education/` | preview (built from the Segment B brief; not approved to publish or advertise) |
 
 - `funnel-core/config.js`: recipients (Dave Weiner / GRIMA identity), and per category: recipient + confirmation, verified licensed states, duration, formats, availability, acceptance criteria, consent purpose wording, status (`planned` / `preview` / `live`). `LPF_CONFIG_PROBLEMS` lists what's missing.
 - `funnel-core/funnel.js`: qualification runner, attribution capture, booking gate, `createBooking` (re-validates category and eligibility), consent template, mock storage, confirmation/.ics, status machine, category changes, per-category report.

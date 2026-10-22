@@ -32,18 +32,18 @@ function cspFromHeaders() {
   const errors = [];
   const external = [];
   // Only funnel pages count; existing pages load third-party scripts (Meta Pixel).
-  const onFunnel = () => /\/(iul-policy-review|funnel-core)\//.test(page.url());
+  const onFunnel = () => /\/(iul-policy-review|iul-education|funnel-core)\//.test(page.url());
   page.on('pageerror', e => { if (onFunnel()) errors.push(e.message); });
   page.on('console', m => { if (m.type() === 'error' && onFunnel()) errors.push(m.text()); });
   page.on('request', r => {
-    if (!/\/(iul-policy-review|funnel-core)\//.test(r.frame().url())) return;
+    if (!/\/(iul-policy-review|iul-education|funnel-core)\//.test(r.frame().url())) return;
     const u = new URL(r.url());
     if (u.origin !== new URL(BASE).origin && !/fonts\.(googleapis|gstatic)\.com$/.test(u.hostname)) external.push(r.url());
     if (u.pathname.startsWith('/.netlify/functions')) external.push('FUNCTION ' + r.url());
   });
   if (LOCAL) {
     const csp = cspFromHeaders();
-    await ctx.route(/\/(iul-policy-review|funnel-core)\//, async route => {
+    await ctx.route(/\/(iul-policy-review|iul-education|funnel-core)\//, async route => {
       const resp = await route.fetch({ url: route.request().url().replace('http://libertypointefinancial.com', BASE) });
       const headers = Object.assign({}, resp.headers());
       if (csp && /text\/html/.test(headers['content-type'] || '')) headers['content-security-policy'] = csp;
@@ -78,7 +78,7 @@ function cspFromHeaders() {
   check('non-owner routed to not-a-fit', (await page.textContent('#nf-message')).includes('already own'));
   check('not-a-fit reason kept out of URL', !page.url().includes('reason'));
 
-  check('education link hidden while category B is planned', !(await page.isVisible('#nf-education')));
+  check('education link hidden while category B is planned', !(await page.isVisible('#nf-crosslink')));
 
   // 3. Qualify properly
   await page.goto(BASE + '/iul-policy-review/qualify/');
@@ -150,7 +150,7 @@ function cspFromHeaders() {
   await page.locator('h2:has-text("Category report")').click();
   const cmp = await page.textContent('#compare-rows tr[data-category="existing_iul_review"]');
   check('category report: A row with visits, rates and costs', cmp.includes('A: Existing IUL owners') && cmp.includes('$500') && /\d+ \(\d+\)/.test(cmp));
-  check('category report: B row listed as planned', (await page.textContent('#compare-rows tr[data-category="prospective_iul_education"]')).includes('planned'));
+  check('category report: B row has its own status', (await page.textContent('#compare-rows tr[data-category="prospective_iul_education"]')).includes('preview'));
   await page.selectOption('#category-filter', 'prospective_iul_education');
   check('category filter hides A records', (await page.locator('#tracker-rows tr').count()) === 0);
   await page.selectOption('#category-filter', '');
@@ -217,9 +217,75 @@ function cspFromHeaders() {
     await p2.close();
   }
 
+  // 8b. Segment B: IUL education funnel (preview)
+  await page.goto(BASE + '/iul-education/?utm_source=facebook&utm_campaign=iul_education_test');
+  const bText = await page.textContent('main');
+  check('B landing loads with Dave', (await page.title()).includes('IUL Education') && bText.includes('Dave Weiner'));
+  check('B covers costs, underwriting, caps, lapse/loan risk, alternatives', ['surrender charges', 'underwriting', 'Caps and participation rates', 'lapse', 'Term life', 'Whole life'].every(t => bText.toLowerCase().includes(t.toLowerCase())));
+  check('B says IUL is not right for everyone', /isn.t the right fit for everyone/.test(bText));
+  check('B makes no return promises', !/guaranteed (returns|growth)|tax-free retirement|never lose/i.test(bText));
+  check('B landing has no policy-review CTA', !(await page.$('main a[href^="/iul-policy-review"]')));
+  // existing owner → not a fit, no automatic transfer
+  await page.click('a[data-cta="hero"]');
+  await page.waitForURL('**/iul-education/qualify/');
+  await page.check('input[name=owns_iul][value="yes"]');
+  await page.check('input[name=learning_goal][value="cash_value"]');
+  await page.check('input[name=current_coverage][value="term"]');
+  await page.selectOption('#age_range', '35_49');
+  await page.selectOption('#state', 'UT');
+  await page.click('#qualify-form button[type=submit]');
+  await page.waitForURL('**/iul-education/not-a-fit/');
+  check('B: IUL owner routed to not-a-fit', (await page.textContent('#nf-message')).includes('already own'));
+  check('B: cross-link to policy review hidden while A is not live', !(await page.isVisible('#nf-crosslink')));
+  check('B: answers cleared after not-a-fit', await page.evaluate(() => !sessionStorage.getItem('lpf_qual_iul_education')));
+  // under 18
+  await page.goto(BASE + '/iul-education/qualify/');
+  await page.check('input[name=owns_iul][value="no"]');
+  await page.check('input[name=learning_goal][value="protect_income"]');
+  await page.check('input[name=current_coverage][value="none"]');
+  await page.selectOption('#age_range', 'under_18');
+  await page.selectOption('#state', 'UT');
+  await page.click('#qualify-form button[type=submit]');
+  await page.waitForURL('**/iul-education/not-a-fit/');
+  check('B: under 18 not eligible', (await page.textContent('#nf-message')).includes('18'));
+  // eligible path
+  await page.goto(BASE + '/iul-education/qualify/');
+  await page.check('input[name=owns_iul][value="no"]');
+  await page.check('input[name=learning_goal][value="compare_types"]');
+  await page.check('input[name=current_coverage][value="work_only"]');
+  await page.selectOption('#age_range', '35_49');
+  await page.selectOption('#state', 'UT');
+  await page.click('#qualify-form button[type=submit]');
+  await page.waitForURL('**/iul-education/book/');
+  const bShare = await page.textContent('#consent-share-text');
+  check('B consent names Dave + education purpose', bShare.includes('Dave Weiner') && bShare.includes('conduct my IUL education consultation') && !bShare.includes('policy review'));
+  check('B disclosures: not right for everyone', (await page.textContent('#disclosures')).includes('Not right for everyone'));
+  await page.fill('#first_name', 'Bea'); await page.fill('#last_name', 'Buyer');
+  await page.fill('#email', 'bea@example.com'); await page.fill('#phone', '5555550123');
+  await page.selectOption('#format', 'Phone call');
+  await page.click('.slot >> nth=0');
+  await page.check('input[name=consent_share]');
+  await shot('6-b-book');
+  await page.click('#book-form button[type=submit]');
+  await page.waitForURL('**/iul-education/confirmed/');
+  check('B confirmation shows the education offer', (await page.textContent('#c-summary')).includes('IUL Education & Consultation'));
+  const bRec = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments')).find(a => a.contact.first_name === 'Bea'));
+  check('B record: category, origin, consent purpose, attribution', bRec.category === 'prospective_iul_education' && bRec.originating_segment === 'iul_education' && bRec.consents.share_with_recipient.category === 'prospective_iul_education' && bRec.consents.sms.given === false && bRec.attribution.utm_campaign === 'iul_education_test');
+  await page.goto(BASE + '/funnel-core/preview-tracker/');
+  const bRow = await page.textContent('#compare-rows tr[data-category="prospective_iul_education"]');
+  check('tracker reports B separately', bRow.includes('preview') && /^\D*B: Prospective IUL buyers.*?1 \(1\)/.test(bRow));
+  if (LOCAL) {
+    const p3 = await ctx.newPage();
+    await p3.goto('http://libertypointefinancial.com/iul-education/qualify/');
+    await p3.evaluate(() => sessionStorage.setItem('lpf_qual_iul_education', JSON.stringify({ category: 'prospective_iul_education', answers: { owns_iul: 'no', age_range: '35_49', state: 'UT' }, result: { eligible: true, flags: [] } })));
+    await p3.goto('http://libertypointefinancial.com/iul-education/book/');
+    check('B production host: booking closed', (await p3.isVisible('#booking-closed')) && !(await p3.isVisible('#book-form')));
+    await p3.close();
+  }
+
   // 9. Mobile layout
   await page.setViewportSize({ width: 375, height: 800 });
-  for (const p of ['/iul-policy-review/', '/iul-policy-review/qualify/']) {
+  for (const p of ['/iul-policy-review/', '/iul-policy-review/qualify/', '/iul-education/', '/iul-education/book/']) {
     await page.goto(BASE + p);
     const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     check('no horizontal scroll at 375px ' + p, over <= 0, 'overflow ' + over + 'px');
