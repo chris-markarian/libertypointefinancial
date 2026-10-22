@@ -34,7 +34,10 @@ window.LPF_FUNNEL_CONFIG = {
         verifiedAgainstNipr: false,           // NPN + states checked on NIPR / state DOI
         lifeLineOfAuthorityConfirmed: false   // life line of authority in each state
       },
-      bio: '[CONFIRM: short bio approved by Dave, e.g. years in practice and areas of focus]',
+      // Facts from globalrenins.com/about (shared by Chris 2026-10-22), in our
+      // own words. Superlatives and award/book claims left out on purpose.
+      bio: 'Dave has worked in insurance and financial services since 1982. He founded Global Renaissance Insurance Marketing Agency, an independent insurance marketing organization with offices in Tampa, Florida, and Chesterfield, Missouri, and serves as its president and CEO. He is a member of NAIFA, the National Association of Insurance and Financial Advisors.',
+      bioApproved: false, // Dave + compliance sign-off; hidden on the live site until true
       photo: '/funnel-core/dave-weiner.jpg', // provided by Chris 2026-10-22 [CONFIRM: Dave approved web use]
     }
   },
@@ -134,5 +137,6 @@ window.LPF_CONFIG_PROBLEMS = function (cfg, catId) {
   if (!c.consentPurpose) p.push('Consent purpose wording missing');
   var r = cfg.recipients[c.recipient];
   if (r && !/^\d{5,10}$/.test(r.npn || '')) p.push('Recipient NPN missing');
+  if (r && !r.bioApproved) p.push('Recipient bio not approved by the recipient and compliance');
   return p;
 };

@@ -146,6 +146,11 @@
       if (isMock()) n.appendChild(el('span', { class: 'placeholder-text' }, ' (' + p.license.source + '; pending NIPR verification, hidden on the live site until verified)'));
       else n.classList.add('hidden');
     });
+    // Same rule for the bio until Dave and compliance approve it.
+    if (!p.bioApproved) $all('[data-pro="bio"]').forEach(function (n) {
+      if (isMock()) n.appendChild(el('span', { class: 'placeholder-text' }, ' (Draft bio, pending approval by Dave and compliance; hidden on the live site until approved)'));
+      else n.classList.add('hidden');
+    });
   }
 
   function initVideo() {
