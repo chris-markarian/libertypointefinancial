@@ -1,4 +1,6 @@
-// IUL policy review funnel — shared behavior for every funnel page.
+// Shared funnel core: booking, consent capture, mock storage, tracking and the
+// preview tracker for every Liberty Pointe educational funnel (segment).
+// Each funnel page loads config.js, its own segment.js, then this file.
 // No lead data leaves the browser: nothing here calls a server, Netlify Forms,
 // or any Netlify function. In mock mode, bookings live in this browser's
 // localStorage so the preview journey and tracker can be demonstrated.
@@ -6,10 +8,15 @@
   'use strict';
 
   var CFG = window.LPF_FUNNEL_CONFIG;
-  var QUAL_KEY = 'lpf_iul_qualification';
+  var SEG = window.LPF_SEGMENT || null; // absent on the cross-segment tracker
+  var SEG_META = SEG ? CFG.segments[SEG.id] : null;
+  var BUYER_ID = SEG_META ? SEG_META.buyer : 'dave_weiner';
+  var BUYER = CFG.buyers[BUYER_ID];
+  var BASE = SEG_META ? SEG_META.basePath : '';
+  var QUAL_KEY = 'lpf_qual_' + (SEG ? SEG.id : 'none');
+  var NOT_FIT_KEY = 'lpf_not_fit_' + (SEG ? SEG.id : 'none');
   var APPTS_KEY = 'lpf_iul_mock_appointments';
   var LAST_KEY = 'lpf_iul_last_appointment';
-  var NOT_FIT_KEY = 'lpf_iul_not_fit_reason';
 
   var STATUS_LABELS = {
     booked: 'Booked', qualified: 'Qualified', accepted: 'Accepted', held: 'Held',
@@ -63,7 +70,8 @@
   // Funnel events. Preview: console only. Production: wire to consent-gated
   // analytics after approval. Never pass contact details or policy answers.
   function track(name, props) {
-    if (isMock() && window.console) console.info('[funnel event]', name, props || {});
+    var p = Object.assign({ segment: SEG ? SEG.id : null }, props || {});
+    if (isMock() && window.console) console.info('[funnel event]', name, p);
   }
 
   function fmtDateTime(iso) {
@@ -82,14 +90,14 @@
     var c = el('div', { class: 'container' });
     c.appendChild(el('strong', null, 'PREVIEW ONLY. '));
     c.appendChild(document.createTextNode('Scheduling is a mock and nothing you enter is sent to anyone or stored on a server; test bookings stay in this browser. Wording is pending compliance review. '));
-    var a = el('a', { href: '/iul-policy-review/preview-tracker/' }, 'Open the appointment tracker (preview)');
+    var a = el('a', { href: '/funnel-core/preview-tracker/' }, 'Open the appointment tracker (preview)');
     c.appendChild(a);
     b.appendChild(c);
     document.body.insertBefore(b, document.body.firstChild);
   }
 
   function fillProfessional() {
-    var p = CFG.professional;
+    var p = BUYER;
     $all('[data-pro]').forEach(function (n) {
       var v = p[n.getAttribute('data-pro')];
       if (v == null) return;
@@ -106,8 +114,8 @@
 
   function initVideo() {
     var wrap = $('[data-video]');
-    if (!wrap) return;
-    var v = CFG.video;
+    if (!wrap || !SEG) return;
+    var v = SEG.video;
     var btn = $('.video-placeholder', wrap);
     if (!v.provider) {
       btn.setAttribute('aria-disabled', 'true');
@@ -149,7 +157,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var a = {};
-      ['owns_iul', 'owner_role', 'issue_period', 'state', 'annual_premium', 'has_statement'].forEach(function (k) {
+      SEG.questions.forEach(function (k) {
         a[k] = form.elements[k].value;
       });
       var missing = Object.keys(a).filter(function (k) { return !a[k]; });
@@ -163,36 +171,20 @@
       }
       err.classList.add('hidden');
 
-      var result = evaluate(a);
+      var result = SEG.evaluate(a, BUYER);
       writeJSON(sessionStorage, QUAL_KEY, { answers: a, result: result, at: new Date().toISOString() });
       track(result.eligible ? 'qualify_pass' : 'qualify_not_a_fit', { reason: result.reason || null });
       // Outcome stays out of the URL so page-view analytics never see it.
       if (!result.eligible) writeJSON(sessionStorage, NOT_FIT_KEY, result.reason);
-      location.href = result.eligible ? '/iul-policy-review/book/' : '/iul-policy-review/not-a-fit/';
+      location.href = BASE + (result.eligible ? '/book/' : '/not-a-fit/');
     });
-  }
-
-  // Self-reported pre-qualification. Final "qualified" status is set by a
-  // person after verification (see tracker).
-  function evaluate(a) {
-    if (a.owns_iul === 'no') return { eligible: false, reason: 'no_iul_policy' };
-    if (a.owner_role === 'someone_else') return { eligible: false, reason: 'not_policy_owner' };
-    if (CFG.licensedStates && CFG.licensedStates.indexOf(a.state) === -1) return { eligible: false, reason: 'outside_licensed_state' };
-    var flags = [];
-    if (a.owns_iul === 'unsure') flags.push('policy_type_unverified');
-    if (!CFG.licensedStates) flags.push('licensed_states_not_configured');
-    return { eligible: true, flags: flags };
   }
 
   /* ---------- not a fit ---------- */
 
   function initNotAFit() {
     var reason = readJSON(sessionStorage, NOT_FIT_KEY, null);
-    var msgs = {
-      no_iul_policy: 'This review is designed for people who already own an indexed universal life policy, so it isn’t the right fit today.',
-      not_policy_owner: 'Policy reviews need to be requested by the policy owner (or the trustee or business that owns it). If someone in your family owns the policy, they’re welcome to request a review themselves.',
-      outside_licensed_state: 'The professional who conducts these reviews isn’t licensed in your state yet, so we can’t schedule a review for you right now.'
-    };
+    var msgs = SEG.notFitMessages;
     $('#nf-message').textContent = msgs[reason] || 'Based on your answers, this review isn’t the right fit right now.';
     sessionStorage.removeItem(QUAL_KEY);
     sessionStorage.removeItem(NOT_FIT_KEY);
@@ -203,7 +195,7 @@
   function initBook() {
     var qual = readJSON(sessionStorage, QUAL_KEY, null);
     if (!qual || !qual.result || !qual.result.eligible) {
-      location.replace('/iul-policy-review/qualify/');
+      location.replace(BASE + '/qualify/');
       return;
     }
     if (!isMock()) {
@@ -246,6 +238,8 @@
       var now = new Date().toISOString();
       var params = new URLSearchParams(location.search);
       var appt = {
+        segment: SEG.id,
+        offer: SEG_META.offer,
         id: 'APT-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase(),
         mock: true,
         created_at: now,
@@ -254,13 +248,16 @@
         slot_start: slot,
         duration_minutes: CFG.meeting.minutes,
         format: f.format.value,
-        professional: { name: CFG.professional.name, agency: CFG.professional.agency },
+        buyer_id: BUYER_ID,
+        professional: { name: BUYER.name, agency: BUYER.agency },
         contact: { first_name: first, last_name: last, email: email, phone: phone, state: qual.answers.state },
         qualification: { answers: qual.answers, flags: qual.result.flags || [] },
         consents: {
           share_with_professional: { given: true, at: now, version: CFG.consentVersion, text: $('#consent-share-text').textContent.replace(/\s+/g, ' ').trim() },
           sms: { given: f.consent_sms.checked, at: now, version: CFG.consentVersion, text: $('#consent-sms-text').textContent.replace(/\s+/g, ' ').trim() }
         },
+        // Filled later from buyer reporting, to compare segments on funded business.
+        outcome: { application_submitted: null, funded: null, annual_target_premium: null, reported_at: null },
         source: { utm_source: params.get('utm_source'), utm_medium: params.get('utm_medium'), utm_campaign: params.get('utm_campaign'), page: location.pathname }
       };
       var list = getAppointments();
@@ -269,7 +266,7 @@
       writeJSON(sessionStorage, LAST_KEY, appt.id);
       sessionStorage.removeItem(QUAL_KEY);
       track('booking_complete', { format: appt.format });
-      location.href = '/iul-policy-review/confirmed/';
+      location.href = BASE + '/confirmed/';
     });
   }
 
@@ -360,11 +357,11 @@
     var end = new Date(start.getTime() + appt.duration_minutes * 60000);
     var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Liberty Pointe Financial//IUL Review//EN', 'BEGIN:VEVENT',
       'UID:' + appt.id + '@libertypointefinancial.com', 'DTSTAMP:' + icsDate(new Date()), 'DTSTART:' + icsDate(start), 'DTEND:' + icsDate(end),
-      'SUMMARY:IUL policy review with ' + appt.professional.name,
-      'DESCRIPTION:' + appt.format + ' with ' + appt.professional.name + ' (' + appt.professional.agency + '). Have your most recent annual policy statement handy if you can. Reference ' + appt.id,
+      'SUMMARY:' + SEG.calendarTitle + ' with ' + appt.professional.name,
+      'DESCRIPTION:' + appt.format + ' with ' + appt.professional.name + ' (' + appt.professional.agency + '). ' + SEG.calendarNote + ' Reference ' + appt.id,
       'END:VEVENT', 'END:VCALENDAR'];
     var blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
-    var a = el('a', { href: URL.createObjectURL(blob), download: 'iul-policy-review.ics' });
+    var a = el('a', { href: URL.createObjectURL(blob), download: SEG.id.replace(/_/g, '-') + '.ics' });
     document.body.appendChild(a); a.click(); a.remove();
   }
 
@@ -384,12 +381,63 @@
     saveAppointments(list);
   }
 
+  function setOutcome(id, outcome) {
+    var list = getAppointments();
+    list.forEach(function (a) { if (a.id === id) a.outcome = outcome; });
+    saveAppointments(list);
+  }
+
+  // Records made before segments existed belong to segment A.
+  function segmentOf(a) { return a.segment || 'iul_policy_review'; }
+  function reached(a, status) { return a.status_history.some(function (h) { return h.status === status; }); }
+  function pct(n, d) { return d ? Math.round(100 * n / d) + '%' : '–'; }
+
+  var SPEND_KEY = 'lpf_preview_ad_spend';
+
+  // Side-by-side segment metrics: acquisition cost, qualification,
+  // attendance, buyer acceptance and funded business.
+  function renderComparison() {
+    var spend = readJSON(localStorage, SPEND_KEY, {});
+    var tbody = $('#compare-rows'); tbody.textContent = '';
+    Object.keys(CFG.segments).forEach(function (k) {
+      var seg = CFG.segments[k];
+      var list = getAppointments().filter(function (a) { return segmentOf(a) === k; });
+      var booked = list.length;
+      var qualified = list.filter(function (a) { return reached(a, 'qualified'); }).length;
+      var accepted = list.filter(function (a) { return reached(a, 'accepted'); }).length;
+      var held = list.filter(function (a) { return reached(a, 'held'); }).length;
+      var noShow = list.filter(function (a) { return reached(a, 'no_show'); }).length;
+      var funded = list.filter(function (a) { return a.outcome && a.outcome.funded; }).length;
+      var tr = el('tr');
+      var name = el('td'); name.appendChild(el('strong', null, seg.label)); name.appendChild(el('div', { class: 'history' }, seg.offer + ' · ' + seg.status));
+      tr.appendChild(name);
+      var sp = el('td');
+      var input = el('input', { type: 'text', inputmode: 'decimal', 'aria-label': 'Ad spend for ' + seg.label, placeholder: '$0' });
+      input.value = spend[k] || '';
+      input.addEventListener('change', function () {
+        spend[k] = parseFloat(input.value.replace(/[^0-9.]/g, '')) || 0;
+        writeJSON(localStorage, SPEND_KEY, spend);
+        renderComparison();
+      });
+      sp.appendChild(input); tr.appendChild(sp);
+      var s = spend[k] || 0;
+      [String(booked), booked && s ? '$' + (s / booked).toFixed(0) : '–',
+       pct(qualified, booked), pct(accepted, qualified), pct(held, held + noShow), String(funded),
+       funded && s ? '$' + (s / funded).toFixed(0) : '–'].forEach(function (v) { tr.appendChild(el('td', null, v)); });
+      tbody.appendChild(tr);
+    });
+  }
+
   function initTracker() {
     if (!isMock()) {
       $('#tracker').classList.add('hidden');
       $('#tracker-off').classList.remove('hidden');
       return;
     }
+    var filter = $('#segment-filter');
+    Object.keys(CFG.segments).forEach(function (k) { filter.appendChild(el('option', { value: k }, CFG.segments[k].label)); });
+    filter.addEventListener('change', render);
+
     render();
     $('#export-btn').addEventListener('click', function () {
       var blob = new Blob([JSON.stringify(getAppointments(), null, 2)], { type: 'application/json' });
@@ -401,7 +449,9 @@
     });
 
     function render() {
+      renderComparison();
       var list = getAppointments().slice().sort(function (a, b) { return a.slot_start < b.slot_start ? -1 : 1; });
+      if (filter.value) list = list.filter(function (a) { return segmentOf(a) === filter.value; });
       var counts = {};
       Object.keys(STATUS_LABELS).forEach(function (k) { counts[k] = 0; });
       list.forEach(function (a) { counts[a.status]++; });
@@ -417,6 +467,8 @@
       $('#tracker-empty').classList.toggle('hidden', list.length > 0);
       list.forEach(function (a) {
         var tr = el('tr');
+        var seg = CFG.segments[segmentOf(a)];
+        tr.appendChild(el('td', null, seg ? seg.label : segmentOf(a)));
         var who = el('td');
         who.appendChild(el('strong', null, a.contact.first_name + ' ' + a.contact.last_name));
         who.appendChild(el('div', null, a.contact.email));
@@ -425,7 +477,7 @@
         tr.appendChild(who);
         tr.appendChild(el('td', null, fmtShort(a.slot_start) + ' · ' + a.format));
         var q = a.qualification.answers;
-        var qtd = el('td', null, 'IUL: ' + q.owns_iul + ' · owner: ' + q.owner_role + ' · issued: ' + q.issue_period + ' · premium: ' + q.annual_premium + ' · statement: ' + q.has_statement);
+        var qtd = el('td', null, Object.keys(q).map(function (k) { return k + ': ' + q[k]; }).join(' · '));
         if (a.qualification.flags.length) qtd.appendChild(el('div', { class: 'history' }, 'Flags: ' + a.qualification.flags.join(', ')));
         qtd.appendChild(el('div', { class: 'history' }, 'SMS consent: ' + (a.consents.sms.given ? 'yes' : 'no') + ' · ' + a.consents.share_with_professional.version));
         tr.appendChild(qtd);
@@ -456,6 +508,18 @@
           });
           box.appendChild(b);
         });
+        if (a.status === 'held') {
+          var o = a.outcome || {};
+          var fb = el('button', { type: 'button', class: 'btn btn-outline btn-sm' }, o.funded ? 'Funded ✓' : 'Report funded');
+          fb.disabled = !!o.funded;
+          fb.addEventListener('click', function () {
+            var prem = prompt('Annual target premium of the funded policy (numbers only, optional):');
+            if (prem === null) return;
+            setOutcome(a.id, { application_submitted: true, funded: true, annual_target_premium: parseFloat(prem) || null, reported_at: new Date().toISOString() });
+            render();
+          });
+          box.appendChild(fb);
+        }
         if (!box.childNodes.length) box.appendChild(el('span', { class: 'history' }, 'Final status'));
         act.appendChild(box); tr.appendChild(act);
         tbody.appendChild(tr);

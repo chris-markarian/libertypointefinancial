@@ -1,5 +1,13 @@
-# Security headers for the IUL policy review funnel only (other pages unchanged).
+# Security headers for the educational funnels and their shared core only (other pages unchanged).
 /iul-policy-review/*
+  X-Robots-Tag: noindex, nofollow
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' https:; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; connect-src 'self'; form-action 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'
+
+/funnel-core/*
   X-Robots-Tag: noindex, nofollow
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff

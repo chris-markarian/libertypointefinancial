@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/iul-policy-review/funnel.css" />
-  <script src="/iul-policy-review/config.js" defer></script>
-  <script src="/iul-policy-review/funnel.js" defer></script>
+  <link rel="stylesheet" href="/funnel-core/funnel.css" />
+  <script src="/funnel-core/config.js" defer></script>
+  <script src="/funnel-core/funnel.js" defer></script>
 </head>
 <body data-page="tracker">
 
@@ -33,6 +33,17 @@
       <h2 class="sec" style="margin-top:36px">Appointment tracker <span class="mock-label">Preview mock</span></h2>
       <p class="sec-sub">Shows test bookings made in <strong>this browser</strong> only. In production, these statuses would live in a secured database that only Liberty Pointe staff and Dave&rsquo;s agency can reach, never on a public page.</p>
 
+      <div class="panel">
+        <h2>Segment comparison</h2>
+        <p class="hint">Enter preview ad spend to see cost per booking and per funded case. Rates: qualified of booked, accepted of qualified, attendance = held of (held + no-show).</p>
+        <div class="table-scroll">
+          <table class="tracker">
+            <thead><tr><th>Segment</th><th>Ad spend</th><th>Booked</th><th>Cost / booking</th><th>Qualified</th><th>Buyer accepted</th><th>Attendance</th><th>Funded</th><th>Cost / funded</th></tr></thead>
+            <tbody id="compare-rows"></tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="grid" id="tracker-counts" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))"></div>
 
       <div class="panel">
@@ -43,12 +54,14 @@
             <option value="buyer_dave">Dave / Global Renaissance (buyer)</option>
             <option value="system">System (scheduler webhook)</option>
           </select>
+          <label class="field" for="segment-filter" style="margin:0">Segment</label>
+          <select id="segment-filter" style="width:auto"><option value="">All segments</option></select>
           <button type="button" id="export-btn" class="btn btn-outline btn-sm">Export JSON</button>
           <button type="button" id="clear-btn" class="btn btn-outline btn-sm">Clear test data</button>
         </p>
         <div class="table-scroll">
           <table class="tracker">
-            <thead><tr><th>Consumer</th><th>Appointment</th><th>Qualification &amp; consent</th><th>Status &amp; history</th><th>Move to</th></tr></thead>
+            <thead><tr><th>Segment</th><th>Consumer</th><th>Appointment</th><th>Qualification &amp; consent</th><th>Status &amp; history</th><th>Move to</th></tr></thead>
             <tbody id="tracker-rows"></tbody>
           </table>
         </div>

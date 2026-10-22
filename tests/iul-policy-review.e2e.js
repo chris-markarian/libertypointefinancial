@@ -34,14 +34,14 @@ function cspFromHeaders() {
   page.on('pageerror', e => errors.push(e.message));
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   page.on('request', r => {
-    if (!r.frame().url().includes('/iul-policy-review/')) return;
+    if (!/\/(iul-policy-review|funnel-core)\//.test(r.frame().url())) return;
     const u = new URL(r.url());
     if (u.origin !== new URL(BASE).origin && !/fonts\.(googleapis|gstatic)\.com$/.test(u.hostname)) external.push(r.url());
     if (u.pathname.startsWith('/.netlify/functions')) external.push('FUNCTION ' + r.url());
   });
   if (LOCAL) {
     const csp = cspFromHeaders();
-    await ctx.route('**/iul-policy-review/**', async route => {
+    await ctx.route(/\/(iul-policy-review|funnel-core)\//, async route => {
       const resp = await route.fetch({ url: route.request().url().replace('http://libertypointefinancial.com', BASE) });
       const headers = Object.assign({}, resp.headers());
       if (csp && /text\/html/.test(headers['content-type'] || '')) headers['content-security-policy'] = csp;
@@ -119,15 +119,29 @@ function cspFromHeaders() {
   check('record has consent text + version', rec.consents.share_with_professional.given && rec.consents.share_with_professional.text.includes('Dave Weiner') && rec.consents.share_with_professional.version);
   check('record has SMS consent', rec.consents.sms.given === true);
   check('record status booked', rec.status === 'booked' && rec.status_history.length === 1);
+  check('record carries segment A + buyer', rec.segment === 'iul_policy_review' && rec.offer === 'Professional IUL Policy Review' && rec.buyer_id === 'dave_weiner');
+  check('record has empty funded-business outcome', rec.outcome && rec.outcome.funded === null);
 
   // 6. Tracker transitions
   page.on('dialog', d => d.accept(d.type() === 'prompt' ? (d.message().startsWith('Rejection') ? '2' : 'test note') : undefined));
-  await page.goto(BASE + '/iul-policy-review/preview-tracker/');
+  await page.goto(BASE + '/funnel-core/preview-tracker/');
   for (const next of ['Qualified', 'Accepted', 'Held']) {
     await page.click(`#tracker-rows button:has-text("${next}")`);
   }
   let r2 = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments'))[0]);
   check('booked → qualified → accepted → held', r2.status === 'held' && r2.status_history.map(h => h.status).join(',') === 'booked,qualified,accepted,held');
+  await page.click('#tracker-rows button:has-text("Report funded")');
+  r2 = await page.evaluate(() => JSON.parse(localStorage.getItem('lpf_iul_mock_appointments'))[0]);
+  check('funded business recorded', r2.outcome.funded === true);
+  await page.fill('#compare-rows tr:first-child input', '500');
+  await page.press('#compare-rows tr:first-child input', 'Enter');
+  await page.locator('h2:has-text("Segment comparison")').click();
+  const cmp = await page.textContent('#compare-rows tr:first-child');
+  check('segment comparison: A row with cost per booking', cmp.includes('A: Existing IUL owners') && cmp.includes('$500'));
+  check('segment comparison: B row listed as planned', (await page.textContent('#compare-rows')).includes('planned'));
+  await page.selectOption('#segment-filter', 'iul_education');
+  check('segment filter hides A records', (await page.locator('#tracker-rows tr').count()) === 0);
+  await page.selectOption('#segment-filter', '');
   await shot('5-tracker');
   // Second booking, rejected
   await page.evaluate(() => {
@@ -154,12 +168,12 @@ function cspFromHeaders() {
     const p2 = await ctx.newPage();
     const prod = 'http://libertypointefinancial.com/iul-policy-review/';
     await p2.goto(prod + 'qualify/');
-    await p2.evaluate(() => sessionStorage.setItem('lpf_iul_qualification', JSON.stringify({ answers: { state: 'UT' }, result: { eligible: true, flags: [] } })));
+    await p2.evaluate(() => sessionStorage.setItem('lpf_qual_iul_policy_review', JSON.stringify({ answers: { state: 'UT' }, result: { eligible: true, flags: [] } })));
     await p2.goto(prod + 'book/');
     check('production host: booking closed notice', await p2.isVisible('#booking-closed'));
     check('production host: no booking form', !(await p2.isVisible('#book-form')));
     check('production host: no preview banner', !(await p2.isVisible('.preview-banner')));
-    await p2.goto(prod + 'preview-tracker/');
+    await p2.goto('http://libertypointefinancial.com/funnel-core/preview-tracker/');
     check('production host: tracker disabled', await p2.isVisible('#tracker-off'));
     await p2.close();
   }

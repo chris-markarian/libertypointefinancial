@@ -11,7 +11,24 @@ Status: **preview only**. Not approved for production. Wording is pending compli
 | 2b. Not a fit | `/iul-policy-review/not-a-fit/` | Shown for "no IUL", "someone else owns it", or (once configured) an unlicensed state. Nothing is saved. The reason is kept out of the URL so page-view analytics can't see it. |
 | 3. Meet Dave and book | `/iul-policy-review/book/` | Introduction to Dave Weiner / Global Renaissance Insurance Marketing Agency, disclosures, scheduler, contact details, required share consent (§C) and optional SMS consent. |
 | 4. Confirmed | `/iul-policy-review/confirmed/` | Appointment summary, add-to-calendar (.ics), cancel, what to have ready. |
-| Internal | `/iul-policy-review/preview-tracker/` | Mock status tracker for the preview. Works only on preview hosts. |
+| Internal | `/funnel-core/preview-tracker/` | Cross-segment mock status tracker and segment comparison. Works only on preview hosts. |
+
+## Architecture: shared core + segments
+
+Two consumer segments share one booking, consent, privacy and tracking core:
+
+| Segment | id | Path | Status |
+|---|---|---|---|
+| A: Existing IUL owners | `iul_policy_review` | `/iul-policy-review/` | preview (this PR) |
+| B: Prospective IUL buyers | `iul_education` | `/iul-education/` | planned, not built |
+
+- `funnel-core/config.js`: buyer registry (Dave Weiner / GRIMA), segment registry (label, offer, path, buyer, status), meeting settings, consent version, mock-host rules.
+- `funnel-core/funnel.js`: qualification runner, booking + consent capture, mock storage, confirmation/.ics, status machine, tracker, event tracking. Reads the page's segment from `window.LPF_SEGMENT`.
+- `funnel-core/funnel.css`: shared styles.
+- `<segment>/segment.js`: the segment's questions, eligibility rules, not-a-fit messages, video and calendar wording.
+- `<segment>/*.html`: the segment's own copy (landing, qualify, book, confirmed, not-a-fit).
+
+Adding segment B means a new folder with `segment.js` and pages, a `_headers` block for `/iul-education/*`, and flipping its status in `config.js`. The core doesn't change.
 
 ## Safety rails in this build
 
@@ -52,6 +69,7 @@ Rejection reason codes: `no_iul_policy`, `not_policy_owner`, `outside_licensed_s
 ```json
 {
   "id": "APT-…",
+  "segment": "iul_policy_review", "offer": "Professional IUL Policy Review", "buyer_id": "dave_weiner",
   "status": "booked",
   "status_history": [{ "status": "booked", "at": "ISO time", "actor": "consumer|system|lpf_verifier|buyer_dave", "reason": "code?", "note": "text?" }],
   "slot_start": "ISO time", "duration_minutes": 30, "format": "Phone call|Video call",
@@ -62,9 +80,12 @@ Rejection reason codes: `no_iul_policy`, `not_policy_owner`, `outside_licensed_s
     "share_with_professional": { "given": true, "at": "ISO time", "version": "booking-consent-…", "text": "exact wording shown" },
     "sms": { "given": false, "at": "ISO time", "version": "…", "text": "…" }
   },
+  "outcome": { "application_submitted": null, "funded": null, "annual_target_premium": null, "reported_at": null },
   "source": { "utm_source": null, "utm_medium": null, "utm_campaign": null, "page": "/iul-policy-review/book/" }
 }
 ```
+
+Every record carries `segment`, so the tracker compares segments side by side: cost per booking (from ad spend), qualified rate, buyer acceptance rate, attendance (held vs no-show), funded cases and cost per funded case. `outcome` is filled from buyer reporting after the review.
 
 The status history is append-only so billing disputes with the buyer can be settled from the log. The exact consent text and version are stored with each record (TCPA / consent evidence).
 

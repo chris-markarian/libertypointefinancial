@@ -147,7 +147,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--g
 table.tracker { width: 100%; border-collapse: collapse; font-size: .85rem; }
 table.tracker th, table.tracker td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--gray-mid); vertical-align: top; }
 table.tracker th { color: var(--text-dim); font-weight: 600; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; }
-.status { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.status { white-space: nowrap; display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
 .st-booked { background: #e6efff; color: #1e4fa8; }
 .st-qualified { background: #efe6ff; color: #5b2ca8; }
 .st-accepted { background: #fff1d6; color: #8a5a00; }
