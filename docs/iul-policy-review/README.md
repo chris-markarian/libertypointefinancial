@@ -42,6 +42,18 @@ Kept deliberately small: one shared core, and per-funnel folders for content.
 - `_headers` adds a strict CSP and other security headers to `/iul-policy-review/*` only. All scripts are external files; DOM is built with `textContent` (no HTML injection).
 - No Meta Pixel on funnel pages. PR #1 (Pixel) must still follow PR #2 (privacy).
 
+## Meta Pixel on funnel pages
+
+`funnel-core/pixel.js` is on every funnel page except the internal tracker. It is **off**: it loads nothing unless `config.pixel.enabled`, `privacyApproved` and `consentApproved` are all true, and it never runs on preview hosts.
+
+- One initialization per page. Funnel pages don't carry the main-site snippet, and `pixel.js` does nothing if `fbq` already exists.
+- `autoConfig` is set to false before `init`, so Meta doesn't collect button clicks or form fields automatically. `init` passes no user data, so there's no advanced matching. Automatic Advanced Matching must also be off in Events Manager, because that dataset setting applies to the main-site pages too.
+- Events: `PageView` on load. `Schedule` only through `LPF_PIXEL.schedule(appointmentId)`, called once from the booking success path. It refuses mock bookings, a missing id, and repeats of the same appointment, and it never runs from the confirmation page. It has no custom data, and `eventID` is the random appointment reference. With the real scheduler, call it from the scheduler's confirmed-booking signal (for example, Calendly's `event_scheduled` message, checked for origin).
+- Qualification answers never appear in URLs or event parameters.
+- CSP on the funnel paths allows `connect.facebook.net` and `facebook.com` so the pixel works once it's approved. Allowing those hosts sends nothing by itself.
+- `tests/pixel.unit.js` checks all of the above. `tests/launch-check.js` fails if the pixel is enabled without recorded approvals.
+- Not verifiable from code: whether Meta has classified this dataset as financial services and restricts `Schedule` or other events for it. Check Events Manager → the dataset → any data-restriction notices before enabling.
+
 ## Appointment status tracking design
 
 ### Statuses

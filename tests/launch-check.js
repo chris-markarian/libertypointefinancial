@@ -18,6 +18,10 @@ for (const id of Object.keys(cfg.categories)) {
   if (cat.status === 'live' && p.length) failed = true;
 }
 const live = Object.keys(cfg.categories).filter(id => cfg.categories[id].status === 'live');
+const px = cfg.pixel || {};
+console.log(`pixel on funnel pages: ${px.enabled ? 'ENABLED' : 'disabled'} (privacy approved: ${!!px.privacyApproved}, consent approved: ${!!px.consentApproved})`);
+if (px.enabled && (!px.privacyApproved || !px.consentApproved)) { console.log('Pixel is enabled without recorded privacy/consent approval'); failed = true; }
+if (px.enabled && !/^\d{10,20}$/.test(px.id || '')) { console.log('Pixel is enabled without a valid pixel id'); failed = true; }
 if (cfg.liveBookingEnabled && !live.length) { console.log('liveBookingEnabled is on but no category is live'); failed = true; }
 if (live.length > 1) { console.log('More than one category is live: launches need separate approval'); failed = true; }
 console.log(failed ? '\nLAUNCH CHECK FAILED' : '\nLaunch check passed (no live category has missing configuration)');

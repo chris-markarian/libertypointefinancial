@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/funnel-core/funnel.css" />
   <script src="/funnel-core/config.js" defer></script>
+  <script src="/funnel-core/pixel.js" defer></script>
   <script src="/iul-education/segment.js" defer></script>
   <script src="/funnel-core/funnel.js" defer></script>
 </head>
@@ -157,11 +158,11 @@
         <div>
           <h3 data-pro="name">Dave Weiner</h3>
           <p class="meta"><span data-pro="title">Licensed insurance professional</span> &middot; <span data-pro="agency">Global Renaissance Insurance Marketing Agency</span></p>
-          <p class="meta">NPN: <span data-pro="npn"></span> &middot; Licensed in: <span data-pro="licensedStatesText"></span></p>
+          <p class="meta" data-license-line>NPN: <span data-pro="npn"></span> &middot; Licensed in: <span data-pro="licensedStatesText"></span></p>
           <p style="margin-top:10px" data-pro="bio"></p>
         </div>
       </div>
-      <p class="hint" style="margin-top:12px">Dave is an independent licensed professional and is not an employee of Liberty Pointe Financial. He may earn commissions if you buy insurance. Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Dave&rsquo;s agency for those services. You pay nothing for the consultation.</p>
+      <p class="hint" style="margin-top:12px"><span data-disclosure="identity">Dave Weiner is an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. He is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the consultation.</span> <span data-disclosure="compensation">Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The consultation itself is free.</span></p>
     </div>
   </section>
 
@@ -173,7 +174,7 @@
       <details><summary>Is IUL an investment?</summary><p>No. IUL is life insurance. Its cash value isn&rsquo;t invested in the stock market or an index. Interest credits are calculated using an index, within the policy&rsquo;s caps and participation rates.</p></details>
       <details><summary>How do policy loans work?</summary><p>You may be able to borrow against cash value. Loans accrue interest and reduce the death benefit and cash value. If the policy lapses with a loan outstanding, it can create taxable income.</p></details>
       <details><summary>Did the 2021 tax change make IUL better?</summary><p>The 2021 update to Section 7702 of the tax code changed the interest-rate assumptions used to test life insurance contracts, which affects how new policies can be designed. It doesn&rsquo;t make IUL the right choice for any particular person. A tax professional can explain how it applies to you.</p></details>
-      <details><summary>I already own an IUL policy. Is this for me?</summary><p>This consultation is for people who don&rsquo;t own one yet. If you already have an IUL policy, a policy review is the better fit.</p></details>
+      <details><summary>I already own an IUL policy. Is this for me?</summary><p>This consultation is for people who don&rsquo;t own one yet. If you already have an IUL policy, our <a href="/iul-policy-review/">IUL Policy Review</a> page explains what a professional review of an existing policy covers. It&rsquo;s a separate page with its own questions, and nothing you entered here is carried over.</p></details>
       <p style="margin-top:32px"><a class="btn btn-gold" href="/iul-education/qualify/" data-cta="faq">See if a consultation is a fit &rarr;</a></p>
     </div>
   </section>
@@ -182,7 +183,7 @@
 <footer class="f-footer">
   <div class="container disclosures">
     <p>This page is for educational purposes only and is not tax, legal or investment advice. Indexed universal life insurance is a life insurance product, not an investment in the stock market or any index. Policy values depend on the policy&rsquo;s terms, charges, caps, participation rates and premiums paid, and are not guaranteed except as stated in the policy. Guarantees are based on the claims-paying ability of the issuing insurance company. IUL is not suitable for everyone.</p>
-    <p>Consultations are conducted by Dave Weiner, a licensed insurance professional with Global Renaissance Insurance Marketing Agency, who may receive compensation if you purchase insurance. Liberty Pointe Financial LLC provides marketing and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. [CONFIRM: compliance-approved disclosure wording]</p>
+    <p><span data-disclosure="identity">Dave Weiner is an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. He is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the consultation.</span> <span data-disclosure="compensation">Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The consultation itself is free.</span> [CONFIRM: compliance-approved disclosure wording]</p>
     <p><a href="/privacy.html">Privacy Policy</a> &middot; <a href="/terms.html">Terms</a> &middot; &copy; 2026 Liberty Pointe Financial LLC</p>
   </div>
 </footer>

@@ -132,6 +132,13 @@
       else n.textContent = p.name.split(' ').map(function (s) { return s[0]; }).join('');
     });
     $all('[data-cfg-phone]').forEach(function (n) { n.textContent = CFG.phoneDisplay; });
+    // License details appear only once verified (same gate as launch-check).
+    var verified = p.npnVerified && CAT && CAT.licensedStatesVerified && CAT.licensedStates && CAT.licensedStates.length;
+    $all('[data-license-line]').forEach(function (n) {
+      if (verified) return;
+      if (isMock()) { n.textContent = 'License details pending verification. They show here only after the NPN and licensed states are verified.'; n.classList.add('placeholder-text'); }
+      else n.classList.add('hidden');
+    });
   }
 
   function initVideo() {
@@ -307,6 +314,9 @@
         });
         if (created.error) errors.push(created.error);
         else {
+          // Schedule fires only here, after a booking is created, and pixel.js
+          // refuses mock bookings and repeats. Never on the confirmation page.
+          if (window.LPF_PIXEL) window.LPF_PIXEL.schedule(created.appt.id, created.appt.mock);
           writeJSON(sessionStorage, LAST_KEY, created.appt.id);
           sessionStorage.removeItem(QUAL_KEY);
           track('booking_complete', { format: created.appt.format });

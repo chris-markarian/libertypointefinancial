@@ -3,7 +3,9 @@
 //   BASE=http://localhost:8811 node tests/iul-policy-review.e2e.js
 // Set BASE to a Netlify Deploy Preview URL to test the preview itself.
 // Requires the `playwright` package (global install is fine: NODE_PATH=$(npm root -g)).
-const { chromium } = require('playwright');
+// MOBILE=1 runs the whole journey as a phone (390x844, touch).
+const { chromium, devices } = require('playwright');
+const vm = require('vm');
 const fs = require('fs');
 const path = require('path');
 
@@ -27,14 +29,20 @@ function cspFromHeaders() {
   const browser = await chromium.launch({
     args: LOCAL ? ['--host-resolver-rules=MAP libertypointefinancial.com 127.0.0.1:' + new URL(BASE).port] : []
   });
-  const ctx = await browser.newContext({ acceptDownloads: true });
+  const MOBILE = !!process.env.MOBILE;
+  const ctx = await browser.newContext(Object.assign({ acceptDownloads: true }, MOBILE ? { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 } : { viewport: { width: 1280, height: 900 } }));
+  console.log('Viewport: ' + (MOBILE ? 'mobile 390x844' : 'desktop 1280x900'));
+  const pixelLog = [];
   const page = await ctx.newPage();
   const errors = [];
   const external = [];
   // Only funnel pages count; existing pages load third-party scripts (Meta Pixel).
   const onFunnel = () => /\/(iul-policy-review|iul-education|funnel-core)\//.test(page.url());
   page.on('pageerror', e => { if (onFunnel()) errors.push(e.message); });
-  page.on('console', m => { if (m.type() === 'error' && onFunnel()) errors.push(m.text()); });
+  page.on('console', m => {
+    if (m.type() === 'error' && onFunnel()) errors.push(m.text());
+    if (/^\[pixel\]/.test(m.text())) pixelLog.push(m.text());
+  });
   page.on('request', r => {
     if (!/\/(iul-policy-review|iul-education|funnel-core)\//.test(r.frame().url())) return;
     const u = new URL(r.url());
@@ -50,7 +58,16 @@ function cspFromHeaders() {
       await route.fulfill({ response: resp, headers });
     });
   }
-  const shot = async n => { if (SHOTS) await page.screenshot({ path: path.join(SHOTS, n + '.png'), fullPage: true }); };
+  const shot = async n => { if (SHOTS) await page.screenshot({ path: path.join(SHOTS, (MOBILE ? 'm-' : '') + n + '.png'), fullPage: true }); };
+
+  // Canonical disclosures from config, to check every page uses them verbatim.
+  const cfgCtx = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', 'funnel-core', 'config.js'), 'utf8'), cfgCtx);
+  const DISC = cfgCtx.window.LPF_FUNNEL_CONFIG.disclosures;
+  async function disclosuresMatch(noun) {
+    const got = await page.$$eval('[data-disclosure]', els => els.map(e => [e.getAttribute('data-disclosure'), e.textContent.replace(/\s+/g, ' ').trim()]));
+    return got.length >= 2 && got.every(([k, t]) => t === DISC[k].replace('{noun}', noun));
+  }
 
   // 1. Landing
   await page.goto(BASE + '/iul-policy-review/?utm_source=facebook&utm_medium=paid&utm_campaign=iul_review_test&utm_content=ad1');
@@ -58,6 +75,8 @@ function cspFromHeaders() {
   check('preview banner shown', await page.isVisible('.preview-banner'));
   check('Dave named on landing', (await page.textContent('body')).includes('Dave Weiner'));
   check('video placeholder present', await page.isVisible('[data-video] .video-placeholder'));
+  check('pixel off on preview (no fbq, nothing loaded)', await page.evaluate(() => typeof window.fbq === 'undefined') && pixelLog.some(l => l.includes('off:')));
+  check('license line hidden behind verification in preview', (await page.textContent('[data-license-line]')).includes('pending verification'));
   check('no "inferior" claim', !/older policies are (worse|inferior)/i.test(await page.textContent('main')));
   await shot('1-landing');
 
@@ -101,6 +120,7 @@ function cspFromHeaders() {
   const disc = await page.textContent('#disclosures');
   check('disclosures name Dave and agency', disc.includes('Dave Weiner') && disc.includes('Global Renaissance Insurance Marketing Agency'));
   check('disclosures state compensation', /compensated/.test(disc));
+  check('standard disclosures on A booking page', await disclosuresMatch('review'));
   check('disclosures: no guarantee of better results', /does not guarantee better results/.test(disc));
   await page.fill('#first_name', 'Test');
   await page.fill('#last_name', 'Consumer');
@@ -118,6 +138,10 @@ function cspFromHeaders() {
   await page.waitForURL('**/confirmed/');
   const summary = await page.textContent('#c-summary');
   check('confirmation shows Dave + status', summary.includes('Dave Weiner') && summary.includes('Booked'));
+  check('mock booking did not send Schedule', pixelLog.some(l => l.includes('Schedule not sent: mock booking')) && await page.evaluate(() => typeof window.fbq === 'undefined'));
+  const logLen = pixelLog.length;
+  await page.reload();
+  check('confirmation refresh never attempts Schedule', !pixelLog.slice(logLen).some(l => l.includes('Schedule')));
   const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#ics-btn')]);
   const ics = fs.readFileSync(await dl.path(), 'utf8');
   check('calendar file generated', ics.includes('BEGIN:VEVENT') && ics.includes('Dave Weiner'));
@@ -224,7 +248,8 @@ function cspFromHeaders() {
   check('B covers costs, underwriting, caps, lapse/loan risk, alternatives', ['surrender charges', 'underwriting', 'Caps and participation rates', 'lapse', 'Term life', 'Whole life'].every(t => bText.toLowerCase().includes(t.toLowerCase())));
   check('B says IUL is not right for everyone', /isn.t the right fit for everyone/.test(bText));
   check('B makes no return promises', !/guaranteed (returns|growth)|tax-free retirement|never lose/i.test(bText));
-  check('B landing has no policy-review CTA', !(await page.$('main a[href^="/iul-policy-review"]')));
+  const faqLinks = await page.$$eval('main a[href^="/iul-policy-review"]', as => as.map(a => a.closest('.faq') ? 'faq' : 'other'));
+  check('B links to IUL Policy Review from the FAQ only', faqLinks.length === 1 && faqLinks[0] === 'faq');
   // existing owner → not a fit, no automatic transfer
   await page.click('a[data-cta="hero"]');
   await page.waitForURL('**/iul-education/qualify/');
@@ -260,6 +285,7 @@ function cspFromHeaders() {
   const bShare = await page.textContent('#consent-share-text');
   check('B consent names Dave + education purpose', bShare.includes('Dave Weiner') && bShare.includes('conduct my IUL education consultation') && !bShare.includes('policy review'));
   check('B disclosures: not right for everyone', (await page.textContent('#disclosures')).includes('Not right for everyone'));
+  check('standard disclosures on B booking page', await disclosuresMatch('consultation'));
   await page.fill('#first_name', 'Bea'); await page.fill('#last_name', 'Buyer');
   await page.fill('#email', 'bea@example.com'); await page.fill('#phone', '5555550123');
   await page.selectOption('#format', 'Phone call');
@@ -283,14 +309,29 @@ function cspFromHeaders() {
     await p3.close();
   }
 
+  // 8c. Same identification + compensation disclosures on every funnel page
+  for (const [base, noun] of [['/iul-policy-review/', 'review'], ['/iul-education/', 'consultation']]) {
+    for (const sub of ['', 'qualify/', 'not-a-fit/', 'confirmed/']) {
+      await page.goto(BASE + base + sub);
+      check('standard disclosures on ' + base + sub, await disclosuresMatch(noun));
+    }
+  }
+  if (LOCAL) {
+    const p4 = await ctx.newPage();
+    await p4.goto('http://libertypointefinancial.com/iul-policy-review/');
+    check('production host: unverified license line hidden', !(await p4.isVisible('[data-license-line]')));
+    check('production host: pixel stays off', await p4.evaluate(() => typeof window.fbq === 'undefined'));
+    await p4.close();
+  }
+
   // 9. Mobile layout
-  await page.setViewportSize({ width: 375, height: 800 });
+  if (!MOBILE) await page.setViewportSize({ width: 375, height: 800 });
   for (const p of ['/iul-policy-review/', '/iul-policy-review/qualify/', '/iul-education/', '/iul-education/book/']) {
     await page.goto(BASE + p);
     const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-    check('no horizontal scroll at 375px ' + p, over <= 0, 'overflow ' + over + 'px');
+    check('no horizontal scroll at ' + (MOBILE ? '390' : '375') + 'px ' + p, over <= 0, 'overflow ' + over + 'px');
   }
-  await page.setViewportSize({ width: 1280, height: 900 });
+  if (!MOBILE) await page.setViewportSize({ width: 1280, height: 900 });
 
   // 10. Existing pages still load
   for (const p of ['/', '/privacy.html', '/insurance-planning.html', '/comparison.html']) {

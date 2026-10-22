@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/funnel-core/funnel.css" />
   <script src="/funnel-core/config.js" defer></script>
+  <script src="/funnel-core/pixel.js" defer></script>
   <script src="/iul-policy-review/segment.js" defer></script>
   <script src="/funnel-core/funnel.js" defer></script>
 </head>
@@ -39,7 +40,7 @@
         <div>
           <h3>Your review is with <span data-pro="name">Dave Weiner</span></h3>
           <p class="meta"><span data-pro="title">Licensed insurance professional</span> &middot; <span data-pro="agency">Global Renaissance Insurance Marketing Agency</span></p>
-          <p class="meta">NPN: <span data-pro="npn"></span> &middot; Licensed in: <span data-pro="licensedStatesText"></span></p>
+          <p class="meta" data-license-line>NPN: <span data-pro="npn"></span> &middot; Licensed in: <span data-pro="licensedStatesText"></span></p>
           <p style="margin-top:10px" data-pro="bio"></p>
         </div>
       </div>
@@ -48,8 +49,8 @@
     <div class="disclosure-box" id="disclosures">
       <h3>Important disclosures</h3>
       <ul>
-        <li><strong>Who you&rsquo;re booking with.</strong> This appointment is with Dave Weiner, an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. Dave is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the review.</li>
-        <li><strong>How we&rsquo;re paid.</strong> Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The review itself is free.</li>
+        <li><strong>Who you&rsquo;re booking with.</strong> <span data-disclosure="identity">Dave Weiner is an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. He is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the review.</span></li>
+        <li><strong>How we&rsquo;re paid.</strong> <span data-disclosure="compensation">Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The review itself is free.</span></li>
         <li><strong>Educational, no obligation.</strong> The review is educational. You don&rsquo;t have to buy anything or change anything, and a review may conclude that your current policy remains appropriate for you.</li>
         <li><strong>About replacements.</strong> Older policies are not automatically inferior, and replacing a policy does not guarantee better results. A replacement can involve surrender charges, new underwriting, new contestability and suicide periods, and different costs and features. State replacement regulations apply to any replacement.</li>
         <li><strong>Not tax or legal advice.</strong> Neither Liberty Pointe Financial nor Dave provides tax or legal advice. Talk with your own tax professional about how IRC Section 7702 applies to you.</li>
@@ -118,7 +119,7 @@
 <footer class="f-footer">
   <div class="container disclosures">
     <p>This page is for educational purposes only and is not tax, legal or investment advice. Consult your own tax and legal professionals about your situation. Indexed universal life insurance is a life insurance product, not an investment in the stock market or any index; policy values depend on the policy&rsquo;s terms, charges, caps, participation rates and premiums paid. Guarantees are based on the claims-paying ability of the issuing insurance company.</p>
-    <p>Policy reviews are conducted by Dave Weiner, a licensed insurance professional with Global Renaissance Insurance Marketing Agency, who may receive compensation if you purchase insurance. Liberty Pointe Financial LLC provides marketing and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. [CONFIRM: compliance-approved disclosure wording]</p>
+    <p><span data-disclosure="identity">Dave Weiner is an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. He is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the review.</span> <span data-disclosure="compensation">Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The review itself is free.</span> [CONFIRM: compliance-approved disclosure wording]</p>
     <p><a href="/privacy.html">Privacy Policy</a> &middot; <a href="/terms.html">Terms</a> &middot; &copy; 2026 Liberty Pointe Financial LLC</p>
   </div>
 </footer>

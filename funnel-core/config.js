@@ -22,6 +22,7 @@ window.LPF_FUNNEL_CONFIG = {
       agency: 'Global Renaissance Insurance Marketing Agency',
       title: 'Licensed insurance professional',
       npn: '[CONFIRM: NPN]',
+      npnVerified: false,             // license line stays hidden until true
       bio: '[CONFIRM: short bio approved by Dave, e.g. years in practice and areas of focus]',
       photo: null // e.g. '/funnel-core/dave-weiner.jpg' once supplied
     }
@@ -83,6 +84,25 @@ window.LPF_FUNNEL_CONFIG = {
     }
   },
 
+  // Meta Pixel on funnel pages (funnel-core/pixel.js). Off until Chris approves
+  // and privacy/consent sign-off is recorded. Never runs on preview hosts.
+  // Main-site pages carry their own snippet; funnel pages don't, so there's
+  // only ever one initialization per page.
+  pixel: {
+    id: '1300792072131335',
+    enabled: false,
+    privacyApproved: false,
+    consentApproved: false
+  },
+
+  // Standard recipient identification and compensation disclosures. Every
+  // funnel page uses these exact sentences ({noun} = review / consultation);
+  // the e2e test fails if a page drifts. [CONFIRM: compliance-approved wording]
+  disclosures: {
+    identity: 'Dave Weiner is an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. He is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the {noun}.',
+    compensation: 'Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The {noun} itself is free.'
+  },
+
   consentVersion: 'booking-consent-DRAFT-2026-10-22',
   phoneDisplay: '(385) 526-4220'
 };
@@ -100,6 +120,6 @@ window.LPF_CONFIG_PROBLEMS = function (cfg, catId) {
   if (!c.acceptanceCriteriaConfirmed || !c.acceptanceCriteria.length) p.push('Acceptance criteria not confirmed');
   if (!c.consentPurpose) p.push('Consent purpose wording missing');
   var r = cfg.recipients[c.recipient];
-  if (r && /^\[CONFIRM/.test(r.npn)) p.push('Recipient NPN missing');
+  if (r && (/^\[CONFIRM/.test(r.npn) || !r.npnVerified)) p.push('Recipient NPN not verified');
   return p;
 };
