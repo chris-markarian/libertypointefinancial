@@ -6,7 +6,7 @@ window.LPF_SEGMENT = {
 
   // Video: leave provider null for the placeholder player.
   // provider: 'youtube' | 'vimeo' | 'file'; id = YouTube/Vimeo id or file URL.
-  video: { provider: 'youtube', id: '5O1T6ilq0rU', title: 'IUL Review Overview' }, // final video from Chris, 2026-10-23
+  video: { provider: 'youtube', id: 'kc2FcJTRF-s', title: 'IUL Review Overview' }, // final video, Liberty Pointe Financial YouTube channel (Chris, 2026-10-23)
 
   // Field names on the qualification form, in order.
   questions: ['owns_iul', 'owner_role', 'issue_period', 'state', 'annual_premium', 'has_statement'],

@@ -6,7 +6,7 @@ Status: **preview only**. Not approved for production. Wording is pending compli
 
 | Step | URL | What happens |
 |---|---|---|
-| 1. Landing | `/iul-policy-review/` | Final video (YouTube 5O1T6ilq0rU, click-to-load from youtube-nocookie with a local poster, captions on by default, "See if a review is a fit" button and relationship/compensation/replacement disclosures directly below it), educational 7702 content, what a review covers, how it works, who conducts it, FAQ, disclosures. |
+| 1. Landing | `/iul-policy-review/` | Final video (YouTube kc2FcJTRF-s, click-to-load from youtube-nocookie with a local poster, captions on by default, "See if a review is a fit" button and relationship/compensation/replacement disclosures directly below it), educational 7702 content, what a review covers, how it works, who conducts it, FAQ, disclosures. |
 | 2. Qualification | `/iul-policy-review/qualify/` | Six questions: owns an IUL, who owns it, issue period, state, premium range, has a statement. Answers stay in `sessionStorage`. |
 | 2b. Not a fit | `/iul-policy-review/not-a-fit/` | Shown for "no IUL", "someone else owns it", or (once configured) an unlicensed state. Nothing is saved. The reason is kept out of the URL so page-view analytics can't see it. |
 | 3. Meet Dave and book | `/iul-policy-review/book/` | Introduction to Dave Weiner / Global Renaissance Insurance Marketing Agency, disclosures, scheduler, contact details, required share consent (§C) and optional SMS consent. |

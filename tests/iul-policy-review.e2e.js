@@ -90,7 +90,7 @@ function cspFromHeaders() {
   await page.click('[data-video] .video-poster');
   const ifr = await page.waitForSelector('[data-video] iframe');
   const src = await ifr.getAttribute('src');
-  check('play loads the final video (nocookie, captions on, plays only after the click)', src.startsWith('https://www.youtube-nocookie.com/embed/5O1T6ilq0rU?') && /autoplay=1/.test(src) && /cc_load_policy=1/.test(src) && ytRequests.length > 0, src);
+  check('play loads the final video (nocookie, captions on, plays only after the click)', src.startsWith('https://www.youtube-nocookie.com/embed/kc2FcJTRF-s?') && /autoplay=1/.test(src) && /cc_load_policy=1/.test(src) && ytRequests.length > 0, src);
   check('player has controls and fullscreen', (await ifr.getAttribute('allowfullscreen')) !== null && /fullscreen/.test(await ifr.getAttribute('allow')) && !/controls=0/.test(src));
   const ibox = await ifr.boundingBox();
   check('player fills the 16:9 frame', Math.abs(ibox.width - vbox.width) < 2 && Math.abs(ibox.height - vbox.height) < 2);
