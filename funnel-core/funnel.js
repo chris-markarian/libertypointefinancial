@@ -137,6 +137,7 @@
       }
       else n.textContent = p.name.split(' ').map(function (s) { return s[0]; }).join('');
     });
+    $all('[data-pro-website]').forEach(function (n) { if (p.website) n.href = p.website; else n.closest('.panel').classList.add('hidden'); });
     $all('[data-cfg-phone]').forEach(function (n) { n.textContent = CFG.phoneDisplay; });
     // License details are public only once verified on NIPR (same gate as
     // launch-check). The preview shows them, marked as pending verification.

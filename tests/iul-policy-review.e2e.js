@@ -181,6 +181,7 @@ function cspFromHeaders() {
   await page.waitForURL('**/confirmed/');
   const summary = await page.textContent('#c-summary');
   check('confirmation shows Dave + status', summary.includes('Dave Weiner') && summary.includes('Booked'));
+  check('confirmation links to Dave\'s agency site in a new tab', await page.$eval('[data-pro-website]', a => a.href === 'https://globalrenins.com/about/' && a.target === '_blank' && /noopener/.test(a.rel) && a.offsetParent !== null));
   check('mock booking did not send Schedule', pixelLog.some(l => l.includes('Schedule not sent: mock booking')) && await page.evaluate(() => typeof window.fbq === 'undefined'));
   const logLen = pixelLog.length;
   await page.reload();
