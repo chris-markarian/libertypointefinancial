@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="20%" r="95%">
+      <stop offset="0" stop-color="#243659"/>
+      <stop offset="1" stop-color="#131f38"/>
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <rect x="96" y="110" width="88" height="6" fill="#C9A84C"/>
+  <text x="96" y="190" fill="#C9A84C" font-family="Inter, Helvetica, Arial, sans-serif" font-size="30" font-weight="600" letter-spacing="4">LIBERTY POINTE FINANCIAL</text>
+  <text x="96" y="290" fill="#ffffff" font-family="'Playfair Display', Georgia, serif" font-size="72" font-weight="700">Is your IUL still aligned</text>
+  <text x="96" y="380" fill="#ffffff" font-family="'Playfair Display', Georgia, serif" font-size="72" font-weight="700">with your goals?</text>
+  <text x="96" y="450" fill="rgba(255,255,255,0.7)" font-family="Inter, Helvetica, Arial, sans-serif" font-size="32">An overview of the educational IUL policy review</text>
+</svg>

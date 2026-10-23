@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IUL Policy Review: Quick Questions | Liberty Pointe Financial</title>
+  <meta name="description" content="Own an indexed universal life (IUL) policy? Learn what changed in the 2021 life insurance tax rules (IRC Section 7702) and book a no-cost, no-obligation educational policy review." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/funnel-core/funnel.css" />
+  <script src="/funnel-core/config.js" defer></script>
+  <script src="/funnel-core/pixel.js" defer></script>
+  <script src="/iul-policy-review/segment.js" defer></script>
+  <script src="/funnel-core/funnel.js" defer></script>
+</head>
+<body data-page="qualify">
+
+<header class="f-header">
+  <div class="container">
+    <a href="/" aria-label="Liberty Pointe Financial home"><img src="/logo.png" alt="Liberty Pointe Financial" /></a>
+    <a class="phone" href="tel:+13855264220">Questions? <span data-cfg-phone>(385) 526-4220</span></a>
+  </div>
+</header>
+
+<main>
+  <div class="container narrow">
+    <ol class="steps" aria-label="Progress">
+      <li class="current" data-n="1" aria-current="step">Quick questions</li>
+      <li data-n="2">Meet Dave &amp; pick a time</li>
+      <li data-n="3">Confirmed</li>
+    </ol>
+
+    <form id="qualify-form" class="panel" novalidate>
+      <h2>Is a policy review a fit for you?</h2>
+      <p class="hint" style="margin:0 0 24px">Six quick questions. Please don&rsquo;t enter policy, account or Social Security numbers. We never ask for them here.</p>
+
+      <fieldset>
+        <legend>1. Do you currently own an indexed universal life (IUL) policy?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="owns_iul" value="yes" required /> <span>Yes</span></label>
+          <label class="option"><input type="radio" name="owns_iul" value="unsure" /> <span>I have a universal life policy but I&rsquo;m not sure it&rsquo;s an IUL</span></label>
+          <label class="option"><input type="radio" name="owns_iul" value="no" /> <span>No</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Who owns the policy?</legend>
+        <p class="hint">The owner is the person or entity named as &ldquo;owner&rdquo; on the policy, which isn&rsquo;t always the insured.</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="owner_role" value="self" /> <span>I do (alone or jointly with my spouse)</span></label>
+          <label class="option"><input type="radio" name="owner_role" value="trust_or_business" /> <span>A trust or business that I control or am trustee of</span></label>
+          <label class="option"><input type="radio" name="owner_role" value="someone_else" /> <span>Someone else, such as a parent or family member</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. About when was the policy issued?</legend>
+        <p class="hint">Either answer is fine. This just helps Dave prepare.</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="issue_period" value="before_2021" /> <span>Before 2021</span></label>
+          <label class="option"><input type="radio" name="issue_period" value="2021_or_later" /> <span>2021 or later</span></label>
+          <label class="option"><input type="radio" name="issue_period" value="not_sure" /> <span>Not sure</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><label for="state">4. Which state do you live in?</label></legend>
+        <select id="state" name="state"><option value="">Select your state</option></select>
+      </fieldset>
+
+      <fieldset>
+        <legend>5. Roughly how much premium goes into the policy each year?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="annual_premium" value="under_2500" /> <span>Under $2,500</span></label>
+          <label class="option"><input type="radio" name="annual_premium" value="2500_5000" /> <span>$2,500 to $5,000</span></label>
+          <label class="option"><input type="radio" name="annual_premium" value="5000_10000" /> <span>$5,000 to $10,000</span></label>
+          <label class="option"><input type="radio" name="annual_premium" value="over_10000" /> <span>Over $10,000</span></label>
+          <label class="option"><input type="radio" name="annual_premium" value="not_sure" /> <span>Not sure / prefer not to say</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>6. Do you have (or can you get) your most recent annual policy statement?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="has_statement" value="yes" /> <span>Yes</span></label>
+          <label class="option"><input type="radio" name="has_statement" value="can_request" /> <span>I can request it from the insurance company</span></label>
+          <label class="option"><input type="radio" name="has_statement" value="not_sure" /> <span>Not sure</span></label>
+        </div>
+      </fieldset>
+
+      <p id="qualify-error" class="error hidden" role="alert"></p>
+      <button type="submit" class="btn btn-gold">Continue &rarr;</button>
+      <p class="hint" style="margin-top:14px">Your answers stay in your browser until you choose a time on the next page.</p>
+    </form>
+  </div>
+</main>
+
+<footer class="f-footer">
+  <div class="container disclosures">
+    <p>This page is for educational purposes only and is not tax, legal or investment advice. Consult your own tax and legal professionals about your situation. Indexed universal life insurance is a life insurance product, not an investment in the stock market or any index; policy values depend on the policy&rsquo;s terms, charges, caps, participation rates and premiums paid. Guarantees are based on the claims-paying ability of the issuing insurance company.</p>
+    <p><span data-disclosure="identity">Dave Weiner is an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. He is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the review.</span> <span data-disclosure="compensation">Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The review itself is free.</span></p>
+    <p><a href="/privacy.html">Privacy Policy</a> &middot; <a href="/terms.html">Terms</a> &middot; &copy; 2026 Liberty Pointe Financial LLC</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appointment Tracker (Preview) | Liberty Pointe Financial</title>
+  <meta name="description" content="Own an indexed universal life (IUL) policy? Learn what changed in the 2021 life insurance tax rules (IRC Section 7702) and book a no-cost, no-obligation educational policy review." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/funnel-core/funnel.css" />
+  <script src="/funnel-core/config.js" defer></script>
+  <script src="/funnel-core/funnel.js" defer></script>
+</head>
+<body data-page="tracker">
+
+<header class="f-header">
+  <div class="container">
+    <a href="/" aria-label="Liberty Pointe Financial home"><img src="/logo.png" alt="Liberty Pointe Financial" /></a>
+    <a class="phone" href="tel:+13855264220">Questions? <span data-cfg-phone>(385) 526-4220</span></a>
+  </div>
+</header>
+
+<main>
+  <div class="container wide">
+    <div id="tracker-off" class="panel hidden">
+      <h2>Not available</h2>
+      <p>This page only works in preview builds.</p>
+    </div>
+
+    <div id="tracker">
+      <h2 class="sec" style="margin-top:36px">Appointment tracker <span class="mock-label">Preview mock</span></h2>
+      <p class="sec-sub">Shows test bookings made in <strong>this browser</strong> only. In production, these statuses would live in a secured database that only Liberty Pointe staff and Dave&rsquo;s agency can reach, never on a public page.</p>
+
+      <div class="panel">
+        <h2>Category report</h2>
+        <p class="hint">Each appointment category is reported separately. Enter preview ad spend per category. Visits are landing-page views in this browser (attributed = arrived with UTM tags).</p>
+        <div class="table-scroll">
+          <table class="tracker">
+            <thead><tr><th>Category</th><th>Spend</th><th>Visits (attributed)</th><th>Bookings &middot; rate</th><th>Verified qualified &middot; rate</th><th>Recipient accepted &middot; rate</th><th>Held &middot; attendance</th><th>No-shows / cancels</th><th>Rejected</th><th>Funded &middot; rate</th><th>Cost per booking / qualified / held / funded</th></tr></thead>
+            <tbody id="compare-rows"></tbody>
+          </table>
+        </div>
+        <h3 style="margin-top:18px;font-size:.95rem;color:var(--navy)">Definitions (denominators)</h3>
+        <ul class="hint" style="padding-left:18px;margin-top:6px">
+          <li>Booking rate = bookings &divide; landing-page visits for that category.</li>
+          <li>Verified-qualified rate = bookings that ever reached Qualified &divide; all bookings in the category.</li>
+          <li>Acceptance rate = bookings that reached Accepted &divide; bookings that reached Qualified.</li>
+          <li>Attendance = Held &divide; (Held + No-show). Cancellations are excluded and shown separately.</li>
+          <li>Funded rate = funded cases &divide; Held. Funded is reported by the recipient after the appointment.</li>
+          <li>Cost per X = category ad spend &divide; X. Non-owners never enter category A, so they can&rsquo;t inflate its qualified count.</li>
+        </ul>
+      </div>
+
+      <div class="grid" id="tracker-counts" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))"></div>
+
+      <div class="panel">
+        <p style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <label class="field" for="actor" style="margin:0">Acting as</label>
+          <select id="actor" style="width:auto">
+            <option value="lpf_verifier">Liberty Pointe (verifier)</option>
+            <option value="recipient_dave">Dave / Global Renaissance (recipient)</option>
+            <option value="system">System (scheduler webhook)</option>
+          </select>
+          <label class="field" for="category-filter" style="margin:0">Category</label>
+          <select id="category-filter" style="width:auto"><option value="">All categories</option></select>
+          <button type="button" id="export-btn" class="btn btn-outline btn-sm">Export JSON</button>
+          <button type="button" id="clear-btn" class="btn btn-outline btn-sm">Clear test data</button>
+        </p>
+        <div class="table-scroll">
+          <table class="tracker">
+            <thead><tr><th>Category</th><th>Consumer</th><th>Appointment &amp; source</th><th>Qualification &amp; consent</th><th>Status &amp; history</th><th>Move to</th></tr></thead>
+            <tbody id="tracker-rows"></tbody>
+          </table>
+        </div>
+        <p id="tracker-empty" class="hint hidden" style="margin-top:16px">No test bookings yet. <a href="/iul-policy-review/">Walk through the funnel</a> to create one.</p>
+      </div>
+
+      <div class="panel">
+        <h2>Status definitions</h2>
+        <ul class="summary-list">
+          <li><span><span class="status st-booked">Booked</span></span><span>Consumer chose a time and gave the required consent.</span></li>
+          <li><span><span class="status st-qualified">Qualified</span></span><span>Liberty Pointe verified it meets the category&rsquo;s acceptance criteria.</span></li>
+          <li><span><span class="status st-accepted">Accepted</span></span><span>The recipient (Dave&rsquo;s agency) accepted the appointment under the category&rsquo;s acceptance criteria.</span></li>
+          <li><span><span class="status st-held">Held</span></span><span>The appointment took place.</span></li>
+          <li><span><span class="status st-rejected">Rejected</span></span><span>Failed verification or was declined by the recipient, with a reason code.</span></li>
+          <li><span><span class="status st-no_show">No-show</span> <span class="status st-cancelled">Cancelled</span></span><span>Recommended extra statuses so these aren&rsquo;t counted as rejected.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="f-footer">
+  <div class="container disclosures">
+    <p>This page is for educational purposes only and is not tax, legal or investment advice. Consult your own tax and legal professionals about your situation. Indexed universal life insurance is a life insurance product, not an investment in the stock market or any index; policy values depend on the policy&rsquo;s terms, charges, caps, participation rates and premiums paid. Guarantees are based on the claims-paying ability of the issuing insurance company.</p>
+    <p>Policy reviews are conducted by Dave Weiner, a licensed insurance professional with Global Renaissance Insurance Marketing Agency, who may receive compensation if you purchase insurance. Liberty Pointe Financial LLC provides marketing and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. [CONFIRM: compliance-approved disclosure wording]</p>
+    <p><a href="/privacy.html">Privacy Policy</a> &middot; <a href="/terms.html">Terms</a> &middot; &copy; 2026 Liberty Pointe Financial LLC</p>
+  </div>
+</footer>
+</body>
+</html>
