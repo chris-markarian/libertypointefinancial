@@ -180,3 +180,10 @@ table.tracker th { color: var(--text-dim); font-weight: 600; font-size: .75rem; 
 }
 .container.wide { max-width: 1360px; }
 #compare-rows input { min-width: 90px; }
+
+/* Preview-only notes: shown on preview hosts only (funnel.js sets html.is-preview). */
+.preview-only { display: none !important; }
+html.is-preview .preview-only { display: revert !important; }
+.live-scheduler { margin-top: 18px; border: 1px solid var(--gray-mid); border-radius: var(--radius); overflow: hidden; }
+.live-scheduler iframe { display: block; width: 100%; height: 760px; border: 0; }
+@media (max-width: 600px) { .live-scheduler iframe { height: 1000px; } }

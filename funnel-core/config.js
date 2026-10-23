@@ -62,6 +62,9 @@ window.LPF_FUNNEL_CONFIG = {
       licensedStates: DAVE_STATES,
       durationMinutes: 30,
       formats: ['Phone call', 'Video call'],
+      // Live booking: the recipient's own Calendly event, embedded after the
+      // consent checkbox. Preview hosts keep the mock scheduler.
+      scheduler: { provider: 'calendly', url: null }, // [CONFIRM: Dave's Calendly event link]
       availability: { weekdays: [1, 2, 3, 4, 5], hours: [9, 10, 11, 13, 14, 15, 16], timezone: null, confirmed: false },
       acceptanceCriteria: [
         'Owns an in-force indexed universal life policy (universal life of unknown type is verified before qualifying)',
@@ -139,6 +142,7 @@ window.LPF_CONFIG_PROBLEMS = function (cfg, catId) {
   if (!c.availability || !c.availability.confirmed || !c.availability.weekdays.length || !c.availability.hours.length || !c.availability.timezone) p.push('Availability not confirmed');
   if (!c.acceptanceCriteriaConfirmed || !c.acceptanceCriteria.length) p.push('Acceptance criteria not confirmed');
   if (!c.consentPurpose) p.push('Consent purpose wording missing');
+  if (!c.scheduler || !/^https:\/\/calendly\.com\/[\w-]+\/[\w-]+$/.test(c.scheduler.url || '')) p.push('Scheduler link not set');
   var r = cfg.recipients[c.recipient];
   if (r && !/^\d{5,10}$/.test(r.npn || '')) p.push('Recipient NPN missing');
   if (r && !r.bioApproved) p.push('Recipient bio not approved by the recipient and compliance');

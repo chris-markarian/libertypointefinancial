@@ -380,6 +380,48 @@ function cspFromHeaders() {
     await p4.close();
   }
 
+  // 8b. Live booking via Calendly, simulated: production host, config with
+  // every launch item marked done and a scheduler link, Calendly stubbed.
+  if (LOCAL) {
+    const p5 = await ctx.newPage();
+    const p5errors = [];
+    p5.on('pageerror', e => p5errors.push(e.message));
+    p5.on('console', m => { if (m.type() === 'error') p5errors.push(m.text()); });
+    await p5.route('**/funnel-core/config.js', async route => {
+      const body = fs.readFileSync(path.join(__dirname, '..', 'funnel-core', 'config.js'), 'utf8') + `
+(function (c) {
+  c.liveBookingEnabled = true;
+  var r = c.recipients.dave_weiner; r.license.verifiedAgainstNipr = true; r.license.lifeLineOfAuthorityConfirmed = true; r.bioApproved = true;
+  var k = c.categories.existing_iul_review; k.status = 'live'; k.recipientConfirmed = true; k.acceptanceCriteriaConfirmed = true;
+  k.availability.confirmed = true; k.availability.timezone = 'America/New_York'; k.scheduler.url = 'https://calendly.com/test-dave/iul-review';
+})(window.LPF_FUNNEL_CONFIG);`;
+      await route.fulfill({ contentType: 'application/javascript', body });
+    });
+    await p5.route(/^https:\/\/calendly\.com\//, route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>stub calendly</title><button id="pick" onclick="parent.postMessage({event:\'calendly.event_scheduled\',payload:{event:{uri:\'https://api.calendly.com/scheduled_events/EV1\'},invitee:{uri:\'https://api.calendly.com/scheduled_events/EV1/invitees/INV12345678\'}}},\'*\')">Book</button>' }));
+    await p5.goto('http://libertypointefinancial.com/iul-policy-review/?utm_source=facebook&utm_campaign=live_test');
+    const liveText = await p5.evaluate(() => document.body.innerText);
+    check('live landing: no preview notes or [CONFIRM] text', !/\[CONFIRM|Preview/i.test(liveText) && !(await p5.isVisible('.preview-banner')));
+    await p5.evaluate(() => sessionStorage.setItem('lpf_qual_iul_policy_review', JSON.stringify({ category: 'existing_iul_review', answers: { owns_iul: 'yes', owner_role: 'self', state: 'FL' }, result: { eligible: true, flags: [] } })));
+    await p5.goto('http://libertypointefinancial.com/iul-policy-review/book/');
+    check('live book: Calendly panel shown, mock form hidden', await p5.isVisible('#live-booking') && !(await p5.isVisible('#book-form')) && !(await p5.isVisible('#booking-closed')));
+    check('live book: no preview notes or [CONFIRM] text', !/\[CONFIRM|Preview/i.test(await p5.evaluate(() => document.body.innerText)));
+    check('live book: times hidden until consent', await p5.isDisabled('#live-open') && (await p5.$$('#live-scheduler iframe')).length === 0);
+    check('live book: consent names Dave and his agency', (await p5.textContent('#live-consent-text')).includes('Dave Weiner and Global Renaissance Insurance Marketing Agency'));
+    await p5.check('#live-consent');
+    await p5.click('#live-open');
+    const cal = await p5.waitForSelector('#live-scheduler iframe');
+    const calSrc = await cal.getAttribute('src');
+    check('live book: Calendly loads with UTM only (no answers)', calSrc.startsWith('https://calendly.com/test-dave/iul-review?') && /embed_domain=libertypointefinancial\.com/.test(calSrc) && /utm_source=facebook/.test(calSrc) && !/owns_iul|state=|FL/.test(calSrc), calSrc);
+    const fr = await cal.contentFrame();
+    await fr.click('#pick');
+    await p5.waitForURL('**/iul-policy-review/confirmed/');
+    check('live confirmation shown after Calendly booking', (await p5.textContent('#c-summary')).includes('Calendly has emailed') && !(await p5.isVisible('#ics-btn')) && await p5.isVisible('[data-pro-website]'));
+    check('live confirmation: no preview notes', !/\[CONFIRM|Preview/i.test(await p5.evaluate(() => document.body.innerText)));
+    const p5real = p5errors.filter(e => !/logo\.png|ERR_FAILED/.test(e)); // local host-mapping artifact for the site logo
+    check('live flow: no JS / CSP errors', p5real.length === 0, p5real.join(' | '));
+    await p5.close();
+  }
+
   // 9. Mobile layout
   if (!MOBILE) await page.setViewportSize({ width: 375, height: 800 });
   for (const p of ['/iul-policy-review/', '/iul-policy-review/qualify/', '/iul-education/', '/iul-education/book/']) {

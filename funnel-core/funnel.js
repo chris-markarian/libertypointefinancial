@@ -108,6 +108,7 @@
 
   function previewBanner() {
     if (!isMock()) return;
+    document.documentElement.classList.add('is-preview');
     var b = el('div', { class: 'preview-banner', role: 'note' });
     var c = el('div', { class: 'container' });
     c.appendChild(el('strong', null, 'PREVIEW ONLY. '));
@@ -276,6 +277,41 @@
     };
   }
 
+  // Live booking: the recipient's Calendly event in an iframe, loaded only
+  // after the required consent. Nothing is stored on our side; Calendly sends
+  // the confirmation. Schedule fires once, on Calendly's event_scheduled
+  // message (origin-checked), with the invitee id as eventID.
+  function initLiveBooking() {
+    var texts = consentTexts(CAT, RECIPIENT);
+    $('#book-form').classList.add('hidden');
+    $('#live-booking').classList.remove('hidden');
+    $('#live-consent-text').appendChild(document.createTextNode(texts.share));
+    var box = $('#live-consent'), btn = $('#live-open'), holder = $('#live-scheduler');
+    box.addEventListener('change', function () { btn.disabled = !box.checked; });
+    btn.addEventListener('click', function () {
+      if (!box.checked || holder.firstChild) return;
+      var a = readJSON(sessionStorage, ATTR_KEY, {}) || {};
+      var q = new URLSearchParams({ embed_domain: location.hostname, embed_type: 'Inline', hide_gdpr_banner: '1', hide_event_type_details: '1' });
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { if (a[k]) q.set(k, a[k]); });
+      holder.appendChild(el('iframe', { src: CAT.scheduler.url + '?' + q.toString(), title: 'Choose a time with ' + RECIPIENT.name }));
+      holder.classList.remove('hidden');
+      box.disabled = true;
+      btn.classList.add('hidden');
+      track('scheduler_open');
+    });
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://calendly.com' || !e.data || e.data.event !== 'calendly.event_scheduled') return;
+      var uri = (e.data.payload && e.data.payload.invitee && e.data.payload.invitee.uri) || '';
+      var id = uri.split('/').pop();
+      if (!/^[\w-]{8,64}$/.test(id)) return;
+      if (window.LPF_PIXEL) window.LPF_PIXEL.schedule(id, false);
+      writeJSON(sessionStorage, LAST_KEY, { live: true, category: CAT_ID, consent_version: CFG.consentVersion, at: new Date().toISOString() });
+      sessionStorage.removeItem(QUAL_KEY);
+      track('booking_complete');
+      location.href = BASE + '/confirmed/';
+    });
+  }
+
   function initBook() {
     var qual = readJSON(sessionStorage, QUAL_KEY, null);
     if (!qual || qual.category !== CAT_ID || !qual.result || !qual.result.eligible) {
@@ -295,6 +331,7 @@
       warn.classList.remove('hidden');
     }
     track('booking_view');
+    if (!isMock()) { initLiveBooking(); return; }
     buildScheduler();
 
     var texts = consentTexts(CAT, RECIPIENT);
@@ -440,7 +477,8 @@
 
   function initConfirmed() {
     var id = readJSON(sessionStorage, LAST_KEY, null);
-    var appt = id && findAppt(id);
+    if (id && id.live) { renderLiveConfirmation(); return; }
+    var appt = id && typeof id === 'string' && findAppt(id);
     if (!appt) {
       $('#confirm-body').classList.add('hidden');
       $('#confirm-missing').classList.remove('hidden');
@@ -454,6 +492,17 @@
       appt = findAppt(appt.id);
       renderConfirmation(appt);
     });
+  }
+
+  function renderLiveConfirmation() {
+    $('#c-name').parentNode.textContent = 'Thanks for booking. Here are the details.';
+    var ul = $('#c-summary');
+    ul.textContent = '';
+    [['Appointment', CAT.offer], ['With', RECIPIENT.name + ', ' + RECIPIENT.agency], ['Confirmation', 'Calendly has emailed you the time and links to reschedule or cancel']].forEach(function (r) {
+      var li = el('li'); li.appendChild(el('span', null, r[0])); li.appendChild(el('span', null, r[1])); ul.appendChild(li);
+    });
+    $('#ics-btn').classList.add('hidden');
+    $('#cancel-btn').classList.add('hidden');
   }
 
   function renderConfirmation(appt) {
