@@ -105,7 +105,7 @@ function cspFromHeaders() {
   check('Dave photo shown with alt text', await page.$eval('[data-pro-avatar] img', i => i.complete && i.naturalWidth > 0 && i.alt === 'Photo of Dave Weiner'));
   check('pixel off on preview (no fbq, nothing loaded)', await page.evaluate(() => typeof window.fbq === 'undefined') && pixelLog.some(l => l.includes('off:')));
   const lic = await page.textContent('[data-license-line]');
-  check('preview license line: legal name, NPN, states, marked pending NIPR', lic.includes('David M. Weiner') && lic.includes('760178') && lic.includes('Wisconsin') && !lic.includes('Alaska') && lic.includes('pending NIPR verification'));
+  check('license line: legal name, NPN, states (verified, no pending note)', lic.includes('David M. Weiner') && lic.includes('760178') && lic.includes('Wisconsin') && !lic.includes('Alaska') && !lic.includes('pending NIPR verification'));
   const bio = await page.textContent('[data-pro="bio"]');
   check('preview bio: since 1982, marked pending approval, no superlatives', bio.includes('since 1982') && bio.includes('pending approval') && !/best|#1|top |leading/i.test(bio));
   check('no "inferior" claim', !/older policies are (worse|inferior)/i.test(await page.textContent('main')));
@@ -155,7 +155,7 @@ function cspFromHeaders() {
   check('qualified owner reaches booking', true);
 
   // 4. Booking: disclosures, consent, scheduler
-  check('preview shows missing-config warning', (await page.isVisible('#config-warning')) && (await page.textContent('#config-warning')).includes('not verified on NIPR'));
+  check('preview shows missing-config warning', (await page.isVisible('#config-warning')) && (await page.textContent('#config-warning')).includes('bio not approved'));
   const shareTxt = await page.textContent('#consent-share-text');
   check('consent names recipient + offer-specific purpose', shareTxt.includes('Dave Weiner') && shareTxt.includes('conduct my IUL policy review'));
   const smsTxt = await page.textContent('#consent-sms-text');
@@ -374,7 +374,7 @@ function cspFromHeaders() {
   if (LOCAL) {
     const p4 = await ctx.newPage();
     await p4.goto('http://libertypointefinancial.com/iul-policy-review/');
-    check('production host: unverified license line hidden', !(await p4.isVisible('[data-license-line]')));
+    check('production host: verified license line shown', await p4.isVisible('[data-license-line]') && (await p4.textContent('[data-license-line]')).includes('760178'));
     check('production host: unapproved bio hidden', !(await p4.isVisible('[data-pro="bio"]')));
     check('production host: pixel stays off', await p4.evaluate(() => typeof window.fbq === 'undefined'));
     await p4.close();

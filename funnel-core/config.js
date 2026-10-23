@@ -31,8 +31,8 @@ window.LPF_FUNNEL_CONFIG = {
       license: {
         states: DAVE_STATES,
         source: 'Provided by Chris on 2026-10-22',
-        verifiedAgainstNipr: false,           // NPN + states checked on NIPR / state DOI
-        lifeLineOfAuthorityConfirmed: false   // life line of authority in each state
+        verifiedAgainstNipr: true,            // NPN + states checked on NIPR / state DOI (confirmed by Chris 2026-10-23)
+        lifeLineOfAuthorityConfirmed: true    // life line of authority in each state (confirmed by Chris 2026-10-23)
       },
       // Facts from globalrenins.com/about (shared by Chris 2026-10-22), in our
       // own words. Superlatives and award/book claims left out on purpose.
@@ -56,15 +56,17 @@ window.LPF_FUNNEL_CONFIG = {
       basePath: '/iul-policy-review',
       status: 'preview',
       recipient: 'dave_weiner',
-      recipientConfirmed: false,
+      recipientConfirmed: true, // Dave accepts these appointments (Chris, 2026-10-23)
       // Bookings outside these states are refused. Launch also needs the
       // recipient's license verified (see LPF_CONFIG_PROBLEMS).
       licensedStates: DAVE_STATES,
       durationMinutes: 30,
       formats: ['Phone call', 'Video call'],
-      // Live booking: the recipient's own Calendly event, embedded after the
-      // consent checkbox. Preview hosts keep the mock scheduler.
-      scheduler: { provider: 'calendly', url: null }, // [CONFIRM: Dave's Calendly event link]
+      // Live booking: a Calendly event, embedded after the consent checkbox.
+      // Preview hosts keep the mock scheduler. Interim: Chris's Liberty Pointe
+      // Financial Calendly until Dave provides his own (Chris, 2026-10-23);
+      // Chris passes bookings to Dave. Availability is set in Calendly.
+      scheduler: { provider: 'calendly', url: 'https://calendly.com/chris-libertypointefinancial/30min' },
       availability: { weekdays: [1, 2, 3, 4, 5], hours: [9, 10, 11, 13, 14, 15, 16], timezone: null, confirmed: false },
       acceptanceCriteria: [
         'Owns an in-force indexed universal life policy (universal life of unknown type is verified before qualifying)',
@@ -72,7 +74,7 @@ window.LPF_FUNNEL_CONFIG = {
         'Lives in a state where the recipient is licensed',
         'Reachable at the phone or email provided'
       ],
-      acceptanceCriteriaConfirmed: false,
+      acceptanceCriteriaConfirmed: true, // Chris applies these criteria (2026-10-23)
       consentPurpose: 'confirm, prepare for, and conduct my IUL policy review',
       meetingNoun: 'review'
     },
@@ -139,7 +141,8 @@ window.LPF_CONFIG_PROBLEMS = function (cfg, catId) {
   if (!lic || !lic.verifiedAgainstNipr) p.push('Recipient NPN and licensed states not verified on NIPR / state DOI');
   if (!lic || !lic.lifeLineOfAuthorityConfirmed) p.push('Life line of authority not confirmed');
   if (!c.durationMinutes) p.push('Appointment duration not set');
-  if (!c.availability || !c.availability.confirmed || !c.availability.weekdays.length || !c.availability.hours.length || !c.availability.timezone) p.push('Availability not confirmed');
+  var calendar = c.scheduler && c.scheduler.url; // availability then lives in the scheduler
+  if (!calendar && (!c.availability || !c.availability.confirmed || !c.availability.weekdays.length || !c.availability.hours.length || !c.availability.timezone)) p.push('Availability not confirmed');
   if (!c.acceptanceCriteriaConfirmed || !c.acceptanceCriteria.length) p.push('Acceptance criteria not confirmed');
   if (!c.consentPurpose) p.push('Consent purpose wording missing');
   if (!c.scheduler || !/^https:\/\/calendly\.com\/[\w-]+\/[\w-]+$/.test(c.scheduler.url || '')) p.push('Scheduler link not set');
