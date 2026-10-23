@@ -1,6 +1,6 @@
 # IUL policy review funnel
 
-Status: **preview only**. Not approved for production. Wording is pending compliance review.
+Status: **Segment A (`/iul-policy-review/`) live** as of 2026-10-23, approved by Chris with compliance review complete. Booking runs through Chris's Liberty Pointe Financial Calendly until Dave provides his own link. Segment B (`/iul-education/`) remains preview only. The Meta Pixel on funnel pages is off until approved.
 
 ## Consumer journey
 

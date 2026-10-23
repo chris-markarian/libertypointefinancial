@@ -107,7 +107,7 @@ function cspFromHeaders() {
   const lic = await page.textContent('[data-license-line]');
   check('license line: legal name, NPN, states (verified, no pending note)', lic.includes('David M. Weiner') && lic.includes('760178') && lic.includes('Wisconsin') && !lic.includes('Alaska') && !lic.includes('pending NIPR verification'));
   const bio = await page.textContent('[data-pro="bio"]');
-  check('preview bio: since 1982, marked pending approval, no superlatives', bio.includes('since 1982') && bio.includes('pending approval') && !/best|#1|top |leading/i.test(bio));
+  check('approved bio: since 1982, no draft note, no superlatives', bio.includes('since 1982') && !bio.includes('pending approval') && !/best|#1|top |leading/i.test(bio));
   check('no "inferior" claim', !/older policies are (worse|inferior)/i.test(await page.textContent('main')));
   await shot('1-landing');
 
@@ -155,7 +155,7 @@ function cspFromHeaders() {
   check('qualified owner reaches booking', true);
 
   // 4. Booking: disclosures, consent, scheduler
-  check('preview shows missing-config warning', (await page.isVisible('#config-warning')) && (await page.textContent('#config-warning')).includes('bio not approved'));
+  check('live-ready config: no missing-config warning', !(await page.isVisible('#config-warning')));
   const shareTxt = await page.textContent('#consent-share-text');
   check('consent names recipient + offer-specific purpose', shareTxt.includes('Dave Weiner') && shareTxt.includes('conduct my IUL policy review'));
   const smsTxt = await page.textContent('#consent-sms-text');
@@ -199,7 +199,7 @@ function cspFromHeaders() {
   check('record status booked', rec.status === 'booked' && rec.status_history.length === 1);
   check('record carries category, origin segment, recipient', rec.category === 'existing_iul_review' && rec.originating_segment === 'iul_policy_review' && rec.offer === 'Professional IUL Policy Review' && rec.recipient_id === 'dave_weiner' && rec.category_history.length === 1);
   check('record carries ad attribution from landing page', rec.attribution && rec.attribution.utm_source === 'facebook' && rec.attribution.utm_content === 'ad1' && rec.attribution.landing_page === '/iul-policy-review/');
-  check('record flags incomplete preview config', rec.qualification.flags.includes('config_incomplete_preview'));
+  check('record not flagged as incomplete config', !rec.qualification.flags.includes('config_incomplete_preview'));
   check('record has empty funded-business outcome', rec.outcome && rec.outcome.funded === null);
 
   // 6. Tracker transitions
@@ -277,8 +277,8 @@ function cspFromHeaders() {
     await p2.goto(prod + 'qualify/');
     await p2.evaluate(() => sessionStorage.setItem('lpf_qual_iul_policy_review', JSON.stringify({ category: 'existing_iul_review', answers: { owns_iul: 'yes', owner_role: 'self', state: 'UT' }, result: { eligible: true, flags: [] } })));
     await p2.goto(prod + 'book/');
-    check('production host: booking closed notice', await p2.isVisible('#booking-closed'));
-    check('production host: no booking form', !(await p2.isVisible('#book-form')));
+    check('production host: Calendly booking panel, not the closed notice', await p2.isVisible('#live-booking') && !(await p2.isVisible('#booking-closed')));
+    check('production host: no mock booking form', !(await p2.isVisible('#book-form')));
     check('production host: no preview banner', !(await p2.isVisible('.preview-banner')));
     await p2.goto('http://libertypointefinancial.com/funnel-core/preview-tracker/');
     check('production host: tracker disabled', await p2.isVisible('#tracker-off'));
@@ -305,7 +305,7 @@ function cspFromHeaders() {
   await page.click('#qualify-form button[type=submit]');
   await page.waitForURL('**/iul-education/not-a-fit/');
   check('B: IUL owner routed to not-a-fit', (await page.textContent('#nf-message')).includes('already own'));
-  check('B: cross-link to policy review hidden while A is not live', !(await page.isVisible('#nf-crosslink')));
+  check('B: cross-link to policy review shown now that A is live', await page.isVisible('#nf-crosslink') && (await page.$eval('#nf-crosslink a', a => a.getAttribute('href'))).startsWith('/iul-policy-review'));
   check('B: answers cleared after not-a-fit', await page.evaluate(() => !sessionStorage.getItem('lpf_qual_iul_education')));
   // under 18
   await page.goto(BASE + '/iul-education/qualify/');
@@ -375,7 +375,7 @@ function cspFromHeaders() {
     const p4 = await ctx.newPage();
     await p4.goto('http://libertypointefinancial.com/iul-policy-review/');
     check('production host: verified license line shown', await p4.isVisible('[data-license-line]') && (await p4.textContent('[data-license-line]')).includes('760178'));
-    check('production host: unapproved bio hidden', !(await p4.isVisible('[data-pro="bio"]')));
+    check('production host: approved bio shown', await p4.isVisible('[data-pro="bio"]'));
     check('production host: pixel stays off', await p4.evaluate(() => typeof window.fbq === 'undefined'));
     await p4.close();
   }

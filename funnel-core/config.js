@@ -12,9 +12,9 @@ window.LPF_FUNNEL_CONFIG = {
   mockHosts: ['localhost', '127.0.0.1'],
   mockHostPattern: /^(deploy-preview-\d+|[a-z0-9-]+)--beautiful-mermaid-c318fb\.netlify\.app$/,
 
-  // Real booking is off everywhere until a scheduler/database is approved
-  // and connected. Even then, a category only books with a complete config.
-  liveBookingEnabled: false,
+  // Real booking on the live site (Chris, 2026-10-23). A category still books
+  // only when it is 'live' and its config is complete.
+  liveBookingEnabled: true,
 
   // Preview only: let the mock scheduler run with incomplete category config
   // (a warning lists what's missing). Never applies outside mock hosts.
@@ -38,7 +38,7 @@ window.LPF_FUNNEL_CONFIG = {
       // own words. Superlatives and award/book claims left out on purpose.
       bio: 'Dave has worked in insurance and financial services since 1982. He founded Global Renaissance Insurance Marketing Agency, an independent insurance marketing organization with offices in Tampa, Florida, and Chesterfield, Missouri, and serves as its president and CEO. He is a member of NAIFA, the National Association of Insurance and Financial Advisors.',
       // Wording approved by Chris on 2026-10-22. Still needs Dave + compliance.
-      bioApproved: false, // Dave + compliance sign-off; hidden on the live site until true
+      bioApproved: true, // approved (Chris, 2026-10-23)
       website: 'https://globalrenins.com/about/', // linked from the booking confirmation (Chris, 2026-10-23)
       photo: '/funnel-core/dave-weiner.jpg', // provided by Chris 2026-10-22 [CONFIRM: Dave approved web use]
     }
@@ -54,7 +54,7 @@ window.LPF_FUNNEL_CONFIG = {
       label: 'A: Existing IUL owners',
       offer: 'Professional IUL Policy Review',
       basePath: '/iul-policy-review',
-      status: 'preview',
+      status: 'live', // production approved by Chris 2026-10-23, compliance review complete
       recipient: 'dave_weiner',
       recipientConfirmed: true, // Dave accepts these appointments (Chris, 2026-10-23)
       // Bookings outside these states are refused. Launch also needs the
@@ -116,7 +116,7 @@ window.LPF_FUNNEL_CONFIG = {
 
   // Standard recipient identification and compensation disclosures. Every
   // funnel page uses these exact sentences ({noun} = review / consultation);
-  // the e2e test fails if a page drifts. [CONFIRM: compliance-approved wording]
+  // the e2e test fails if a page drifts. Compliance review complete (Chris, 2026-10-23).
   disclosures: {
     identity: 'Dave Weiner is an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. He is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the {noun}.',
     compensation: 'Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The {noun} itself is free.',
@@ -124,7 +124,7 @@ window.LPF_FUNNEL_CONFIG = {
     replacement: 'Older policies are not automatically inferior, and replacing a policy does not guarantee better results. A replacement can involve surrender charges, new underwriting, new contestability and suicide periods, and different costs and features. State replacement regulations apply to any replacement.'
   },
 
-  consentVersion: 'booking-consent-DRAFT-2026-10-22',
+  consentVersion: 'booking-consent-v1-2026-10-23',
   phoneDisplay: '(385) 526-4220'
 };
 })();
