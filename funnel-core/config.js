@@ -113,7 +113,9 @@ window.LPF_FUNNEL_CONFIG = {
   // the e2e test fails if a page drifts. [CONFIRM: compliance-approved wording]
   disclosures: {
     identity: 'Dave Weiner is an independent licensed insurance professional with Global Renaissance Insurance Marketing Agency. He is not an employee of Liberty Pointe Financial, and Liberty Pointe Financial does not conduct the {noun}.',
-    compensation: 'Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The {noun} itself is free.'
+    compensation: 'Liberty Pointe Financial provides educational content and appointment-setting services and is compensated by Global Renaissance Insurance Marketing Agency for those services. Dave may earn commissions if you buy an insurance product. The {noun} itself is free.',
+    // Segment A only (existing owners).
+    replacement: 'Older policies are not automatically inferior, and replacing a policy does not guarantee better results. A replacement can involve surrender charges, new underwriting, new contestability and suicide periods, and different costs and features. State replacement regulations apply to any replacement.'
   },
 
   consentVersion: 'booking-consent-DRAFT-2026-10-22',

@@ -6,7 +6,7 @@ Status: **preview only**. Not approved for production. Wording is pending compli
 
 | Step | URL | What happens |
 |---|---|---|
-| 1. Landing | `/iul-policy-review/` | Educational 7702 content, video (placeholder player), what a review covers, how it works, who conducts it, FAQ, disclosures. |
+| 1. Landing | `/iul-policy-review/` | Final video (YouTube 5O1T6ilq0rU, click-to-load from youtube-nocookie with a local poster, captions on by default, "See if a review is a fit" button and relationship/compensation/replacement disclosures directly below it), educational 7702 content, what a review covers, how it works, who conducts it, FAQ, disclosures. |
 | 2. Qualification | `/iul-policy-review/qualify/` | Six questions: owns an IUL, who owns it, issue period, state, premium range, has a statement. Answers stay in `sessionStorage`. |
 | 2b. Not a fit | `/iul-policy-review/not-a-fit/` | Shown for "no IUL", "someone else owns it", or (once configured) an unlicensed state. Nothing is saved. The reason is kept out of the URL so page-view analytics can't see it. |
 | 3. Meet Dave and book | `/iul-policy-review/book/` | Introduction to Dave Weiner / Global Renaissance Insurance Marketing Agency, disclosures, scheduler, contact details, required share consent (§C) and optional SMS consent. |
@@ -122,7 +122,7 @@ The status history is append-only so billing disputes with the buyer can be sett
 - Dave's license: NPN 760178 and 46 jurisdictions (45 states + DC; not AK, HI, NE, NH, WY) were provided by Chris on 2026-10-22 and are enforced for eligibility. Before launch, verify them on NIPR / the state DOI and confirm the life line of authority (`license.verifiedAgainstNipr`, `license.lifeLineOfAuthorityConfirmed`). Until then, the license line is hidden on the live site.
 - Dave: approval of the draft bio (written from globalrenins.com/about facts, wording approved by Chris on 2026-10-22; `bioApproved`, hidden on the live site until true) and of the photo, time zone and availability, phone vs video.
 - Buyer agreement terms: which status is billable (`accepted` or `held`), qualification criteria (minimum premium? age?), rejection window.
-- Video file or YouTube/Vimeo id (set `video` in `config.js`).
+- Video: final YouTube video set in `iul-policy-review/segment.js`. Still to check: that its captions exist and are accurate (YouTube Studio), a poster frame from the video if preferred over the branded poster, and that the video matches the page copy and the "Read the video summary" text.
 - Services: scheduler, database, and auth choices above. SMS sender for appointment texts (Twilio 10DLC campaign currently covers Liberty Pointe only).
 - Meta ads: confirm whether IUL ads fall under Meta's special ad category for financial products and services, which limits targeting.
 - Existing security issues to fix before any live intake: public repo personal info, unauthenticated `chat` and `parse-illustration` functions, unescaped lead emails in `submission-created.js` / `lead-notify.js`.

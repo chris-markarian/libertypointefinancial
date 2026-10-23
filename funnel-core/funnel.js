@@ -171,9 +171,10 @@
         node = el('video', { src: v.id, controls: '', autoplay: '', playsinline: '' });
       } else {
         var src = v.provider === 'youtube'
-          ? 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.id) + '?autoplay=1&rel=0'
+          // autoplay=1 only starts it after the visitor's own click; cc_load_policy shows captions by default
+          ? 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.id) + '?autoplay=1&rel=0&playsinline=1&cc_load_policy=1&cc_lang_pref=en&hl=en'
           : 'https://player.vimeo.com/video/' + encodeURIComponent(v.id) + '?autoplay=1&dnt=1';
-        node = el('iframe', { src: src, title: v.title, allow: 'autoplay; fullscreen; picture-in-picture', allowfullscreen: '' });
+        node = el('iframe', { src: src, title: v.title, allow: 'autoplay; encrypted-media; fullscreen; picture-in-picture', allowfullscreen: '', referrerpolicy: 'strict-origin-when-cross-origin' });
       }
       wrap.replaceChild(node, btn);
       track('video_play');

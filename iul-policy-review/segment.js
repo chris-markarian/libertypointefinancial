@@ -6,7 +6,7 @@ window.LPF_SEGMENT = {
 
   // Video: leave provider null for the placeholder player.
   // provider: 'youtube' | 'vimeo' | 'file'; id = YouTube/Vimeo id or file URL.
-  video: { provider: null, id: null, title: 'Why IUL owners are reviewing their policies' },
+  video: { provider: 'youtube', id: '5O1T6ilq0rU', title: 'IUL Review Overview' }, // final video from Chris, 2026-10-23
 
   // Field names on the qualification form, in order.
   questions: ['owns_iul', 'owner_role', 'issue_period', 'state', 'annual_premium', 'has_statement'],

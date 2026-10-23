@@ -36,6 +36,7 @@ function cspFromHeaders() {
   const page = await ctx.newPage();
   const errors = [];
   const external = [];
+  const ytRequests = []; // the video player: allowed, but only after the visitor presses play
   // Only funnel pages count; existing pages load third-party scripts (Meta Pixel).
   const onFunnel = () => /\/(iul-policy-review|iul-education|funnel-core)\//.test(page.url());
   page.on('pageerror', e => { if (onFunnel()) errors.push(e.message); });
@@ -44,11 +45,14 @@ function cspFromHeaders() {
     if (/^\[pixel\]/.test(m.text())) pixelLog.push(m.text());
   });
   page.on('request', r => {
+    if (/^https:\/\/(www\.)?youtube-nocookie\.com\//.test(r.url())) { ytRequests.push(r.url()); return; }
     if (!/\/(iul-policy-review|iul-education|funnel-core)\//.test(r.frame().url())) return;
     const u = new URL(r.url());
     if (u.origin !== new URL(BASE).origin && !/fonts\.(googleapis|gstatic)\.com$/.test(u.hostname)) external.push(r.url());
     if (u.pathname.startsWith('/.netlify/functions')) external.push('FUNCTION ' + r.url());
   });
+  // The sandbox can't reach YouTube: stand in a stub player page for the embed.
+  await ctx.route(/youtube-nocookie\.com\/embed\//, route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>stub player</title><p>player</p>' }));
   if (LOCAL) {
     const csp = cspFromHeaders();
     await ctx.route(/\/(iul-policy-review|iul-education|funnel-core)\//, async route => {
@@ -74,7 +78,30 @@ function cspFromHeaders() {
   check('landing loads', (await page.title()).includes('IUL Policy Review'));
   check('preview banner shown', await page.isVisible('.preview-banner'));
   check('Dave named on landing', (await page.textContent('body')).includes('Dave Weiner'));
-  check('video placeholder present', await page.isVisible('[data-video] .video-placeholder'));
+  check('video heading', (await page.locator('h2', { hasText: 'Is your IUL still aligned with your goals?' }).count()) === 1);
+  check('video poster shown, no player or video requests before play', await page.$eval('[data-video] .video-poster img', i => i.complete && i.naturalWidth > 0) && (await page.$$('[data-video] iframe')).length === 0 && ytRequests.length === 0);
+  const vbox = await page.locator('[data-video]').boundingBox();
+  const vw = await page.evaluate(() => document.documentElement.clientWidth);
+  check('player is 16:9 and fits the viewport', Math.abs(vbox.width / vbox.height - 16 / 9) < 0.02 && vbox.x >= 0 && vbox.x + vbox.width <= vw, Math.round(vbox.width) + 'x' + Math.round(vbox.height) + ' in ' + vw);
+  const cbox = await page.locator('a[data-cta="video"]').boundingBox();
+  check('"See if a review is a fit" directly below the player', cbox && cbox.y >= vbox.y + vbox.height && cbox.y - (vbox.y + vbox.height) < 90 && (await page.textContent('a[data-cta="video"]')).includes('See if a review is a fit'));
+  check('video CTA goes to qualification', (await page.getAttribute('a[data-cta="video"]', 'href')) === '/iul-policy-review/qualify/');
+  check('relationship, compensation and replacement disclosures below the video', await page.$$eval('.video-disclosures [data-disclosure]', els => els.map(e => e.getAttribute('data-disclosure')).join()) === 'identity,compensation,replacement' && await disclosuresMatch('review'));
+  await page.click('[data-video] .video-poster');
+  const ifr = await page.waitForSelector('[data-video] iframe');
+  const src = await ifr.getAttribute('src');
+  check('play loads the final video (nocookie, captions on, plays only after the click)', src.startsWith('https://www.youtube-nocookie.com/embed/5O1T6ilq0rU?') && /autoplay=1/.test(src) && /cc_load_policy=1/.test(src) && ytRequests.length > 0, src);
+  check('player has controls and fullscreen', (await ifr.getAttribute('allowfullscreen')) !== null && /fullscreen/.test(await ifr.getAttribute('allow')) && !/controls=0/.test(src));
+  const ibox = await ifr.boundingBox();
+  check('player fills the 16:9 frame', Math.abs(ibox.width - vbox.width) < 2 && Math.abs(ibox.height - vbox.height) < 2);
+  await shot('1b-video-playing');
+  await page.click('a[data-cta="video"]');
+  await page.waitForURL('**/iul-policy-review/qualify/');
+  check('video play and CTA click send no completed-booking event', !pixelLog.some(l => l.includes('Schedule')) && await page.evaluate(() => typeof window.fbq === 'undefined'));
+  await page.goto(BASE + '/iul-policy-review/book/');
+  await page.waitForURL('**/qualify/**').catch(() => {});
+  check('calendar still needs qualification first', page.url().includes('/qualify/'), page.url());
+  await page.goto(BASE + '/iul-policy-review/');
   check('Dave photo shown with alt text', await page.$eval('[data-pro-avatar] img', i => i.complete && i.naturalWidth > 0 && i.alt === 'Photo of Dave Weiner'));
   check('pixel off on preview (no fbq, nothing loaded)', await page.evaluate(() => typeof window.fbq === 'undefined') && pixelLog.some(l => l.includes('off:')));
   const lic = await page.textContent('[data-license-line]');
